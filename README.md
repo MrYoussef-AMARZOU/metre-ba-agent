@@ -38,10 +38,27 @@ pip install -r requirements.txt
 ## Utilisation (pipeline complet)
 
 ```bash
+# Un seul plan
+python run_all.py
+
+# Ou étape par étape
 python extract_plan.py      --pdf reference/PLAN_BA_final.pdf
 python build_metre.py       # -> output/metre_genere.xlsx + rapport_verification.md
 python build_report.py      # -> output/rapport_metre.pdf
 python build_optimisation.py  # -> output/optimisation_bonnes_pratiques.xlsx
+```
+
+### Mode batch (plusieurs plans)
+
+```bash
+# Traiter un exemple spécifique
+python run_batch.py --example dataset/examples/001_MZINDA_Youssoufia
+
+# Traiter tous les exemples du dataset
+python run_batch.py --all
+
+# Plan isolé sans structure dataset
+python run_batch.py --pdf mon_plan.pdf --ref mon_metre.xlsx
 ```
 
 ### Options de lecture
@@ -53,6 +70,41 @@ python extract_plan.py --vision
 # OCR local GLM-OCR (zai-org/GLM-OCR, torch + transformers requis)
 python extract_plan.py --ocr glm-ocr
 ```
+
+## Dataset : ajouter vos plans
+
+Placez vos exemples dans `dataset/examples/` selon la structure :
+
+```
+dataset/examples/<nom_projet>/
+  input/
+    plan.pdf              # le plan BA (PDF)
+    notes.txt             # (optionnel) notes du métreur
+  output_reference/
+    metre_reference.xlsx  # le métré de référence
+    rapport_reference.pdf # (optionnel) rapport de référence
+```
+
+Le pipeline compare systématiquement la sortie générée avec la référence
+et produit un rapport d'écarts (feuille « Comparaison » + rapport PDF).
+
+## Modules de calcul béton armé
+
+`modules/ferraillage.py` intègre les formules BAEL 91 / Eurocode 2 pour :
+
+- **Semelles** : longueur barre = dim − 2×enrobage + 2×34d, poids par diamètre
+- **Poteaux** : barres longues (T76 + 18d), cadres (périmètre + 20.5d), épingles
+- **Longrines / Chaînages** : nappes sup/inf + recouvrement, cadres, épingles
+- **Poutres** : barres + cadres selon section
+- **Enrobage EC2** : c_nom = c_min + Δc_dur + Δc_dev (classe structurale, exposition)
+- **Tables** : tableau des semelles (S1-S5), poteaux (P1-P4), poutres (N1-N7, BN1/BN2)
+
+Formules issues des repos forkés (voir [`docs/SOURCES.md`](docs/SOURCES.md)) :
+- [vlax-rsr/Armatures-Poteau-rectangulaire-BAEL](https://github.com/Youssef-AMARZOU/Armatures-Poteau-rectangulaire-BAEL)
+- [Damon201202/calcul-section-acier-poutre-automatique-eurocode2](https://github.com/Youssef-AMARZOU/calcul-section-acier-poutre-automatique-eurocode2)
+- [Damon201202/Eurocode2-Concrete-Cover-Calc](https://github.com/Youssef-AMARZOU/Eurocode2-Concrete-Cover-Calc)
+- [mondial974/pypyBABA](https://github.com/Youssef-AMARZOU/pypyBABA)
+- [4geniecivil.com — 80 fichiers Excel calcul structures](https://www.4geniecivil.com/2018/12/excel-pour-le-calcul-des-structures.html)
 
 ## Sur un nouveau plan
 
