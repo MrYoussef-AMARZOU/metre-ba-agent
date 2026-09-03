@@ -1,0 +1,12 @@
+# Clones de référence (lourds, licences hétérogènes) — voir docs/SOURCES.md
+research/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Divers
+*.log
+.DS_Store

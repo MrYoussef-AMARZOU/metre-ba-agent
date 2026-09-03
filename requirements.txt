@@ -1,0 +1,13 @@
+# Dépendances Python (3.10+)
+pdfplumber>=0.11
+PyMuPDF>=1.24
+openpyxl>=3.1
+PyYAML>=6.0
+reportlab>=4.0
+
+# Optionnel — vision API (extract_plan.py --vision)
+# anthropic>=0.40
+
+# Optionnel — OCR local GLM-OCR (extract_plan.py --ocr glm-ocr)
+# pip install git+https://github.com/huggingface/transformers.git
+# torch>=2.2
