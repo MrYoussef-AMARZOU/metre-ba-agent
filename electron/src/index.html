@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Métré BA Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">BA</div>
+        <span>Métré BA Agent</span>
+      </div>
+      <ul class="nav">
+        <li class="active" data-page="upload"><span class="icon">📄</span> Nouveau métré</li>
+        <li data-page="results"><span class="icon">📊</span> Résultats</li>
+        <li data-page="settings"><span class="icon">⚙️</span> Paramètres</li>
+        <li data-page="about"><span class="icon">ℹ️</span> À propos</li>
+      </ul>
+      <div class="api-status" id="apiStatus">
+        <div class="status-dot offline"></div>
+        <span>Backend : hors ligne</span>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content">
+      <!-- Upload page -->
+      <div class="page active" id="page-upload">
+        <h1>Nouveau métré</h1>
+        <p class="subtitle">Importez un plan BA (PDF ou image) et obtenez un métré Excel + rapport.</p>
+
+        <div class="upload-zone" id="dropZone">
+          <div class="upload-icon">📁</div>
+          <p>Glissez-déposez votre plan ici</p>
+          <p class="small">ou cliquez pour sélectionner un fichier PDF / image</p>
+          <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" hidden>
+        </div>
+
+        <div class="file-info" id="fileInfo" style="display:none">
+          <div class="file-card">
+            <span class="file-icon">📄</span>
+            <div>
+              <strong id="fileName">—</strong>
+              <span id="fileSize" class="small">—</span>
+            </div>
+            <button class="btn-sm" id="removeFile">✕</button>
+          </div>
+        </div>
+
+        <div class="options">
+          <div class="option-group">
+            <label>Métré de référence (optionnel, pour comparaison)</label>
+            <div class="file-row">
+              <button class="btn-outline" id="selectRef">Sélectionner un fichier Excel</button>
+              <span id="refName" class="small">aucun</span>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <label>Options de lecture</label>
+            <div class="checkbox-row">
+              <input type="checkbox" id="optVision">
+              <label for="optVision">Vision API Claude (ANTHROPIC_API_KEY requise)</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="optLatex">
+              <label for="optLatex">Générer rapport LaTeX détaillé (pdflatex requis)</label>
+            </div>
+          </div>
+
+          <div class="option-group" id="apiKeyGroup" style="display:none">
+            <label>Clé API Anthropic</label>
+            <input type="password" id="apiKey" placeholder="sk-ant-..." class="input">
+          </div>
+        </div>
+
+        <button class="btn-primary btn-lg" id="runBtn" disabled>
+          <span class="btn-text">Lancer le métré</span>
+          <span class="btn-loading" style="display:none">
+            <span class="spinner"></span> Traitement en cours...
+          </span>
+        </button>
+      </div>
+
+      <!-- Results page -->
+      <div class="page" id="page-results">
+        <h1>Résultats</h1>
+
+        <div class="progress-bar" id="progressBar" style="display:none">
+          <div class="progress-fill" id="progressFill"></div>
+          <span class="progress-text" id="progressText">En attente...</span>
+        </div>
+
+        <div class="results-grid" id="resultsGrid" style="display:none">
+          <div class="result-card">
+            <h3>📊 Métré Excel</h3>
+            <p>3 feuilles : fondation, armatures, comparaison</p>
+            <button class="btn-primary" id="dlExcel">Télécharger</button>
+          </div>
+          <div class="result-card">
+            <h3>📋 Rapport PDF</h3>
+            <p>Synthèse, insights, écarts, annexe a_verifier</p>
+            <button class="btn-primary" id="dlPdf">Télécharger</button>
+          </div>
+          <div class="result-card">
+            <h3>📝 Rapport LaTeX</h3>
+            <p>Calculs détaillés BAEL/EC2, formules</p>
+            <button class="btn-primary" id="dlLatex">Télécharger</button>
+          </div>
+          <div class="result-card">
+            <h3>📈 Optimisation</h3>
+            <p>Barres 12m, chutes, regroupements, checklist</p>
+            <button class="btn-primary" id="dlOptim">Télécharger</button>
+          </div>
+        </div>
+
+        <div class="summary-card" id="summaryCard" style="display:none">
+          <h3>Résumé quantitatif</h3>
+          <div class="summary-grid" id="summaryGrid"></div>
+        </div>
+
+        <div class="ecarts-card" id="ecartsCard" style="display:none">
+          <h3>Écarts vs référence</h3>
+          <div id="ecartsList"></div>
+        </div>
+      </div>
+
+      <!-- Settings page -->
+      <div class="page" id="page-settings">
+        <h1>Paramètres</h1>
+        <div class="settings-grid">
+          <div class="setting-card">
+            <h3>🔑 Clé API Anthropic</h3>
+            <p>Pour la lecture vision automatique des plans</p>
+            <input type="password" id="settingsApiKey" placeholder="sk-ant-..." class="input">
+            <button class="btn-outline" id="saveApiKey">Enregistrer</button>
+          </div>
+          <div class="setting-card">
+            <h3>📐 Géométrie des travées</h3>
+            <p>Modifier dans <code>config/postes.yaml</code></p>
+            <button class="btn-outline" id="openConfig">Ouvrir le fichier</button>
+          </div>
+          <div class="setting-card">
+            <h3>👁️ Lectures vision</h3>
+            <p>Modifier dans <code>config/readings_vision.yaml</code></p>
+            <button class="btn-outline" id="openReadings">Ouvrir le fichier</button>
+          </div>
+          <div class="setting-card">
+            <h3>📁 Dossier de sortie</h3>
+            <p>Les résultats sont dans <code>output/</code></p>
+            <button class="btn-outline" id="openOutput">Ouvrir le dossier</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- About page -->
+      <div class="page" id="page-about">
+        <h1>À propos</h1>
+        <div class="about-content">
+          <h2>Métré BA Agent v1.0</h2>
+          <p>Pipeline Python qui lit un plan de fondations béton armé (PDF ou image)
+             et produit un métré Excel structuré, un rapport PDF avec insights,
+             un rapport LaTeX avec calculs détaillés, et un Excel d'optimisation.</p>
+
+          <h3>Politique zéro-hallucination</h3>
+          <p>Rien n'est estimé en silence. Chaque donnée vient du texte natif du PDF,
+             de la géométrie vectorielle ou d'une lecture vision sourcée.
+             Tout le reste est signalé dans le rapport.</p>
+
+          <h3>Technologies</h3>
+          <ul>
+            <li><strong>Extraction</strong> : pdfplumber, PyMuPDF, GLM-OCR, API Claude</li>
+            <li><strong>Calcul</strong> : BAEL 91, Eurocode 2 (modules intégrés)</li>
+            <li><strong>Excel</strong> : openpyxl (formules vivantes)</li>
+            <li><strong>Rapports</strong> : reportlab (PDF), LaTeX (calculs détaillés)</li>
+            <li><strong>UI</strong> : Electron + FastAPI</li>
+          </ul>
+
+          <h3>Sources</h3>
+          <ul>
+            <li><a href="https://github.com/Youssef-AMARZOU/metre-ba-agent">GitHub</a></li>
+            <li><a href="https://github.com/Youssef-AMARZOU/metre-ba-agent/blob/main/docs/SOURCES.md">docs/SOURCES.md</a></li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
