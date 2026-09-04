@@ -1,7 +1,7 @@
 [
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "A",
@@ -18,7 +18,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "F",
@@ -35,7 +35,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "A-F",
@@ -52,7 +52,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "A-F",
@@ -69,7 +69,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "C-D",
@@ -86,7 +86,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "C-D",
@@ -103,7 +103,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "C-D",
@@ -120,7 +120,7 @@
  },
  {
   "poste": "3",
-  "section": null,
+  "section": "terrassement",
   "key": "terrassement",
   "repere": null,
   "axe": "C-D",

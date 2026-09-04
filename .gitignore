@@ -1,11 +1,15 @@
 # Clones de référence (lourds, licences hétérogènes) — voir docs/SOURCES.md
 research/
 
+# Electron node_modules
+electron/node_modules/
+
 # Python
 __pycache__/
 *.pyc
 .venv/
 venv/
+.deps_installed
 
 # Divers
 *.log

@@ -23,11 +23,40 @@ import metre_core
 
 sys.stdout.reconfigure(encoding="utf-8")
 
+# ============================================================================
+# Styles professionnels — reproduisent fidèlement le fichier de référence
+# (Times New Roman 12pt headers, Aptos Narrow 11pt données, couleurs thème)
+# ============================================================================
+
 THIN = Side(style="thin")
-BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
-BOLD = Font(bold=True)
-HEADER_FILL = PatternFill("solid", fgColor="DDEBF7")
-TOTAL_FILL = PatternFill("solid", fgColor="FCE4D6")
+BORDER_ALL = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
+
+# Fonts
+FONT_HEADER = Font(name="Times New Roman", size=12)
+FONT_HEADER_SMALL = Font(name="Times New Roman", size=12)
+FONT_TITRE = Font(name="Aptos Display", size=12)
+FONT_DATA = Font(name="Aptos Narrow", size=11)
+FONT_DATA_BOLD = Font(name="Aptos Narrow", size=11)
+FONT_POSTE = Font(name="Times New Roman", size=12)
+FONT_POSTE_DESC = Font(name="Aptos Display", size=12)
+FONT_TOTAL = Font(name="Aptos Narrow", size=11)
+FONT_FORMULA = Font(name="Aptos Display", size=12)
+FONT_PARAM = Font(name="Aptos Narrow", size=11)
+
+# Fills (RGB exact du fichier de référence)
+FILL_HEADER = PatternFill("solid", fgColor="B4C6E7")      # bleu clair headers (theme 5 tint 0.4)
+FILL_SECTION = PatternFill("solid", fgColor="FCE4D6")      # orange clair sous-sections (theme 4 tint 0.8)
+FILL_TOTAL = PatternFill("solid", fgColor="00B0F0")        # cyan total rows
+FILL_POUTRE = PatternFill("solid", fgColor="FFC000")       # jaune poutres
+FILL_POSTE = PatternFill("solid", fgColor="FFFFFF")        # blanc postes
+FILL_DATA = PatternFill("solid", fgColor="FFFFFF")         # blanc données
+
+# Alignments
+ALIGN_CENTER = Alignment(horizontal="center", wrap_text=True, vertical="top")
+ALIGN_LEFT = Alignment(horizontal="left", wrap_text=True, vertical="top")
+ALIGN_CENTER_NOWRAP = Alignment(horizontal="center", wrap_text=False)
+ALIGN_LEFT_NOWRAP = Alignment(horizontal="left", wrap_text=False)
+BOLD = FONT_DATA_BOLD
 
 
 class SheetWriter:
@@ -36,7 +65,7 @@ class SheetWriter:
     def __init__(self, ws, registry):
         self.ws = ws
         self.row = 0
-        self.registry = registry          # lignes générées (pour comparaison)
+        self.registry = registry
         self.cur_section = None
         self.cur_poste = None
 
@@ -44,59 +73,77 @@ class SheetWriter:
         self.row += 1
         return self.row
 
-    def cell(self, r, c, v=None, bold=False, fill=None, border=True, wrap=False):
+    def cell(self, r, c, v=None, font=None, fill=None, border=True,
+             align=None, number_format=None):
         cell = self.ws.cell(row=r, column=c)
         if v is not None:
             cell.value = v
-        if bold:
-            cell.font = BOLD
+        if font:
+            cell.font = font
         if fill:
             cell.fill = fill
         if border:
-            cell.border = BORDER
-        if wrap:
-            cell.alignment = Alignment(wrap_text=True, vertical="top")
+            cell.border = BORDER_ALL
+        if align:
+            cell.alignment = align
+        if number_format:
+            cell.number_format = number_format
         return cell
 
     def blank(self):
         self.next()
 
     def header(self):
-        r = self.next()
-        self.cell(r, 1, "AO N° :", border=False)
-        r = self.next()  # 2
-        r = self.next()  # 3
-        self.cell(r, 3, "Construction de locaux et travaux de réaménagement à la mine Youssoufia", border=False)
-        r = self.next()  # 4
-        r = self.next()  # 5
-        self.cell(r, 5, "Détail Quantitatif Métré", bold=True, border=False)
-        r1, r2 = self.next(), self.next()
-        self.ws.merge_cells(start_row=r1, start_column=1, end_row=r2, end_column=1)
-        self.ws.merge_cells(start_row=r1, start_column=2, end_row=r2, end_column=6)
-        self.ws.merge_cells(start_row=r1, start_column=7, end_row=r2, end_column=7)
-        self.ws.merge_cells(start_row=r1, start_column=8, end_row=r2, end_column=8)
-        self.ws.merge_cells(start_row=r1, start_column=9, end_row=r2, end_column=9)
-        self.ws.merge_cells(start_row=r1, start_column=10, end_row=r2, end_column=10)
-        self.ws.merge_cells(start_row=r1, start_column=11, end_row=r2, end_column=11)
-        self.ws.merge_cells(start_row=r1, start_column=12, end_row=r2, end_column=12)
-        self.ws.merge_cells(start_row=r1, start_column=13, end_row=r2, end_column=13)
+        """En-tête professionnel identique au fichier de référence."""
+        r = self.next()  # row 1
+        self.cell(r, 1, " AO N° : ", font=FONT_TITRE, border=False, align=ALIGN_LEFT)
+        r = self.next()  # row 2
+        r = self.next()  # row 3
+        self.cell(r, 3, "Construction de locaux et travaux de réaménagement à la mine Youssoufia",
+                  font=FONT_TITRE, border=False, align=ALIGN_LEFT)
+        r = self.next()  # row 4
+        r = self.next()  # row 5
+        self.cell(r, 5, "Détail Quantitatif Métré", font=FONT_TITRE, border=False, align=ALIGN_LEFT)
+        r1, r2 = self.next(), self.next()  # rows 6-7
+        # Fusions identiques au fichier de référence
+        self.ws.merge_cells(start_row=r1, start_column=1, end_row=r2, end_column=1)   # A6:A7
+        self.ws.merge_cells(start_row=r1, start_column=2, end_row=r2, end_column=6)   # B6:F7
+        self.ws.merge_cells(start_row=r1, start_column=7, end_row=r2, end_column=7)   # G6:G7
+        self.ws.merge_cells(start_row=r1, start_column=8, end_row=r2, end_column=8)   # H6:H7
+        self.ws.merge_cells(start_row=r1, start_column=9, end_row=r2, end_column=9)   # I6:I7
+        self.ws.merge_cells(start_row=r1, start_column=10, end_row=r2, end_column=10) # J6:J7
+        self.ws.merge_cells(start_row=r1, start_column=11, end_row=r2, end_column=11) # K6:K7
+        self.ws.merge_cells(start_row=r1, start_column=12, end_row=r2, end_column=12) # L6:L7
+        self.ws.merge_cells(start_row=r1, start_column=13, end_row=r2, end_column=13) # M6:M7
+        # En-têtes avec style Times New Roman 12pt bold + fond bleu
         for c, t in [(1, "N°"), (2, "Désignation, détail de calcul, croquis, principe et justificatif"),
                      (7, "U"), (8, "N"), (9, "Longueur"), (10, "largeur"),
                      (11, "Hauteur / épaisseur"), (12, "Qté partielle"),
                      (13, "Qté Total des Métrés")]:
-            self.cell(r1, c, t, bold=True, fill=HEADER_FILL)
+            self.cell(r1, c, t, font=FONT_HEADER, fill=FILL_HEADER, align=ALIGN_CENTER)
         return r2
 
-    def poste(self, num, designation):
+    def lot(self, text):
+        """Ligne de lot (A- ETUDES TECHNIQUES, B- GROS ŒUVRES...) — fusionnée A:M."""
         r = self.next()
-        self.cell(r, 1, num, bold=True)
-        self.cell(r, 2, designation, bold=True, wrap=True)
+        self.ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=13)
+        self.cell(r, 1, text, font=FONT_POSTE, fill=FILL_POSTE, align=ALIGN_LEFT)
+        return r
+
+    def poste(self, num, designation):
+        """Ligne de poste (15, 16, 17, 20...) — N° en Times New Roman, description en Aptos Display."""
+        r = self.next()
+        self.cell(r, 1, num, font=FONT_POSTE, fill=FILL_POSTE, align=ALIGN_CENTER)
+        self.ws.merge_cells(start_row=r, start_column=2, end_row=r, end_column=13)
+        self.cell(r, 2, designation, font=FONT_POSTE_DESC, fill=FILL_POSTE, align=ALIGN_LEFT)
         self.cur_poste = num
         return r
 
-    def section(self, text, col=1, bold=True, key=None):
+    def section(self, text, col=1, font=FONT_DATA_BOLD, key=None):
+        """Ligne de sous-section (pour semelle isolee, pour longrines...) — fusionnée, fond orange."""
         r = self.next()
-        self.cell(r, col, text, bold=bold)
+        self.ws.merge_cells(start_row=r, start_column=col, end_row=r, end_column=13)
+        self.cell(r, col, text, font=FONT_DATA_BOLD, fill=FILL_SECTION, align=ALIGN_LEFT)
         self.cur_section = key or text
         return r
 
@@ -104,40 +151,44 @@ class SheetWriter:
         self.cur_section = key
 
     def subheader(self, labels, start=1):
+        """Sous-en-tête (axe, fill, Nom) — fond bleu clair."""
         r = self.next()
         for i, t in enumerate(labels):
-            self.cell(r, start + i, t, bold=True, fill=HEADER_FILL)
+            self.cell(r, start + i, t, font=FONT_DATA_BOLD, fill=FILL_HEADER, align=ALIGN_CENTER)
         return r
 
     def param(self, col, value, label=None):
         r = self.next()
         if label:
-            self.cell(r, col - 1, label)
-        self.cell(r, col, value)
+            self.cell(r, col - 1, label, font=FONT_PARAM, align=ALIGN_LEFT)
+        self.cell(r, col, value, font=FONT_PARAM, align=ALIGN_CENTER)
         return r
 
     def line(self, key, *, repere=None, axe=None, fill=None, nom=None, U="M3",
              N=1, I=None, J=None, K=None, L="KJIH", note=None, src="plan"):
         """I/J/K : valeur ou tuple ('expr', "3.82+0.4"). L : forme de la formule."""
         r = self.next()
-        self.cell(r, 1, repere)
-        self.cell(r, 2, axe)
-        self.cell(r, 3, fill)
-        self.cell(r, 4, nom)
-        self.cell(r, 7, U)
-        self.cell(r, 8, N)
+        # Style données : Aptos Narrow 11pt, bordures fines
+        self.cell(r, 1, repere, font=FONT_DATA, align=ALIGN_CENTER)
+        self.cell(r, 2, axe, font=FONT_DATA, align=ALIGN_CENTER)
+        self.cell(r, 3, fill, font=FONT_DATA, align=ALIGN_CENTER)
+        self.cell(r, 4, nom, font=FONT_DATA, align=ALIGN_CENTER)
+        self.cell(r, 7, U, font=FONT_DATA, align=ALIGN_CENTER)
+        self.cell(r, 8, N, font=FONT_DATA, align=ALIGN_CENTER)
         for col, val in ((9, I), (10, J), (11, K)):
             if isinstance(val, tuple):
-                self.cell(r, col, "=" + val[1])
+                self.cell(r, col, "=" + val[1], font=FONT_FORMULA, align=ALIGN_LEFT)
             elif val is not None:
-                self.cell(r, col, val)
+                self.cell(r, col, val, font=FONT_DATA, align=ALIGN_CENTER)
+        # Formule Qté partielle
         if L == "KJIH":
-            self.cell(r, 12, f"=K{r}*J{r}*I{r}*H{r}")
+            self.cell(r, 12, f"=K{r}*J{r}*I{r}*H{r}", font=FONT_FORMULA, align=ALIGN_LEFT)
         elif L == "HIJK":
-            self.cell(r, 12, f"=H{r}*I{r}*J{r}*K{r}")
+            self.cell(r, 12, f"=H{r}*I{r}*J{r}*K{r}", font=FONT_FORMULA, align=ALIGN_LEFT)
         elif L == "JIHK":
-            self.cell(r, 12, f"=J{r}*I{r}*H{r}*K{r}")
-        self.cell(r, 13, note or "")
+            self.cell(r, 12, f"=J{r}*I{r}*H{r}*K{r}", font=FONT_FORMULA, align=ALIGN_LEFT)
+        # Note/source
+        self.cell(r, 13, note or "", font=FONT_DATA, align=ALIGN_LEFT, border=False)
         self.registry.append({
             "poste": self.cur_poste, "section": self.cur_section, "key": key,
             "repere": repere, "axe": axe, "fill": fill, "nom": nom,
@@ -150,11 +201,13 @@ class SheetWriter:
         return r
 
     def total(self, label="total", l_from=None, l_to=None, extra_n=None):
+        """Ligne de total — fond cyan, formule SUM, fusionnée A:l_from."""
         r = self.next()
-        self.cell(r, 1, label, bold=True, fill=TOTAL_FILL)
-        self.cell(r, 13, f"=SUM(L{l_from}:L{l_to})", bold=True, fill=TOTAL_FILL)
+        self.ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=11)
+        self.cell(r, 1, label, font=FONT_TOTAL, fill=FILL_TOTAL, align=ALIGN_CENTER)
+        self.cell(r, 12, f"=SUM(L{l_from}:L{l_to})", font=FONT_FORMULA, fill=FILL_TOTAL, align=ALIGN_LEFT)
         if extra_n:
-            self.cell(r, 14, extra_n)
+            self.cell(r, 13, extra_n, font=FONT_FORMULA, fill=FILL_TOTAL, align=ALIGN_LEFT)
         return r
 
 
@@ -186,18 +239,18 @@ def build_fondation(w, cfg, rd):
     p = cfg["parametres"]
 
     # ---- Poste 1 -----------------------------------------------------------
-    w.poste("1", "A-  ETUDES TECHNIQUES, ESSAIS, CONTROLES ET RECEPTIONS")
-    w.section("Etude suivant descriptif (géotechnique, technique, formulations bétons, "
-              "essais et contrôles, réceptions, récolement)", col=2)
+    w.lot("A-   ETUDES TECHNIQUES, ESSAIS, CONTROLES ET RECEPTIONS")
+    w.poste("1", "Etude suivant descriptif (géotechnique, technique, formulations bétons, "
+              "essais et contrôles, réceptions, récolement)")
     r = w.next()
     w.cell(r, 7, "f")
     w.cell(r, 8, 1)
     w.cell(r, 13, 1)
 
     # ---- Poste 3 : terrassement -------------------------------------------
-    w.poste("3", "B-  GROS ŒUVRES et maconnerie")
-    w.section("Terrassement en fouilles, en tranchées ou en plein masse y compris "
-              "décapage de la terre végétale", col=2, key="terrassement")
+    w.lot("B-   GROS ŒUVRES et maconnerie ")
+    w.poste("3", "Terrassement en fouilles, en tranchées ou en plein masse y compris "
+              "décapage de la terre végétale")
     rn = w.next()
     w.cell(rn, 14, "H/ bon sol + terre végétale $$$")
     rn = w.next()
@@ -216,7 +269,7 @@ def build_fondation(w, cfg, rd):
 
     # ---- Poste 15 : béton de propreté --------------------------------------
     w.poste("15", " Béton de propreté ")
-    w.section("pour semelle isolee", bold=False, key="semelles_prop")
+    w.section("pour semelle isolee", key="semelles_prop")
     w.subheader(["axe", "fill"], start=2)
     first = None
     for k, axe in enumerate(rd["semelles_proprete"]):
@@ -237,7 +290,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_sem_prop = w.total("total", first, reg[-1]["row"])
 
-    w.section("pour longrines ", bold=False, key="longrines_prop")
+    w.section("pour longrines ", key="longrines_prop")
     w.subheader(["axe", "fill", "Nom"])
     first = None
     for lg in rd["longrines"]:
@@ -249,7 +302,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_lg_prop = w.total("total", first, reg[-1]["row"])
 
-    w.section("pour chainage", bold=False, key="chainages_prop")
+    w.section("pour chainage", key="chainages_prop")
     w.subheader(["axe", "fill", "Nom"])
     first = None
     for ch in rd["chainages"]:
@@ -301,7 +354,7 @@ def build_fondation(w, cfg, rd):
 
     # ---- Poste 20 : béton armé ---------------------------------------------
     w.poste("20", " Béton pour béton armé en fondation et en élévation")
-    w.section("pour semelle isolee", bold=False, key="semelles_ba")
+    w.section("pour semelle isolee", key="semelles_ba")
     w.subheader(["axe", "fill"], start=2)
     first = None
     for axe in rd["semelles"]:
@@ -312,7 +365,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_sem_ba = w.total("total", first, reg[-1]["row"])
 
-    w.section("pour longrines ", bold=False, key="longrines_ba")
+    w.section("pour longrines ", key="longrines_ba")
     w.subheader(["axe", "fill", "Nom"])
     first = None
     for lg in rd["longrines"]:
@@ -324,7 +377,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_lg_ba = w.total("total", first, reg[-1]["row"])
 
-    w.section("pour chainage", bold=False, key="chainages_ba")
+    w.section("pour chainage", key="chainages_ba")
     w.subheader(["axe", "fill", "Nom"])
     first = None
     for ch in rd["chainages"]:
@@ -335,7 +388,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_ch_ba = w.total("total", first, reg[-1]["row"])
 
-    w.section("fût des poteaux", bold=False, key="futs")
+    w.section("fût des poteaux", key="futs")
     w.subheader(["axe", "fill", "Nom"], start=2)
     first = None
     for axe, pt in rd["poteaux"].items():
@@ -347,7 +400,7 @@ def build_fondation(w, cfg, rd):
         first = first or r
     tot_fut = w.total("total", first, reg[-1]["row"])
 
-    w.section("pour les massifs", bold=False, key="massifs")
+    w.section("pour les massifs", key="massifs")
     r = w.next()
     w.cell(r, 8, rd["massifs"])
     w.cell(r, 9, 0.5)
@@ -360,7 +413,7 @@ def build_fondation(w, cfg, rd):
                 "I": 0.5, "J": 0.5, "K": 0.5, "note": None})
     tot_massif = w.total("total", r, r)
 
-    w.section("poteaux (élévation)", bold=False, key="poteaux_elev")
+    w.section("poteaux (élévation)", key="poteaux_elev")
     w.cell(w.row, 14, "")
     w.subheader(["axe", "fill", "Nom"], start=2)
     first = None
@@ -411,7 +464,7 @@ def build_fondation(w, cfg, rd):
 
     # ---- Poste 7 : remblaiement --------------------------------------------
     w.poste("7", " Remblaiement en tout-venant ")
-    w.section("adduction", bold=False, key="remblai_add")
+    w.section("adduction", key="remblai_add")
     w.subheader(["axe", "fill"], start=2)
     first = None
     for f in rd["remblai_adduction"]:
@@ -421,7 +474,7 @@ def build_fondation(w, cfg, rd):
                    K=(kv, f"{n13}+{f['h_plus']}" if f["h_plus"] else n13),
                    src="référence (implantation non cotée)")
         first = first or r
-    w.section("reduire", bold=False, key="remblai_red")
+    w.section("reduire", key="remblai_red")
     w.subheader(["axe", "fill"], start=2)
 
     def neg(key, axe, fill, repere, nom, N, I, J, K, src):
@@ -493,7 +546,7 @@ def build_fondation(w, cfg, rd):
     # ---- Poste 19 : forme en béton ------------------------------------------
     w.poste("19", "Forme en béton ")
     w.set_section("forme")
-    w.section("POUR DALLAGE TYPE 13", bold=False, key="forme")
+    w.section("POUR DALLAGE TYPE 13", key="forme")
     w.subheader(["axe", "fill"], start=2)
     fb = rd["forme_beton"]["type13"]
     vlen, vexpr = metre_core.span("A", "G", "V")
@@ -504,7 +557,7 @@ def build_fondation(w, cfg, rd):
     w.cell(rr, 12, f"=I{rr}*J{rr}")
     w.cell(rr, 13, f"=I{rr}*J{rr}*{fb['ep']}")
     reg[-1]["qte_m"] = True
-    w.section("POUR DALLAGE TYPE 20", bold=False, key="forme")
+    w.section("POUR DALLAGE TYPE 20", key="forme")
     w.subheader(["axe", "fill"], start=2)
     fb = rd["forme_beton"]["type20"]
     r = w.line("forme20", axe="A-G", fill=f"{fb['de']}-{fb['a']}", U="M3", N=1,
@@ -537,7 +590,7 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
 
     w.header()
     w.poste("21", "Armature pour béton armé en fondation et en élévation")
-    w.section("semelle isolee", bold=False)
+    w.section("semelle isolee")
     counts = {}
     for axe, st in rd["semelles"].items():
         counts[st] = counts.get(st, 0) + 1
@@ -561,7 +614,7 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
             first = first or r
     w.total("total", first, reg[-1]["row"])
 
-    w.section("fût poteau", bold=False)
+    w.section("fût poteau")
     rT = w.next()
     w.cell(rT, 20, T20)
     w.cell(rT - 0, 20, T20)
@@ -619,7 +672,7 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
     lg2_keys = {e["key"] for e in fond_sheet_rows if e["key"].startswith("ba_lg_")
                 and "LG2" in str(e["nom"])}
 
-    w.section("chainage ", bold=False)
+    w.section("chainage ")
     r = w.next()
     w.cell(r, 4, sum_ref(ch_keys))
     w.cell(r, 5, 0.4)
@@ -642,7 +695,7 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
         arm_if(w, r, i_d)
 
     for nom_lg, keys, F in (("LG1", lg1_keys, 0.5), ("LG2", lg2_keys, 0.4)):
-        w.section("LONGRINE " + nom_lg, bold=False)
+        w.section("LONGRINE " + nom_lg)
         r = w.next()
         w.cell(r, 1, nom_lg)
         w.cell(r, 4, sum_ref(keys))
@@ -668,7 +721,7 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
                 w.cell(r, 10, jf.replace("{r}", str(r)))
             arm_if(w, r, bars[1] if lbl.startswith("ARM") else 6)
 
-    w.section("NAPPE DU DALLAGE ", bold=False)
+    w.section("NAPPE DU DALLAGE ")
     first = None
     for nom, dk, n in (("DALLAGE TYPE 13CM", "type13", 1), ("DALLAGE TYPE 20CM", "type20", 2)):
         d = fer["dallage"][dk]
@@ -696,24 +749,24 @@ def build_armatures(w, cfg, rd, fond_sheet_rows):
 
     # ---- rollup poids acier -------------------------------------------------
     r = w.next()
-    w.cell(r, 7, " LONGUEUR  TOTALE", bold=True)
+    w.cell(r, 7, " LONGUEUR  TOTALE", font=FONT_DATA_BOLD)
     for c in ARM_COLS:
         cl = get_column_letter(c)
-        w.cell(r, c, f"=SUM({cl}{first}:{cl}{reg[-1]['row']})", bold=True)
+        w.cell(r, c, f"=SUM({cl}{first}:{cl}{reg[-1]['row']})", font=FONT_DATA_BOLD)
     r = w.next()
-    w.cell(r, 7, " POIDS / ML", bold=True)
+    w.cell(r, 7, " POIDS / ML", font=FONT_DATA_BOLD)
     for c, d in zip(ARM_COLS, [6, 8, 10, 12, 14, 16, 20, 25, 32]):
-        w.cell(r, c, f"={d}*{d}/162", bold=True)
+        w.cell(r, c, f"={d}*{d}/162", font=FONT_DATA_BOLD)
     r_pml = r
     r = w.next()
-    w.cell(r, 7, " POIDS PARTIELS", bold=True)
+    w.cell(r, 7, " POIDS PARTIELS", font=FONT_DATA_BOLD)
     for c in ARM_COLS:
         cl = get_column_letter(c)
-        w.cell(r, c, f"={cl}{r_pml}*{cl}{r_pml-1}", bold=True)
+        w.cell(r, c, f"={cl}{r_pml}*{cl}{r_pml-1}", font=FONT_DATA_BOLD)
     r_pp = r
     r = w.next()
-    w.cell(r, 7, " POIDS TOTAL (kg)", bold=True)
-    w.cell(r, 11, f"=SUM(K{r_pp}:S{r_pp})", bold=True, fill=TOTAL_FILL)
+    w.cell(r, 7, " POIDS TOTAL (kg)", font=FONT_DATA_BOLD)
+    w.cell(r, 11, f"=SUM(K{r_pp}:S{r_pp})", font=FONT_TOTAL, fill=FILL_TOTAL)
     return r_pp
 
 
@@ -727,7 +780,7 @@ def build_armatures_detail(w, cfg, rd, fond_rows):
     fer = cfg["ferraillage"]
     T76 = cfg["parametres"]["T76"]
     w.section("DETAIL PAR ELEMENT", col=1)
-    w.section("semelle isolee", bold=False)
+    w.section("semelle isolee")
     w.subheader(["repère", "axe", "fill", "A", "B", "H"])
     for axe, st in rd["semelles"].items():
         c = cat["semelles"][st]
@@ -752,7 +805,7 @@ def build_armatures_detail(w, cfg, rd, fond_rows):
                         "N": 1, "row": rr, "src": "tableau p.4",
                         "I": bars[1], "J": None, "K": None, "note": None})
 
-    w.section("fût des poteaux", bold=False)
+    w.section("fût des poteaux")
     rT = w.next()
     w.cell(rT, 20, T76)
     tcell = f"$T${rT}"
@@ -794,7 +847,7 @@ def build_armatures_detail(w, cfg, rd, fond_rows):
     for titre, entries, E, F, inf_d, sup_d, epingle in (
             ("longrines", "ba_lg_", None, None, 12, 10, False),
             ("chainage", "ba_ch_", 0.4, 0.2, 10, 10, True)):
-        w.section(titre, bold=False)
+        w.section(titre)
         w.subheader(["axe", "fill", "Nom", "Long", "b", "h"])
         for e in [x for x in fond_rows if x["key"].startswith(entries)
                   and x["poste"] == "20"]:
@@ -1121,6 +1174,22 @@ def main():
     wb = openpyxl.Workbook()
     ws1 = wb.active
     ws1.title = "Detail quantitatif fondation"
+    # Largeurs de colonnes identiques au fichier de référence
+    ws1.column_dimensions["A"].width = 11.4
+    ws1.column_dimensions["B"].width = 12.4
+    ws1.column_dimensions["C"].width = 10
+    ws1.column_dimensions["D"].width = 12.4
+    ws1.column_dimensions["E"].width = 10
+    ws1.column_dimensions["F"].width = 10
+    ws1.column_dimensions["G"].width = 6
+    ws1.column_dimensions["H"].width = 6
+    ws1.column_dimensions["I"].width = 10
+    ws1.column_dimensions["J"].width = 9
+    ws1.column_dimensions["K"].width = 12
+    ws1.column_dimensions["L"].width = 12
+    ws1.column_dimensions["M"].width = 16
+    ws1.column_dimensions["N"].width = 12
+    ws1.sheet_properties.pageSetUpPr = openpyxl.worksheet.properties.PageSetupProperties(fitToPage=True)
     reg1 = []
     w1 = SheetWriter(ws1, reg1)
     build_fondation(w1, cfg, rd)
@@ -1138,11 +1207,14 @@ def main():
     ws2 = wb.create_sheet("Armatures")
     reg2 = []
     w2 = SheetWriter(ws2, reg2)
+    # Largeurs Armatures
+    for c, wd in {1: 18, 2: 6, 3: 6, 4: 8, 5: 8, 6: 8, 7: 6, 8: 8, 9: 6, 10: 12}.items():
+        ws2.column_dimensions[get_column_letter(c)].width = wd
     r_pp = build_armatures(w2, cfg, rd, reg1)
     build_armatures_detail(w2, cfg, rd, reg1)
 
-    widths1 = {1: 7, 2: 34, 3: 10, 4: 8, 5: 8, 6: 8, 7: 6, 8: 6, 9: 10, 10: 9,
-               11: 12, 12: 12, 13: 16, 14: 12}
+    widths1 = {1: 11.4, 2: 12.4, 3: 10, 4: 12.4, 5: 10, 6: 10, 7: 6, 8: 6,
+               9: 10, 10: 9, 11: 12, 12: 12, 13: 16, 14: 12}
     for c, wd in widths1.items():
         ws1.column_dimensions[get_column_letter(c)].width = wd
     for c, wd in list(widths1.items())[:13]:
@@ -1231,6 +1303,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
