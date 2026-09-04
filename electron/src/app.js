@@ -232,3 +232,155 @@ document.getElementById('openOutput')?.addEventListener('click', () => {
   const { shell } = require('electron');
   shell.showItemInFolder('output');
 });
+
+// === INSTALLER WIZARD ===
+const COMPONENTS = [
+  { id: "core", name: "Core Python", desc: "pdfplumber, openpyxl, PyMuPDF, reportlab", size: "~50 MB", required: true },
+  { id: "api", name: "Backend API", desc: "FastAPI, uvicorn", size: "~30 MB", required: true },
+  { id: "electron", name: "App Desktop Electron", desc: "Interface professionnelle", size: "~150 MB", required: true },
+  { id: "vision", name: "Vision IA (torch)", desc: "transformers, torch, accelerate", size: "~2 GB", required: false },
+  { id: "ocr", name: "GLM-OCR modèle", desc: "OCR local open-source", size: "~2 GB", required: false },
+  { id: "latex", name: "LaTeX (TeX Live)", desc: "Rapports PDF avec formules", size: "~4 GB", required: false },
+];
+
+let installState = { step: 1, selected: ["core", "api", "electron"] };
+
+function showInstallStep(n) {
+  document.querySelectorAll('.installer-step-content').forEach(s => s.classList.remove('active'));
+  document.getElementById(`install-step-${n}`).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach(d => {
+    const s = parseInt(d.dataset.step);
+    d.classList.remove('active', 'done');
+    if (s === n) d.classList.add('active');
+    if (s < n) d.classList.add('done');
+  });
+  installState.step = n;
+}
+
+function renderInstallComponents() {
+  const container = document.getElementById('installComponents');
+  if (!container) return;
+  container.innerHTML = COMPONENTS.map(c => `
+    <div class="component-item ${c.required ? 'required' : ''}">
+      <label class="toggle">
+        <input type="checkbox" id="comp_${c.id}" ${installState.selected.includes(c.id) ? 'checked' : ''} ${c.required ? 'disabled' : ''}>
+        <span class="toggle-slider"></span>
+      </label>
+      <div class="component-info">
+        <strong>${c.name} ${c.required ? '<span class="required">*</span>' : ''}</strong>
+        <span>${c.desc}</span>
+      </div>
+      <span class="component-size">${c.size}</span>
+    </div>
+  `).join('');
+  // Bind changes
+  COMPONENTS.forEach(c => {
+    const cb = document.getElementById(`comp_${c.id}`);
+    cb?.addEventListener('change', () => {
+      if (cb.checked && !installState.selected.includes(c.id)) installState.selected.push(c.id);
+      else if (!cb.checked) installState.selected = installState.selected.filter(x => x !== c.id);
+      updateInstallSummary();
+    });
+  });
+  updateInstallSummary();
+}
+
+function updateInstallSummary() {
+  let totalMB = 0;
+  COMPONENTS.forEach(c => {
+    if (installState.selected.includes(c.id)) {
+      const mb = parseInt(c.size.replace(/[^0-9]/g, '')) || 0;
+      totalMB += mb;
+    }
+  });
+  const totalStr = totalMB > 1000 ? `~${(totalMB/1000).toFixed(1)} GB` : `~${totalMB} MB`;
+  const el = document.getElementById('totalSize');
+  if (el) el.textContent = totalStr;
+}
+
+// Installer navigation
+document.querySelectorAll('.btn-next').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const next = parseInt(btn.dataset.next);
+    if (next === 3) {
+      // Start installation
+      showInstallStep(3);
+      runInstallation();
+    } else {
+      showInstallStep(next);
+    }
+  });
+});
+
+document.querySelectorAll('.btn-prev').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const prev = parseInt(btn.dataset.prev);
+    showInstallStep(prev);
+  });
+});
+
+// Render components when installer page is shown
+document.querySelector('[data-page="installer"]')?.addEventListener('click', () => {
+  renderInstallComponents();
+  showInstallStep(1);
+});
+
+async function runInstallation() {
+  const log = document.getElementById('installLog');
+  const status = document.getElementById('installStatus');
+  const bar = document.getElementById('installProgressBar');
+  
+  function logMsg(msg, type = 'info') {
+    const div = document.createElement('div');
+    div.className = `log-item log-${type}`;
+    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+  
+  const total = installState.selected.length;
+  
+  for (let i = 0; i < installState.selected.length; i++) {
+    const compId = installState.selected[i];
+    const comp = COMPONENTS.find(c => c.id === compId);
+    const pct = Math.round((i / total) * 100);
+    bar.style.width = pct + '%';
+    status.textContent = `Installation de ${comp.name}...`;
+    logMsg(`Démarrage: ${comp.name}`);
+    
+    try {
+      const r = await fetch(`${API}/install/run`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify([compId])
+      });
+      const data = await r.json();
+      if (data.success?.includes(compId)) {
+        logMsg(`${comp.name} installé avec succès`, 'success');
+      } else {
+        logMsg(`${comp.name}: ${data.failed?.[0]?.error || 'erreur'}`, 'error');
+      }
+    } catch (err) {
+      logMsg(`Erreur réseau: ${err.message}`, 'error');
+    }
+  }
+  
+  bar.style.width = '100%';
+  status.textContent = 'Installation terminée !';
+  logMsg('Tous les composants sont installés.', 'success');
+  
+  document.getElementById('btnAfterInstall').disabled = false;
+  document.querySelector('#install-step-3 .btn-prev').disabled = true;
+}
+
+document.getElementById('launchApp')?.addEventListener('click', () => {
+  showInstallStep(4);
+  // Switch to dashboard after delay
+  setTimeout(() => {
+    document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-page="dashboard"]').classList.add('active');
+    document.getElementById('page-dashboard').classList.add('active');
+    renderDashboard();
+  }, 1500);
+});

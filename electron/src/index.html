@@ -24,6 +24,9 @@
         <li class="active" data-page="dashboard">
           <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
         </li>
+        <li data-page="installer">
+          <i class="fas fa-download"></i><span>Installation</span>
+        </li>
         <li data-page="upload">
           <i class="fas fa-file-upload"></i><span>Nouveau Métré</span>
         </li>
@@ -343,6 +346,87 @@
             <h4><i class="fas fa-file-code"></i> Configuration</h4>
             <p>Modifier <code>config/postes.yaml</code> et <code>config/readings_vision.yaml</code></p>
             <button class="btn btn-outline" id="openConfig"><i class="fas fa-edit"></i> Éditer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Installer Page -->
+      <div class="page" id="page-installer">
+        <header class="page-header">
+          <h1><i class="fas fa-download"></i> Installation des composants</h1>
+          <p>Installez les addons nécessaires — étape par étape</p>
+        </header>
+
+        <!-- Installer Steps -->
+        <div class="installer-steps">
+          <div class="step-indicator">
+            <div class="step-dot active" data-step="1">1</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-step="2">2</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-step="3">3</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-step="4">4</div>
+          </div>
+
+          <!-- Step 1: Welcome -->
+          <div class="installer-step-content active" id="install-step-1">
+            <div class="install-welcome">
+              <div class="install-logo"><i class="fas fa-building"></i></div>
+              <h2>Métré BA Agent</h2>
+              <p class="version">Version 1.0.0</p>
+              <p>Cet assistant va installer les composants nécessaires pour générer des métrés béton armé à partir de plans PDF/AutoCAD.</p>
+              <div class="install-features">
+                <div class="feature"><i class="fas fa-file-excel"></i> Métré Excel professionnel</div>
+                <div class="feature"><i class="fas fa-brain"></i> Vision IA + OCR local</div>
+                <div class="feature"><i class="fas fa-file-pdf"></i> Rapports PDF + LaTeX</div>
+                <div class="feature"><i class="fas fa-cubes"></i> 16 modules BAEL/EC2 intégrés</div>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button class="btn btn-primary btn-next" data-next="2"><i class="fas fa-arrow-right"></i> Suivant</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Choose components -->
+          <div class="installer-step-content" id="install-step-2">
+            <h3><i class="fas fa-puzzle-piece"></i> Choix des composants</h3>
+            <p>Sélectionnez les addons à installer. Les composants <span class="required">*</span> sont obligatoires.</p>
+            <div class="components-list" id="installComponents">
+              <!-- Populated by JS -->
+            </div>
+            <div class="step-actions">
+              <button class="btn btn-outline btn-prev" data-prev="1"><i class="fas fa-arrow-left"></i> Précédent</button>
+              <button class="btn btn-primary btn-next" data-next="3"><i class="fas fa-arrow-right"></i> Suivant</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Install progress -->
+          <div class="installer-step-content" id="install-step-3">
+            <h3><i class="fas fa-download"></i> Installation en cours</h3>
+            <div class="install-progress-detail">
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="installProgressBar"></div>
+              </div>
+              <p id="installStatus">Préparation...</p>
+              <div class="install-log" id="installLog"></div>
+            </div>
+            <div class="step-actions">
+              <button class="btn btn-outline btn-prev" data-prev="2" disabled><i class="fas fa-arrow-left"></i> Précédent</button>
+              <button class="btn btn-primary btn-next" data-next="4" id="btnAfterInstall" disabled><i class="fas fa-arrow-right"></i> Suivant</button>
+            </div>
+          </div>
+
+          <!-- Step 4: Done -->
+          <div class="installer-step-content" id="install-step-4">
+            <div class="install-done">
+              <div class="done-icon"><i class="fas fa-check-circle"></i></div>
+              <h3>Installation terminée !</h3>
+              <p>Métré BA Agent est prêt à l'emploi.</p>
+              <div class="done-actions">
+                <button class="btn btn-primary btn-lg" id="launchApp"><i class="fas fa-rocket"></i> Lancer l'application</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

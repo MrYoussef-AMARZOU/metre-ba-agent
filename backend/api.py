@@ -178,3 +178,54 @@ async def list_jobs():
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": "1.0.0"}
+
+
+@app.get("/install/detect")
+async def install_detect():
+    """Detect installed components."""
+    state = {"components": {}, "python_ok": False, "node_ok": False}
+    try:
+        import pdfplumber, openpyxl, fitz, yaml, reportlab
+        state["components"]["core"] = True
+        state["python_ok"] = True
+    except ImportError:
+        pass
+    try:
+        import fastapi, uvicorn
+        state["components"]["api"] = True
+    except ImportError:
+        pass
+    try:
+        import torch, transformers
+        state["components"]["vision"] = True
+    except ImportError:
+        pass
+    from pathlib import Path
+    if (Path(__file__).resolve().parent.parent / "electron" / "node_modules" / ".package-lock.json").exists():
+        state["components"]["electron"] = True
+    return state
+
+
+@app.post("/install/run")
+async def install_run(components: list[str] = None):
+    """Install selected components."""
+    import subprocess, sys
+    results = {"success": [], "failed": []}
+    for comp in (components or []):
+        try:
+            if comp == "core":
+                subprocess.run([sys.executable, "-m", "pip", "install", "--quiet",
+                    "pdfplumber>=0.11", "PyMuPDF>=1.24", "openpyxl>=3.1", "PyYAML>=6.0", "reportlab>=4.0"],
+                    capture_output=True, timeout=300)
+            elif comp == "api":
+                subprocess.run([sys.executable, "-m", "pip", "install", "--quiet",
+                    "fastapi>=0.115", "uvicorn>=0.34", "python-multipart>=0.0.18"],
+                    capture_output=True, timeout=300)
+            elif comp == "vision":
+                subprocess.run([sys.executable, "-m", "pip", "install", "--quiet",
+                    "transformers>=4.45", "torch>=2.2", "torchvision>=0.17", "accelerate>=0.34"],
+                    capture_output=True, timeout=600)
+            results["success"].append(comp)
+        except Exception as e:
+            results["failed"].append({"id": comp, "error": str(e)})
+    return results
