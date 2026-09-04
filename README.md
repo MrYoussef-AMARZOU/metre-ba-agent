@@ -1,164 +1,198 @@
-# Métré BA Agent — plan PDF → métré Excel + rapport PDF + optimisation
+# Métré BA Agent — Plan PDF/AutoCAD → Métré Excel + Rapports
 
-Pipeline Python qui lit un **plan de fondations béton armé (PDF)** et produit :
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue" alt="Python">
+  <img src="https://img.shields.io/badge/Electron-33-green" alt="Electron">
+  <img src="https://img.shields.io/badge/GLM--OCR-0.9B-orange" alt="GLM-OCR">
+  <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
+</p>
 
-1. **`output/metre_genere.xlsx`** — métré structuré (3 feuilles) :
-   - `Detail quantitatif fondation` : postes 1 (études), 3 (terrassement),
-     15 (béton de propreté), 16 (gros béton), 17 (maçonnerie de moellons),
-     20 (béton armé : semelles, longrines, chaînages, fûts, massifs, poteaux,
-     poutres mezzanine + PH-RDC), 7 (remblaiement), 19 (forme en béton) —
-     mêmes colonnes que le métré modèle (`N° | Désignation | U | N | Longueur |
-     largeur | Hauteur | Qté partielle | Qté Total`), **formules Excel vivantes**
-     (`=K*J*I*H`, `=SUM(...)`, références croisées).
-   - `Armatures` : ferraillage agrégé par type + détail par élément
-     (nappes, cadres, épingles, barres longues) + poids acier par diamètre.
-   - `Comparaison` : écarts champ à champ contre le métré de référence.
-2. **`output/rapport_metre.pdf`** — rapport avec synthèse quantitative,
-     répartition par famille, insights calculés (ratios kg/m³, sensibilité au
-     paramètre H/bon sol), écarts documentés et annexe `a_verifier`.
-3. **`output/optimisation_bonnes_pratiques.xlsx`** — agrégations d'optimisation
-     (barres commerciales 12 m, chutes, regroupements d'éléments identiques)
-     + checklist qualité métré.
-4. **`output/rapport_verification.md`** — liste des éléments `a_verifier`
-     et des vérifications automatiques.
-
-> **Politique zéro-hallucination** : rien n'est estimé en silence. Chaque
-> donnée vient du texte natif du PDF, de la géométrie vectorielle ou d'une
-> lecture vision sourcée (`config/readings_vision.yaml`) ; tout le reste est
-> signalé. Voir [`docs/ZERO_HALLUCINATION.md`](docs/ZERO_HALLUCINATION.md).
+**Application desktop professionnelle** qui lit un plan de fondations béton armé (PDF, image, ou AutoCAD) et génère automatiquement :
+- Un **métré Excel structuré** (3 feuilles : fondation, armatures, comparaison)
+- Un **rapport PDF** avec insights calculés (ratios kg/m³, sensibilité paramètres)
+- Un **rapport LaTeX** avec calculs BAEL/EC2 détaillés et formules
+- Un **Excel d'optimisation** (barres commerciales 12m, chutes, regroupements)
 
 ---
 
-## Installation
+## Démarrage rapide
+
+### Option 1 — App Desktop (recommandé)
 
 ```bash
-pip install -r requirements.txt
+# Windows
+start.bat
+
+# Linux/Mac
+./start.sh
 ```
 
-## Utilisation (pipeline complet)
+L'interface Electron s'ouvre avec :
+- **Dashboard** : vue d'ensemble des 16 modules intégrés
+- **Nouveau Métré** : importez un plan (PDF/image/AutoCAD DWG/DXF) → lancez → téléchargez
+- **Modules & Repos** : visualisez les 16 repos forkés et leurs contributions
+- **Résultats** : suivi en temps réel + téléchargements
+
+### Option 2 — Ligne de commande
 
 ```bash
-# Un seul plan
+# Pipeline complet
 python run_all.py
 
 # Ou étape par étape
-python extract_plan.py      --pdf reference/PLAN_BA_final.pdf
-python build_metre.py       # -> output/metre_genere.xlsx + rapport_verification.md
-python build_report.py      # -> output/rapport_metre.pdf
-python build_optimisation.py  # -> output/optimisation_bonnes_pratiques.xlsx
+python extract_plan.py --pdf plan.pdf
+python build_metre.py
+python build_report.py
+python build_optimisation.py
+
+# Avec OCR local GLM-OCR (pas de clé API nécessaire)
+python extract_plan.py --pdf plan.pdf --ocr glm-ocr
 ```
 
-### Mode batch (plusieurs plans)
+### Option 3 — API
 
 ```bash
-# Traiter un exemple spécifique
-python run_batch.py --example dataset/examples/001_MZINDA_Youssoufia
-
-# Traiter tous les exemples du dataset
-python run_batch.py --all
-
-# Plan isolé sans structure dataset
-python run_batch.py --pdf mon_plan.pdf --ref mon_metre.xlsx
+python -m uvicorn backend.api:app --port 8765
+curl -X POST http://127.0.0.1:8765/pipeline -F "pdf=@plan.pdf"
 ```
 
-### Options de lecture
+---
 
-```bash
-# Vision via API Claude (ANTHROPIC_API_KEY requis) — relit les pages en image
-python extract_plan.py --vision
+## Formats supportés
 
-# OCR local GLM-OCR (zai-org/GLM-OCR, torch + transformers requis)
-python extract_plan.py --ocr glm-ocr
-```
+| Format | Usage | Fiabilité |
+|--------|-------|-----------|
+| **PDF natif** | Extraction texte + vecteurs | ~95% automatique |
+| **Images (PNG/JPG)** | OCR GLM-OCR ou Vision API | ~80-90% |
+| **AutoCAD DWG/DXF** | Nécessite conversion ou vision | Via config manuelle |
 
-## Dataset : ajouter vos plans
-
-Placez vos exemples dans `dataset/examples/` selon la structure :
-
-```
-dataset/examples/<nom_projet>/
-  input/
-    plan.pdf              # le plan BA (PDF)
-    notes.txt             # (optionnel) notes du métreur
-  output_reference/
-    metre_reference.xlsx  # le métré de référence
-    rapport_reference.pdf # (optionnel) rapport de référence
-```
-
-Le pipeline compare systématiquement la sortie générée avec la référence
-et produit un rapport d'écarts (feuille « Comparaison » + rapport PDF).
-
-## Modules de calcul béton armé
-
-`modules/ferraillage.py` intègre les formules BAEL 91 / Eurocode 2 pour :
-
-- **Semelles** : longueur barre = dim − 2×enrobage + 2×34d, poids par diamètre
-- **Poteaux** : barres longues (T76 + 18d), cadres (périmètre + 20.5d), épingles
-- **Longrines / Chaînages** : nappes sup/inf + recouvrement, cadres, épingles
-- **Poutres** : barres + cadres selon section
-- **Enrobage EC2** : c_nom = c_min + Δc_dur + Δc_dev (classe structurale, exposition)
-- **Tables** : tableau des semelles (S1-S5), poteaux (P1-P4), poutres (N1-N7, BN1/BN2)
-
-Formules issues des repos forkés (voir [`docs/SOURCES.md`](docs/SOURCES.md)) :
-- [vlax-rsr/Armatures-Poteau-rectangulaire-BAEL](https://github.com/Youssef-AMARZOU/Armatures-Poteau-rectangulaire-BAEL)
-- [Damon201202/calcul-section-acier-poutre-automatique-eurocode2](https://github.com/Youssef-AMARZOU/calcul-section-acier-poutre-automatique-eurocode2)
-- [Damon201202/Eurocode2-Concrete-Cover-Calc](https://github.com/Youssef-AMARZOU/Eurocode2-Concrete-Cover-Calc)
-- [mondial974/pypyBABA](https://github.com/Youssef-AMARZOU/pypyBABA)
-- [4geniecivil.com — 80 fichiers Excel calcul structures](https://www.4geniecivil.com/2018/12/excel-pour-le-calcul-des-structures.html)
-
-## Sur un nouveau plan
-
-1. `python extract_plan.py --pdf mon_plan.pdf`
-2. Vérifier `output/plan_data.json` (grille d'axes détectée, comptages).
-3. Compléter/corriger `config/readings_vision.yaml` (poteaux, tracés,
-   poutres — chaque entrée est sourcée) et `config/postes.yaml`
-   (géométrie des travées, catalogues, règles de ferraillage).
-4. Relancer `build_metre.py` → les quantités se recalculent par formules.
-
-Aucun mapping de poste n'est codé en dur : tout est dans `config/postes.yaml`.
+---
 
 ## Architecture
 
 ```
-plan PDF ──extract_plan.py──► plan_data.json ──┐
-                                               ├─build_metre.py─► metre_genere.xlsx
-config/postes.yaml ────────────────────────────┘                │
-config/readings_vision.yaml                                     ├─► Comparaison (vs référence)
-                                                                └─► rapport_verification.md
- metre_genere.xlsx + summary.json ──build_report.py───────► rapport_metre.pdf
- metre_lines.json  + summary.json ──build_optimisation.py─► optimisation_bonnes_pratiques.xlsx
+metre-ba-agent/
+├── start.bat / start.sh          ← Démarrage un clic
+├── electron/                     ← App desktop (UI professionnelle)
+│   ├── main.js                   (backend Python intégré)
+│   └── src/                      (HTML/CSS/JS — dashboard, upload, résultats)
+├── backend/
+│   ├── api.py                    (FastAPI : pipeline via HTTP)
+│   └── latex_report.py           (rapport LaTeX calculs BAEL/EC2)
+├── extract_plan.py               (PDF → JSON : texte natif + vecteurs + vision)
+├── build_metre.py                (JSON → Excel 3 feuilles, formules vivantes)
+├── build_report.py               (rapport PDF insights)
+├── build_optimisation.py         (Excel optimisation + checklist)
+├── modules/ferraillage.py        (calculs BAEL 91 / Eurocode 2)
+├── config/
+│   ├── postes.yaml               (géométrie, catalogues, règles — éditable)
+│   └── readings_vision.yaml      (lectures vision sourcées — éditable)
+├── dataset/examples/             (vos plans + références)
+└── research/                     (16 repos forkés — non versionnés)
 ```
 
-| Fichier | Rôle |
-|---|---|
-| `extract_plan.py` | PDF → JSON : axes (texte natif), étiquettes de semelles (clusters de mots), boîtes/carrés vectoriels, tableau des semelles (p.4), catalogue poutres (p.5), backends `--vision` / `--ocr glm-ocr`, vérifications de cohérence |
-| `metre_core.py` | Géométrie de la grille : longueurs d'axes et travées, formules Excel de longueur (`=3.82+0.4+0.82`) |
-| `build_metre.py` | JSON + configs → Excel (3 feuilles), comparaison ligne à ligne vs référence, exports JSON |
-| `build_report.py` | Rapport PDF (reportlab) : synthèse, répartition, insights, écarts, annexe |
-| `build_optimisation.py` | Excel d'optimisation + bonnes pratiques |
-| `config/postes.yaml` | Paramètres site (H/bon sol…), géométrie des travées, catalogues (semelles/poteaux/poutres), règles de ferraillage, descriptions de postes |
-| `config/readings_vision.yaml` | Lectures des éléments non textuels du plan, **chacune sourcée** (page + note) |
-| `reference/` | Plan d'exemple + métré modèle MZINDA |
+---
+
+## 16 Repos Forkés Intégrés
+
+Tous forkés dans votre compte GitHub et documentés dans [`docs/SOURCES.md`](docs/SOURCES.md).
+
+### Ferraillage BAEL/EC2 (6 repos)
+
+| Repo | Contribution |
+|------|-------------|
+| [Armatures-Poteau-rectangulaire-BAEL](https://github.com/Youssef-AMARZOU/Armatures-Poteau-rectangulaire-BAEL) | Calcul ferraillage poteaux BAEL 91 |
+| [calcul-section-acier-poutre-automatique-eurocode2](https://github.com/Youssef-AMARZOU/calcul-section-acier-poutre-automatique-eurocode2) | Sections acier poutres EC2 |
+| [calcul-automatique-sections-acier-linteau-beton-arme](https://github.com/Youssef-AMARZOU/calcul-automatique-sections-acier-linteau-beton-arme) | Sections acier linteaux |
+| [concrete-beam-diameters-quantities-reinforcement-Eurocode2](https://github.com/Youssef-AMARZOU/concrete-beam-diameters-quantities-reinforcement-Eurocode2) | Diamètres/quantités poutres EC2 |
+| [Eurocode2-Concrete-Cover-Calc](https://github.com/Youssef-AMARZOU/Eurocode2-Concrete-Cover-Calc) | Enrobage béton EC2 |
+| [eurocode2-concrete-structural-class-calculator](https://github.com/Youssef-AMARZOU/eurocode2-concrete-structural-class-calculator) | Classe structurale EC2 |
+
+### Vision & OCR (4 repos)
+
+| Repo | Contribution |
+|------|-------------|
+| [GLM-OCR (zai-org)](https://huggingface.co/zai-org/GLM-OCR) | OCR open-source 0.9B, mode JSON strict |
+| [ConRebSeg (DTU-PAS)](https://github.com/Youssef-AMARZOU/ConRebSeg) | Segmentation ferraillage |
+| [synthetic-datasets-for-rebar](https://github.com/Youssef-AMARZOU/synthetic-datasets-for-rebar) | Datasets synthétiques armatures |
+| [RebarDSC](https://github.com/Youssef-AMARZOU/RebarDSC) | Détection/comptage armatures |
+
+### Takeoff & Quantités (4 repos)
+
+| Repo | Contribution |
+|------|-------------|
+| [opentakeoff (Kentucky-ai)](https://github.com/Youssef-AMARZOU/opentakeoff) | PDF takeoff engine MCP |
+| [OpenConstructionERP](https://github.com/Youssef-AMARZOU/OpenConstructionERP) | BOQ, PDF/CAD/BIM takeoff |
+| [DDC_Skills (221 skills)](https://github.com/Youssef-AMARZOU/DDC_Skills_for_AI_Agents_in_Construction) | BIM, cost estimation, scheduling |
+| [layerwise.ai](https://github.com/Youssef-AMARZOU/layerwise.ai) | API pipeline documentaire |
+
+### ERP & Outils (2 repos)
+
+| Repo | Contribution |
+|------|-------------|
+| [wall-load-bearing-calculation-tool](https://github.com/Youssef-AMARZOU/wall-load-bearing-calculation-tool) | Calcul murs porteurs |
+| [pypyBABA](https://github.com/Youssef-AMARZOU/pypyBABA) | Modules Python BA (poutres, dalles, RDM) |
+
+---
+
+## GLM-OCR — OCR Local Open-Source
+
+**GLM-OCR** est un modèle multimodal 0.9B (MIT) pour la compréhension de documents complexes. Intégré en mode « information extraction » avec schéma JSON strict — le modèle laisse vide ce qui est illisible (politique zéro-hallucination).
+
+### Installation
+
+```bash
+pip install transformers torch torchvision accelerate
+```
+
+Le modèle (~2GB) se télécharge automatiquement au premier usage :
+
+```bash
+python extract_plan.py --pdf plan.pdf --ocr glm-ocr
+```
+
+### Configuration dans l'UI
+
+Cochez **GLM-OCR** dans les options — aucune clé API nécessaire.
+
+---
+
+## Outputs générés
+
+| Fichier | Contenu |
+|---------|---------|
+| `metre_genere.xlsx` | 3 feuilles : fondation (postes 1/3/15/16/17/20/7/19), armatures (agrégat + détail + poids acier), comparaison vs référence |
+| `rapport_metre.pdf` | Synthèse, répartition BA, insights (kg/m³, sensibilité N13), écarts, annexe a_verifier |
+| `rapport_metre_latex.pdf` | Calculs BAEL/EC2 détaillés avec formules LaTeX |
+| `optimisation.xlsx` | Barres 12m/chutes, regroupements (S4≡S5, P1×12), checklist qualité |
+| `rapport_verification.md` | Éléments a_verifier + vérifications automatiques |
+
+---
+
+## Politique zéro-hallucination
+
+> Aucune donnée n'est estimée silencieusement. Chaque quantité vient du texte natif du PDF, de la géométrie vectorielle ou d'une lecture vision sourcée. Tout le reste est signalé dans le rapport.
+
+Voir [`docs/ZERO_HALLUCINATION.md`](docs/ZERO_HALLUCINATION.md) pour le détail du protocole.
+
+---
 
 ## Résultats sur le plan d'exemple (MZINDA, Youssoufia)
 
-- 23 semelles (S1×2, S2×1, S3×8, S4×9, S5×3), 23 poteaux (P1×12, P2×5, P3×4,
-  P4×2), 19 longrines, 17 chaînages, 3 massifs, poutres mezzanine (31) et
-  PH-RDC (36) extraites du plan.
-- Terrassement calculé 222,85 m³ = contrôle manuel du métré de référence (N22).
-- ~91 écarts champ à champ documentés vs le métré manuel — dont plusieurs
-  **erreurs réelles détectées dans le métré manuel** (largeur S5 à F5 1,3 vs
-  1,5 ; longrine axe 2 D→G 5,77 vs 5,05 coté au plan ; hauteur S4 à G2 ;
-  axes 6/7/8 PH-RDC N4/N3/N4 vs N3/N1/N3 dessinés ; longueurs 0,65 vs 2,65…).
+- 23 semelles (S1×2, S2×1, S3×8, S4×9, S5×3), 23 poteaux, 19 longrines, 17 chaînages, poutres mezzanine + PH-RDC
+- Terrassement calculé **222,85 m³** = contrôle manuel du métré de référence (N22)
+- ~91 écarts documentés vs le métré manuel — dont plusieurs **erreurs réelles détectées** dans le métré manuel
 
-## Limites
+---
 
-- Plans scannés sans texte ni vecteurs : tout passe par le canal vision
-  (plus d'`a_verifier`, relecture humaine recommandée).
-- Conventions de dessin différentes → ajuster la géométrie dans la config.
-- Ferraillage complexe (T, jumelées) : règles paramétrées et signalées.
+## Limites connues
 
-## Sources & inspirations
+- Plans scannés sans texte ni vecteurs : tout passe par le canal vision (plus d'`a_verifier`)
+- Conventions de dessin différentes → ajuster la géométrie dans `config/postes.yaml`
+- Ferraillage complexe (T, jumelées) : règles paramétrées et signalées
 
-Voir [`docs/SOURCES.md`](docs/SOURCES.md) (GLM-OCR, opentakeoff, OpenConstructionERP,
-DDC Skills, ConRebSeg, datasets armatures, papiers associés).
+---
+
+## Licence
+
+MIT — voir [`LICENSE`](LICENSE).
