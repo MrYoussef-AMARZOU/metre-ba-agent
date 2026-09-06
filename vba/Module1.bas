@@ -227,3 +227,7 @@ ErrHandler:
     MsgBox "Erreur de réinitialisation : " & Err.Description, _
            vbCritical, "PlanBA — Réinitialisation"
 End Sub
+
+Public Sub AllerCatalogue()
+    NaviguerVers "05_Catalogue_Armatures_Standard"
+End Sub

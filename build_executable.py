@@ -70,6 +70,27 @@ def build():
     if config_dir.exists():
         args.extend(["--add-data", f"{config_dir};config"])
 
+    # Gabarit Excel 5 feuilles (pont build_metre -> populate_modele) :
+    # prepare dans templates/ (regenere si absent) puis embarque pour
+    # le chemin frozen sys._MEIPASS/templates/modele_metre_BA.xlsx.
+    try:
+        templates_dir = ROOT / "templates"
+        tpl_cible = templates_dir / "modele_metre_BA.xlsx"
+        if not tpl_cible.exists():
+            templates_dir.mkdir(parents=True, exist_ok=True)
+            from generators.modele_metre import generer_modele
+            generer_modele(str(tpl_cible))
+            from generators.add_catalogue_sheet import \
+                injecter_catalogue_standard
+            import openpyxl as _oxl
+            _wb_tpl = _oxl.load_workbook(tpl_cible)
+            injecter_catalogue_standard(_wb_tpl)
+            _wb_tpl.save(tpl_cible)
+            print(f"   Gabarit prepare : {tpl_cible}")
+        args.extend(["--add-data", f"{templates_dir};templates"])
+    except Exception as e:
+        print(f"[WARN] Gabarit non embarque ({e}) — repli regeneration.")
+
     # Splash screen natif PyInstaller : image affichee par le bootloader
     # pendant l'initialisation de l'interpreteur (avant la fenetre Tk).
     splash_path = ensure_splash()

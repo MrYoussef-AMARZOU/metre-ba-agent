@@ -60,7 +60,7 @@ class TestMetreGenerator(unittest.TestCase):
         with open(PLAN_PATH, encoding="utf-8") as f:
             cls.plan = json.load(f)
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        gen = MetreGenerator(cls.plan)
+        gen = MetreGenerator(cls.plan, moteur="historique")
         gen.generer(OUTPUT_FILE)
         cls.wb = load_workbook(OUTPUT_FILE)
         # Feuille 1 = Detail quantitatif
@@ -165,7 +165,7 @@ class TestFormulasArmatures(unittest.TestCase):
         with open(PLAN_PATH, encoding="utf-8") as f:
             cls.plan = json.load(f)
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        gen = MetreGenerator(cls.plan)
+        gen = MetreGenerator(cls.plan, moteur="historique")
         gen.generer(OUTPUT_FILE)
         cls.wb = load_workbook(OUTPUT_FILE)
         cls.ws_arm = cls.wb["Armatures"]

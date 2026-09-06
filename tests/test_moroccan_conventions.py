@@ -342,6 +342,30 @@ class TestPoteauxMultiInstances:
                 assert spec[k] == v
 
 
+    def test_dedupe_groupes_identiques_cellule_fusionnee(self):
+        """Cellule find_tables fusionnant 2 details identiques (RDC +
+        mezzanine) : un seul groupe conserve, pas de double comptage."""
+        from core.local_extractor import VectorPlanExtractor
+        ex = VectorPlanExtractor()
+        ex._reset()
+        cell = "(25x35)\n6HA14\nCad T6+Ep T6\n6x8+e=15\n(25x35)\n6HA14"
+        assert ex._parse_poteau_cell("P1", cell) is True
+        spec = ex.global_catalogue["poteaux"]["P1"]
+        assert spec["long_bars"] == [{"nb": 6, "phi": 14}]
+        assert spec["aciers_longitudinaux"] == [{"nb": 6, "phi": 14}]
+
+    def test_groupes_distincts_tous_conserves(self):
+        """'4T12+4T10' : les deux groupes distincts sont conserves."""
+        from core.local_extractor import VectorPlanExtractor
+        ex = VectorPlanExtractor()
+        ex._reset()
+        assert ex._parse_poteau_cell(
+            "Q3", "(25x30)\n4T12+4T10\n2CAD T6 e=15") is True
+        spec = ex.global_catalogue["poteaux"]["Q3"]
+        assert spec["long_bars"] == [{"nb": 4, "phi": 12},
+                                     {"nb": 4, "phi": 10}]
+
+
 # ============================================================================
 # Porte R+2 si present
 # ============================================================================

@@ -754,19 +754,153 @@ class FeuilleArmatures:
 
 
 # ============================================================================
+# Pont vers le gabarit standardise 5 feuilles (core/populate_modele.py)
+# ============================================================================
+
+def resoudre_chemin_template(base_dir=None):
+    """Localise le gabarit 5 feuilles (compatible PyInstaller frozen).
+
+    Ordre : dossier templates/ a cote du script (ou du .exe) ->
+    output/modele_metre_BA.xlsx -> regeneration fraiche.
+    """
+    if base_dir is None:
+        if getattr(sys, "frozen", False):
+            # Mode compile : ressources dans _MEIPASS (jamais %TEMP% manuel)
+            meipass = getattr(sys, "_MEIPASS", None)
+            base_dir = Path(meipass) if meipass \
+                else Path(sys.executable).parent
+        else:
+            base_dir = Path(__file__).parent
+    else:
+        base_dir = Path(base_dir)
+
+    candidats = [
+        base_dir / "templates" / "modele_metre_BA.xlsx",
+        base_dir / "output" / "modele_metre_BA.xlsx",
+    ]
+    for tpl in candidats:
+        if tpl.exists():
+            return str(tpl)
+
+    # Regeneration fraiche du gabarit (4 feuilles + catalogue standard)
+    cible = base_dir / "templates" / "modele_metre_BA.xlsx"
+    cible.parent.mkdir(parents=True, exist_ok=True)
+    from generators.modele_metre import generer_modele
+    generer_modele(str(cible))
+    from generators.add_catalogue_sheet import injecter_catalogue_standard
+    wb = openpyxl.load_workbook(cible)
+    injecter_catalogue_standard(wb)
+    wb.save(cible)
+    print(f"Gabarit regenere : {cible}")
+    return str(cible)
+
+
+def adapter_plan_vers_injecteur(plan_data: dict) -> dict:
+    """Convertit plan_data (catalogue_types + implantations) vers le format
+    plat de l'injecteur : semelles/poteaux/poutres positionnes + projet."""
+    projet = plan_data.get("projet", "Projet BTP")
+    if isinstance(projet, dict):
+        projet = projet.get("nom") or "Projet BTP"
+    projet = str(projet)
+
+    catalogue = plan_data.get("catalogue_types", {})
+    impl = plan_data.get("implantations", {})
+
+    semelles = []
+    cat_sem = catalogue.get("semelles", {})
+    for inst in impl.get("semelles", []):
+        dims = cat_sem.get(inst.get("type", ""), {})
+        fx = dims.get("ferr_x", {}) or {}
+        fy = dims.get("ferr_y", {}) or {}
+        semelles.append({
+            "type": inst.get("type", ""),
+            "axe": inst.get("axe", ""),
+            "file": inst.get("file", ""),
+            "a": dims.get("a", 0),
+            "b": dims.get("b", 0),
+            "h": dims.get("h", 0),
+            "phi": fx.get("phi", 0) or fy.get("phi", 0),
+            "nb_x": fx.get("nb", 0),
+            "nb_y": fy.get("nb", 0),
+        })
+
+    poteaux = []
+    cat_pot = catalogue.get("poteaux", {})
+    for inst in impl.get("poteaux", []):
+        dims = cat_pot.get(inst.get("type", ""), {})
+        poteaux.append({
+            "type": inst.get("type", ""),
+            "axe": inst.get("axe", ""),
+            "file": inst.get("file", ""),
+            "a": dims.get("a", 0),
+            "b": dims.get("b", 0),
+            "hauteur": inst.get("hauteur", 3.0),
+            "long_bars": dims.get("long_bars", []) or [],
+            "cadres": dims.get("cadres", {}) or {},
+        })
+
+    poutres = []
+    cat_pou = catalogue.get("poutres", {})
+    for inst in impl.get("poutres", []):
+        dims = cat_pou.get(inst.get("type", ""), {})
+        poutres.append({
+            "type": inst.get("type", ""),
+            "axe": inst.get("axe", ""),
+            "b": dims.get("b", 0),
+            "h": dims.get("h", 0),
+            "portee": inst.get("portee"),
+            "filants_inf": dims.get("filants_inf", []) or [],
+            "filants_sup": dims.get("filants_sup", []) or [],
+            "cadres": dims.get("cadres", {}) or {},
+        })
+
+    return {"projet": projet, "semelles": semelles,
+            "poteaux": poteaux, "poutres": poutres}
+
+
+def generer_via_gabarit(plan_data: dict, output_path: str,
+                        base_dir=None) -> str:
+    """Pont universel : plan_data -> gabarit 5 feuilles.
+
+    Chaine de secours : gabarit existant -> regeneration fraiche ->
+    moteur historique (le pipeline ne plante jamais sur le rendu)."""
+    from core.populate_modele import injecter_metre_dans_modele
+    try:
+        template = resoudre_chemin_template(base_dir)
+        payload = adapter_plan_vers_injecteur(plan_data)
+        return injecter_metre_dans_modele(payload, template, output_path)
+    except Exception as e:
+        print(f"⚠ Pont gabarit indisponible ({e}) — repli historique.")
+        gen = MetreGenerator(plan_data, moteur="historique")
+        return gen.generer(output_path)
+
+
+# ============================================================================
 # Moteur principal
 # ============================================================================
 
 class MetreGenerator:
-    """Genere le classeur Excel complet avec 2 feuilles."""
+    """Genere le classeur Excel.
 
-    def __init__(self, plan_data: dict):
+    moteur="gabarit" (defaut) : pont vers le gabarit standardise 5 feuilles
+    via core/populate_modele.py.
+    moteur="historique" : moteur 2 feuilles embarque (Detail + Armatures).
+    """
+
+    def __init__(self, plan_data: dict, moteur: str = "gabarit"):
         self.plan = plan_data
+        self.moteur = moteur
         self.diameters = _detect_diameters(plan_data)
         self.wb = openpyxl.Workbook()
 
     def generer(self, output_path: str):
         """Point d'entree : genere le classeur complet."""
+        if self.moteur == "gabarit":
+            return generer_via_gabarit(self.plan, output_path)
+        return self._generer_historique(output_path)
+
+    def _generer_historique(self, output_path: str):
+        """Moteur historique 2 feuilles (conserve pour compatibilite)."""
         # Feuille 1 : Detail quantitatif fondation
         ws_detail = self.wb.active
         detail = FeuilleDetailFondation(self.plan)
@@ -781,6 +915,7 @@ class MetreGenerator:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
         self.wb.save(output_path)
         print(f"Classeur genere : {output_path}")
+        return output_path
 
 
 # ============================================================================
@@ -792,8 +927,15 @@ def main():
     ap.add_argument("--plan", "--input", "-i", dest="plan",
                     default="sample_plan_data.json",
                     help="Chemin vers le JSON du plan")
+    ap.add_argument("--dxf", dest="plan",
+                    help="Alias : plan source AutoCAD DXF (converti en JSON)")
+    ap.add_argument("--json", dest="plan",
+                    help="Alias : plan source JSON")
     ap.add_argument("--out", "-o", default="output/metre_genere.xlsx",
                     help="Chemin de sortie Excel")
+    ap.add_argument("--moteur", choices=["gabarit", "historique"],
+                    default="gabarit",
+                    help="Moteur de rendu (defaut : gabarit 5 feuilles)")
     args = ap.parse_args()
 
     plan_path = Path(args.plan)
@@ -804,7 +946,7 @@ def main():
     with open(plan_path, "r", encoding="utf-8") as f:
         plan_data = json.load(f)
 
-    gen = MetreGenerator(plan_data)
+    gen = MetreGenerator(plan_data, moteur=args.moteur)
     gen.generer(args.out)
 
 

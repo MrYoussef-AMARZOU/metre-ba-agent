@@ -5,6 +5,7 @@
 # --- Distribution & build (lourds, régénérables : build_executable.py) ---
 dist/
 build/
+templates/
 *.spec
 
 # --- Données lourdes locales (jamais versionnées) ---

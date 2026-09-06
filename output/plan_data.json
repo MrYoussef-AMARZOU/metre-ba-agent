@@ -5,501 +5,607 @@
   },
   "catalogue_types": {
     "semelles": {
-      "S1": {
-        "a": 0.9,
-        "b": 0.9,
-        "h": 0.25,
-        "ferr_x": {
-          "nb": 0,
-          "phi": 0
-        },
-        "ferr_y": {
-          "nb": 0,
-          "phi": 0
-        }
-      },
       "S2": {
-        "a": 0.9,
-        "b": 1.9,
+        "a": 1.1,
+        "b": 1.1,
         "h": 0.25,
         "ferr_x": {
-          "nb": 0,
-          "phi": 0
+          "nb": 7,
+          "phi": 12
         },
         "ferr_y": {
-          "nb": 0,
-          "phi": 0
+          "nb": 7,
+          "phi": 12
         }
       },
       "S3": {
+        "a": 1.2,
+        "b": 1.2,
+        "h": 0.3,
+        "ferr_x": {
+          "nb": 8,
+          "phi": 12
+        },
+        "ferr_y": {
+          "nb": 8,
+          "phi": 12
+        }
+      },
+      "S4": {
+        "a": 1.5,
+        "b": 1.5,
+        "h": 0.4,
+        "ferr_x": {
+          "nb": 11,
+          "phi": 12
+        },
+        "ferr_y": {
+          "nb": 11,
+          "phi": 12
+        }
+      },
+      "S5": {
+        "a": 1.5,
+        "b": 1.5,
+        "h": 0.4,
+        "ferr_x": {
+          "nb": 0,
+          "phi": 0
+        },
+        "ferr_y": {
+          "nb": 0,
+          "phi": 0
+        }
+      },
+      "S1": {
         "a": 1.0,
         "b": 1.0,
         "h": 0.25,
         "ferr_x": {
-          "nb": 0,
-          "phi": 0
+          "nb": 6,
+          "phi": 12
         },
         "ferr_y": {
-          "nb": 0,
-          "phi": 0
+          "nb": 6,
+          "phi": 12
         }
       }
     },
-    "poteaux": {},
-    "poutres": {
-      "CH": {
-        "dimensions_manquantes": true,
-        "b": 0.15,
-        "h": 0.4
+    "poteaux": {
+      "P1": {
+        "a": 0.25,
+        "b": 0.35,
+        "section_str": "25x35",
+        "aciers_longitudinaux": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "long_bars": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.15
+        },
+        "cadres_str": "T6 e=15"
       },
-      "PC": {
-        "dimensions_manquantes": true,
-        "b": 0.25,
-        "h": 0.4
+      "P2": {
+        "a": 0.4,
+        "b": 0.4,
+        "section_str": "40x40",
+        "aciers_longitudinaux": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "long_bars": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.15
+        },
+        "cadres_str": "T6 e=15"
+      },
+      "P3": {
+        "a": 0.3,
+        "b": 0.3,
+        "section_str": "30x30",
+        "aciers_longitudinaux": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "long_bars": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.15
+        },
+        "cadres_str": "T6 e=15"
+      },
+      "P4": {
+        "a": 0.35,
+        "b": 0.35,
+        "section_str": "35x35",
+        "aciers_longitudinaux": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "long_bars": [
+          {
+            "nb": 6,
+            "phi": 14
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.15
+        },
+        "cadres_str": "T6 e=15"
       }
     },
-    "semelles_filantes": [
-      {
-        "largeur": 0.45,
-        "hauteur": 0.2,
-        "pages": [
-          14,
-          28
-        ]
+    "poutres": {
+      "N2": {
+        "b": 0.2,
+        "h": 0.35,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 10
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 2,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
       },
-      {
-        "largeur": 0.5,
-        "hauteur": 0.2,
-        "pages": [
-          40,
-          52
-        ]
+      "BN1": {
+        "dimensions_manquantes": true,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 12
+          },
+          {
+            "nb": 4,
+            "phi": 14
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 4,
+            "phi": 16
+          },
+          {
+            "nb": 4,
+            "phi": 12
+          },
+          {
+            "nb": 4,
+            "phi": 14
+          },
+          {
+            "nb": 2,
+            "phi": 12
+          },
+          {
+            "nb": 2,
+            "phi": 16
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
       },
-      {
-        "largeur": 0.3,
-        "hauteur": 5.0,
-        "pages": [
-          67
-        ]
+      "BN2": {
+        "dimensions_manquantes": true,
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N3": {
+        "b": 0.2,
+        "h": 0.4,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 3,
+            "phi": 14
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 4,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N1": {
+        "b": 0.2,
+        "h": 0.3,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 2,
+            "phi": 12
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 2,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N6": {
+        "b": 0.4,
+        "h": 0.9,
+        "filants_inf": [
+          {
+            "nb": 4,
+            "phi": 16
+          },
+          {
+            "nb": 2,
+            "phi": 16
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 2,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N7": {
+        "b": 0.3,
+        "h": 0.9,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 12
+          },
+          {
+            "nb": 4,
+            "phi": 12
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 4,
+            "phi": 14
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N4": {
+        "b": 0.2,
+        "h": 0.45,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 3,
+            "phi": 14
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 4,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
+      },
+      "N5": {
+        "b": 0.2,
+        "h": 0.5,
+        "filants_inf": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 3,
+            "phi": 14
+          }
+        ],
+        "filants_sup": [
+          {
+            "nb": 2,
+            "phi": 10
+          },
+          {
+            "nb": 4,
+            "phi": 12
+          }
+        ],
+        "cadres": {
+          "phi": 6,
+          "esp": 0.1
+        }
       }
-    ]
+    },
+    "semelles_filantes": []
   },
   "implantations": {
     "semelles": [
       {
-        "id": "S1_1",
-        "type": "S1",
-        "axe": "C",
-        "file": "7"
-      },
-      {
-        "id": "S1_2",
-        "type": "S1",
-        "axe": "S",
-        "file": "7"
-      },
-      {
-        "id": "S1_3",
-        "type": "S1",
-        "axe": "F",
-        "file": "7"
-      },
-      {
-        "id": "S1_4",
-        "type": "S1",
-        "axe": "H",
-        "file": "7"
-      },
-      {
-        "id": "S1_5",
-        "type": "S1",
-        "axe": "H",
-        "file": "6"
-      },
-      {
-        "id": "S1_6",
-        "type": "S1",
-        "axe": "F",
-        "file": "6"
-      },
-      {
-        "id": "S1_7",
-        "type": "S1",
-        "axe": "D",
-        "file": "6"
-      },
-      {
-        "id": "S1_8",
-        "type": "S1",
-        "axe": "C",
-        "file": "6"
-      },
-      {
         "id": "S2_1",
         "type": "S2",
-        "axe": "D",
-        "file": "4"
-      },
-      {
-        "id": "S1_9",
-        "type": "S1",
-        "axe": "C",
+        "axe": "A",
         "file": "5"
-      },
-      {
-        "id": "S1_10",
-        "type": "S1",
-        "axe": "B",
-        "file": "5"
-      },
-      {
-        "id": "S1_11",
-        "type": "S1",
-        "axe": "F",
-        "file": "4"
-      },
-      {
-        "id": "S1_12",
-        "type": "S1",
-        "axe": "L",
-        "file": "8"
-      },
-      {
-        "id": "S1_13",
-        "type": "S1",
-        "axe": "S",
-        "file": "8"
-      },
-      {
-        "id": "S1_14",
-        "type": "S1",
-        "axe": "F",
-        "file": "17"
-      },
-      {
-        "id": "S1_15",
-        "type": "S1",
-        "axe": "S",
-        "file": "14"
-      },
-      {
-        "id": "S1_16",
-        "type": "S1",
-        "axe": "F",
-        "file": "8"
-      },
-      {
-        "id": "S2_2",
-        "type": "S2",
-        "axe": "F",
-        "file": "14"
-      },
-      {
-        "id": "S1_17",
-        "type": "S1",
-        "axe": "F",
-        "file": "14"
-      },
-      {
-        "id": "S1_18",
-        "type": "S1",
-        "axe": "F",
-        "file": "11"
-      },
-      {
-        "id": "S1_19",
-        "type": "S1",
-        "axe": "F",
-        "file": "10"
-      },
-      {
-        "id": "S1_20",
-        "type": "S1",
-        "axe": "F",
-        "file": "9"
-      },
-      {
-        "id": "S1_21",
-        "type": "S1",
-        "axe": "L",
-        "file": "7"
-      },
-      {
-        "id": "S1_22",
-        "type": "S1",
-        "axe": "T",
-        "file": "7"
-      },
-      {
-        "id": "S1_23",
-        "type": "S1",
-        "axe": "P",
-        "file": "8"
-      },
-      {
-        "id": "S1_24",
-        "type": "S1",
-        "axe": "B",
-        "file": "16"
-      },
-      {
-        "id": "S1_25",
-        "type": "S1",
-        "axe": "B",
-        "file": "18"
-      },
-      {
-        "id": "S1_26",
-        "type": "S1",
-        "axe": "S",
-        "file": "4"
       },
       {
         "id": "S3_1",
         "type": "S3",
-        "axe": "D",
-        "file": "4"
-      },
-      {
-        "id": "S1_27",
-        "type": "S1",
-        "axe": "D",
-        "file": "3"
-      },
-      {
-        "id": "S1_28",
-        "type": "S1",
-        "axe": "G",
-        "file": "3"
-      },
-      {
-        "id": "S2_3",
-        "type": "S2",
-        "axe": "G",
-        "file": "2"
+        "axe": "A",
+        "file": "8"
       },
       {
         "id": "S3_2",
         "type": "S3",
         "axe": "G",
-        "file": "4"
-      },
-      {
-        "id": "S1_29",
-        "type": "S1",
-        "axe": "C",
-        "file": "4"
-      },
-      {
-        "id": "S1_30",
-        "type": "S1",
-        "axe": "E",
-        "file": "4"
-      },
-      {
-        "id": "S1_31",
-        "type": "S1",
-        "axe": "F",
-        "file": "4"
-      },
-      {
-        "id": "S1_32",
-        "type": "S1",
-        "axe": "H",
-        "file": "4"
-      },
-      {
-        "id": "S1_33",
-        "type": "S1",
-        "axe": "I",
-        "file": "4"
-      },
-      {
-        "id": "S2_4",
-        "type": "S2",
-        "axe": "D",
-        "file": "2"
-      },
-      {
-        "id": "S1_34",
-        "type": "S1",
-        "axe": "E",
-        "file": "6"
+        "file": "8"
       },
       {
         "id": "S3_3",
         "type": "S3",
-        "axe": "F",
+        "axe": "G",
         "file": "7"
-      },
-      {
-        "id": "S1_35",
-        "type": "S1",
-        "axe": "E",
-        "file": "4"
-      },
-      {
-        "id": "S1_36",
-        "type": "S1",
-        "axe": "F",
-        "file": "4"
-      },
-      {
-        "id": "S1_37",
-        "type": "S1",
-        "axe": "I",
-        "file": "6"
-      },
-      {
-        "id": "S2_5",
-        "type": "S2",
-        "axe": "H",
-        "file": "3"
-      },
-      {
-        "id": "S1_38",
-        "type": "S1",
-        "axe": "E",
-        "file": "3"
-      },
-      {
-        "id": "S1_39",
-        "type": "S1",
-        "axe": "I",
-        "file": "3"
-      },
-      {
-        "id": "S2_6",
-        "type": "S2",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_40",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_41",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_42",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_43",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_44",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_45",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_46",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_47",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
       },
       {
         "id": "S3_4",
         "type": "S3",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S2_7",
-        "type": "S2",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_48",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_49",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_50",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_51",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_52",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_53",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_54",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
-      },
-      {
-        "id": "S1_55",
-        "type": "S1",
-        "axe": "A",
-        "file": "17"
+        "axe": "G",
+        "file": "6"
       },
       {
         "id": "S3_5",
         "type": "S3",
         "axe": "A",
-        "file": "17"
+        "file": "7"
+      },
+      {
+        "id": "S3_6",
+        "type": "S3",
+        "axe": "A",
+        "file": "6"
+      },
+      {
+        "id": "S4_1",
+        "type": "S4",
+        "axe": "D",
+        "file": "7"
+      },
+      {
+        "id": "S3_7",
+        "type": "S3",
+        "axe": "D",
+        "file": "8"
+      },
+      {
+        "id": "S3_8",
+        "type": "S3",
+        "axe": "B",
+        "file": "8"
+      },
+      {
+        "id": "S1_1",
+        "type": "S1",
+        "axe": "G",
+        "file": "1"
+      },
+      {
+        "id": "S1_2",
+        "type": "S1",
+        "axe": "A",
+        "file": "1"
+      },
+      {
+        "id": "S5_1",
+        "type": "S5",
+        "axe": "F",
+        "file": "5"
+      },
+      {
+        "id": "S5_2",
+        "type": "S5",
+        "axe": "B",
+        "file": "5"
+      },
+      {
+        "id": "S4_2",
+        "type": "S4",
+        "axe": "D",
+        "file": "6"
+      },
+      {
+        "id": "S4_3",
+        "type": "S4",
+        "axe": "F",
+        "file": "6"
+      },
+      {
+        "id": "S4_4",
+        "type": "S4",
+        "axe": "F",
+        "file": "7"
+      },
+      {
+        "id": "S4_5",
+        "type": "S4",
+        "axe": "A",
+        "file": "2"
+      },
+      {
+        "id": "S4_6",
+        "type": "S4",
+        "axe": "A",
+        "file": "4"
+      },
+      {
+        "id": "S4_7",
+        "type": "S4",
+        "axe": "G",
+        "file": "2"
+      },
+      {
+        "id": "S4_8",
+        "type": "S4",
+        "axe": "G",
+        "file": "3"
+      },
+      {
+        "id": "S4_9",
+        "type": "S4",
+        "axe": "B",
+        "file": "1"
+      },
+      {
+        "id": "S5_3",
+        "type": "S5",
+        "axe": "G",
+        "file": "5"
       }
     ],
-    "poteaux": [],
+    "poteaux": [
+      {
+        "id": "P1",
+        "type": "P1",
+        "axe": "",
+        "file": "",
+        "hauteur": 3.0
+      },
+      {
+        "id": "P2",
+        "type": "P2",
+        "axe": "",
+        "file": "",
+        "hauteur": 3.0
+      },
+      {
+        "id": "P3",
+        "type": "P3",
+        "axe": "",
+        "file": "",
+        "hauteur": 3.0
+      },
+      {
+        "id": "P4",
+        "type": "P4",
+        "axe": "",
+        "file": "",
+        "hauteur": 3.0
+      }
+    ],
     "poutres": [
       {
-        "id": "CH",
-        "type": "CH",
+        "id": "BN1",
+        "type": "BN1",
         "axe": "",
         "portee": null
       },
       {
-        "id": "PC",
-        "type": "PC",
+        "id": "BN2",
+        "type": "BN2",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N1",
+        "type": "N1",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N2",
+        "type": "N2",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N3",
+        "type": "N3",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N4",
+        "type": "N4",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N5",
+        "type": "N5",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N6",
+        "type": "N6",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "N7",
+        "type": "N7",
         "axe": "",
         "portee": null
       }
@@ -507,102 +613,47 @@
   },
   "_meta": {
     "moteur": "extraction vectorielle locale (PyMuPDF find_tables + spatial)",
-    "total_pages_scanned": 70,
+    "total_pages_scanned": 6,
     "pages_tableau": [
-      10,
-      11,
-      12,
-      14,
-      17,
-      18,
-      24,
-      25,
-      26,
-      28,
-      29,
-      31,
-      32,
-      33,
-      39,
-      40,
-      43,
-      44,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      57,
-      59,
-      60,
-      61,
-      63,
-      64,
-      65,
-      67,
-      68,
-      69
+      4
     ],
     "pages_plan": [
-      7,
-      15,
-      21,
-      29,
-      36,
-      46
+      1
     ],
     "pages_ocr": [],
     "pages_ignorees": 0,
-    "nb_mots_lus": 12629,
-    "massifs_detectes": 0,
+    "nb_mots_lus": 396,
+    "massifs_detectes": 3,
     "semelles_pages": {
       "S1": [
-        14,
-        17,
-        28,
-        31,
-        40,
-        43,
-        52,
-        53,
-        63,
-        65,
-        67,
-        68
+        4
       ],
       "S2": [
-        14,
-        17,
-        28,
-        31,
-        40,
-        43,
-        52,
-        53,
-        67,
-        68
+        4
       ],
       "S3": [
-        40,
-        43,
-        52,
-        53,
-        67,
-        68
+        4
+      ],
+      "S4": [
+        4
       ]
     },
     "ferra_annotations": [],
     "liens_semelle_poteau": [],
     "avertissements": [
-      "S1: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 0.90x0.90x0.25 m conservées pour les volumes.",
-      "S2: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 0.90x1.90x0.25 m conservées pour les volumes.",
-      "S3: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 1.00x1.00x0.25 m conservées pour les volumes.",
-      "Semelle filante SF 0.45x0.20 (pages [14, 28]) — longueur non cotée, à métrer manuellement.",
-      "Semelle filante SF 0.50x0.20 (pages [40, 52]) — longueur non cotée, à métrer manuellement.",
-      "Semelle filante SF 0.30x5.00 (pages [67]) — longueur non cotée, à métrer manuellement."
+      "S5: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 1.50x1.50x0.40 m conservées pour les volumes."
     ],
     "hypotheses": [
+      "N2: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "BN1: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "BN2: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N3: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N1: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N6: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N7: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N4: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "N5: espacement cadres lu 'e=(10x9' interprete comme 10 cm — a confirmer.",
+      "Hauteur des poteaux non cotee sur le plan — hypothese 3.00 m (a ajuster selon l'etage).",
       "Portees des poutres non cotees sur le plan — a renseigner manuellement dans le metre."
     ]
   }

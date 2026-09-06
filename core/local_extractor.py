@@ -130,6 +130,20 @@ def _cm_triplet_to_m(values):
     return [v / 100.0 if v >= 15 else float(v) for v in values]
 
 
+def _dedupe_bars(bars):
+    """Supprime les groupes (nb, phi) STRICTEMENT identiques en conservant
+    l'ordre : une cellule find_tables fusionne souvent deux details
+    identiques (ex. RDC + mezzanine '6HA14...6HA14'), tandis que des
+    groupes distincts ('4T12+4T10') sont tous conserves."""
+    vus, uniques = set(), []
+    for b in bars:
+        cle = (b.get("nb"), b.get("phi"))
+        if cle not in vus:
+            vus.add(cle)
+            uniques.append(b)
+    return uniques
+
+
 # ============================================================================
 # Extracteur vectoriel multi-pages
 # ============================================================================
@@ -554,9 +568,10 @@ class VectorPlanExtractor:
             spec["b"] = _dim_cm_to_m(int(md.group(2)))
             spec["section_str"] = f"{md.group(1)}x{md.group(2)}"
         # Barres longitudinales : 6HA14 / 8T12 / 4T12+4T10 (groupes)
-        bars = [{"nb": int(m.group(1)), "phi": int(m.group(2))}
-                for m in re.finditer(
-                    r"(\d+)\s*(?:HA|T)\s*(\d+)", cell, re.I)]
+        bars = _dedupe_bars(
+            [{"nb": int(m.group(1)), "phi": int(m.group(2))}
+             for m in re.finditer(
+                 r"(\d+)\s*(?:HA|T)\s*(\d+)", cell, re.I)])
         if bars:
             spec["aciers_longitudinaux"] = bars
             spec["long_bars"] = bars  # compat aval (metre, rapport)
@@ -767,9 +782,10 @@ class VectorPlanExtractor:
                 spec = {"a": a, "b": b,
                         "section_str": f"{m.group(2)}x{m.group(3)}"}
                 tail = m.group(4) or ""
-                bars = [{"nb": int(g.group(1)), "phi": int(g.group(2))}
-                        for g in re.finditer(
-                            r"(\d+)\s*(?:HA|T)\s*(\d+)", tail, re.I)]
+                bars = _dedupe_bars(
+                    [{"nb": int(g.group(1)), "phi": int(g.group(2))}
+                     for g in re.finditer(
+                         r"(\d+)\s*(?:HA|T)\s*(\d+)", tail, re.I)])
                 if bars:
                     spec["aciers_longitudinaux"] = bars
                     spec["long_bars"] = bars  # compat aval
@@ -981,9 +997,10 @@ class VectorPlanExtractor:
                     spec["b"] = _dim_cm_to_m(int(m.group(2)))
                     spec["section_str"] = f"{m.group(1)}x{m.group(2)}"
                 # Groupes d'armatures : 8T12 / 4T12+4T10 / 6HA14
-                bars = [{"nb": int(g.group(1)), "phi": int(g.group(2))}
-                        for g in re.finditer(
-                            r"(\d+)\s*(?:HA|T)\s*(\d+)", w["text"], re.I)]
+                bars = _dedupe_bars(
+                    [{"nb": int(g.group(1)), "phi": int(g.group(2))}
+                     for g in re.finditer(
+                         r"(\d+)\s*(?:HA|T)\s*(\d+)", w["text"], re.I)])
                 if bars and "long_bars" not in spec:
                     spec["aciers_longitudinaux"] = bars
                     spec["long_bars"] = bars  # compat aval
