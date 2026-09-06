@@ -1,386 +1,392 @@
-// === Métré BA Agent — Professional HMI Logic ===
+// === Métré BA Agent — App Logic ===
+const API = window.api ? null : 'http://127.0.0.1:8765';
+let installed = {};
+let addonsConfig = { required: {}, optional: {} };
+let appUrl = null;
 
-const API = 'http://127.0.0.1:8765';
-let selectedPlan = null;
-let selectedRef = null;
-let currentJobId = null;
-let pollInterval = null;
+// ─── Navigation ───
+function navigateTo(page) {
+  document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const navItem = document.querySelector(`[data-page="${page}"]`);
+  const pageEl = document.getElementById('page-' + page);
+  if (navItem) navItem.classList.add('active');
+  if (pageEl) pageEl.classList.add('active');
+}
 
-// === Navigation ===
 document.querySelectorAll('.nav-menu li').forEach(li => {
-  li.addEventListener('click', () => {
-    document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    li.classList.add('active');
-    document.getElementById(`page-${li.dataset.page}`).classList.add('active');
-    if (li.dataset.page === 'repos') renderRepos();
-    if (li.dataset.page === 'dashboard') renderDashboard();
-  });
+  li.addEventListener('click', () => navigateTo(li.dataset.page));
 });
 
-// === Backend Status ===
-async function checkBackend() {
+// ─── Init ───
+async function init() {
+  // Get app URL from main process or use default
   try {
-    const r = await fetch(`${API}/health`);
-    const dot = document.querySelector('.status-dot');
-    const txt = document.querySelector('.status-indicator span');
-    if (r.ok) {
-      dot.className = 'status-dot online';
-      txt.textContent = 'Backend: connecté';
+    if (window.api && window.api.getAppUrl) {
+      appUrl = await window.api.getAppUrl();
     }
-  } catch {
-    setTimeout(checkBackend, 2000);
-  }
-}
-checkBackend();
+  } catch {}
 
-// === Dashboard ===
-function renderDashboard() {
-  const modules = [
-    { icon: 'fa-building', color: 'var(--accent-blue)', title: 'Ferraillage BAEL 91', desc: 'Calcul armatures poteaux, poutres, semelles selon BAEL 91', status: 'active' },
-    { icon: 'fa-ruler-combined', color: 'var(--accent-green)', title: 'Eurocode 2', desc: 'Calcul sections acier, enrobage, classe structurale', status: 'active' },
-    { icon: 'fa-eye', color: 'var(--accent-purple)', title: 'Vision IA Claude', desc: 'Extraction automatique poteaux, CH/LG, poutres', status: 'config' },
-    { icon: 'fa-brain', color: 'var(--accent-cyan)', title: 'GLM-OCR', desc: 'OCR local open-source pour plans scannés', status: 'config' },
-    { icon: 'fa-file-excel', color: 'var(--accent-green)', title: 'Métré Excel', desc: '3 feuilles: fondation, armatures, comparaison', status: 'active' },
-    { icon: 'fa-file-pdf', color: 'var(--accent-red)', title: 'Rapport PDF', desc: 'Synthèse, insights, écarts documentés', status: 'active' },
-    { icon: 'fa-file-alt', color: 'var(--accent-orange)', title: 'Rapport LaTeX', desc: 'Calculs BAEL/EC2 détaillés avec formules', status: 'config' },
-    { icon: 'fa-chart-line', color: 'var(--accent-cyan)', title: 'Optimisation', desc: 'Barres 12m, chutes, regroupements', status: 'active' },
-  ];
+  const baseUrl = appUrl || API;
+
+  // Fetch addons status
+  let retries = 0;
+  while (retries < 5) {
+    try {
+      const r = await fetch(`${baseUrl}/addons`, { cache: 'no-store' });
+      if (r.ok) {
+        const data = await r.json();
+        installed = data.installed || {};
+        addonsConfig = data.config || {};
+        break;
+      }
+    } catch (e) {}
+    retries++;
+    if (retries < 5) await new Promise(r => setTimeout(r, 1000));
+  }
+
+  updateDashboard();
+  renderModules();
+  renderAddons();
+  renderSettings();
+  renderRepos();
+  setupUpload();
+}
+
+// ─── Dashboard ───
+function updateDashboard() {
+  const coreOk = installed.core !== false;
+  const apiOk = installed.api !== false;
+  const visionOk = installed.vision === true;
+  const ocrOk = installed.ocr === true;
+
+  document.getElementById('statAI').textContent = visionOk ? 'Actif' : '—';
+  document.getElementById('statAI').style.color = visionOk ? 'var(--green)' : 'var(--text3)';
+
+  const addonCount = Object.values(installed).filter(v => v).length;
+  document.getElementById('statAddons').textContent = addonCount;
+}
+
+// ─── Modules ───
+function renderModules() {
   const grid = document.getElementById('modulesGrid');
+  if (!grid) return;
+
+  const modules = [
+    { icon: 'fa-ruler-combined', color: '#58a6ff', title: 'Métrique BA', desc: 'Extraction automatique des quantités de ferraillage', status: installed.core ? 'active' : 'config' },
+    { icon: 'fa-eye', color: '#bc8cff', title: 'Vision IA', desc: 'Reconnaissance automatique des éléments sur plans', status: installed.vision ? 'active' : 'config' },
+    { icon: 'fa-brain', color: '#39d2c0', title: 'GLM-OCR', desc: 'OCR local pour textes et annotations', status: installed.ocr ? 'active' : 'config' },
+    { icon: 'fa-list-ol', color: '#d29922', title: 'BOQ / DPGF', desc: 'Gestion des devis quantitatifs détaillés', status: 'config' },
+    { icon: 'fa-file-excel', color: '#3fb950', title: 'Rapports Excel', desc: 'Génération de métrés au format standard', status: installed.core ? 'active' : 'config' },
+    { icon: 'fa-file-pdf', color: '#f85149', title: 'Rapports PDF', desc: 'Rapports détaillés avec formules BAEL', status: installed.core ? 'active' : 'config' },
+  ];
+
   grid.innerHTML = modules.map(m => `
-    <div class="module-card">
+    <div class="module-card" onclick="navigateTo('metre')">
+      <span class="module-badge ${m.status}">${m.status === 'active' ? 'Actif' : 'Disponible'}</span>
       <div class="module-icon" style="background:${m.color}"><i class="fas ${m.icon}"></i></div>
       <h4>${m.title}</h4>
       <p>${m.desc}</p>
-      <span class="module-status ${m.status}">${m.status === 'active' ? 'Actif' : 'Config'}</span>
     </div>
   `).join('');
 }
 
-// === File Upload ===
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
+// ─── Addons ───
+function renderAddons() {
+  const reqDiv = document.getElementById('addonsRequired');
+  const optDiv = document.getElementById('addonsOptional');
+  if (!reqDiv || !optDiv) return;
 
-dropZone?.addEventListener('click', () => fileInput.click());
-dropZone?.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone?.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  if (e.dataTransfer.files.length) handlePlanFile(e.dataTransfer.files[0]);
-});
-fileInput?.addEventListener('change', () => { if (fileInput.files.length) handlePlanFile(fileInput.files[0]); });
+  const req = addonsConfig.required || {};
+  const opt = addonsConfig.optional || {};
 
-function handlePlanFile(file) {
-  selectedPlan = file;
-  document.getElementById('filesPreview').style.display = 'flex';
-  document.getElementById('planCard').style.display = 'flex';
-  document.getElementById('planFileName').textContent = file.name;
-  document.getElementById('planFileSize').textContent = formatSize(file.size);
-  document.getElementById('btnRun').disabled = false;
+  reqDiv.innerHTML = Object.entries(req).map(([id, a]) => {
+    const isInstalled = installed[id];
+    const size = a.size_mb > 1000 ? `${(a.size_mb/1000).toFixed(1)} GB` : `${a.size_mb} MB`;
+    return `
+      <div class="addon-card ${isInstalled ? 'installed' : ''}">
+        <div class="addon-icon" style="background:var(--blue)"><i class="fas fa-cube"></i></div>
+        <div class="addon-info">
+          <strong>${a.name}</strong>
+          <span>${a.desc}</span>
+          <span class="addon-size">~${size}</span>
+        </div>
+        <span class="badge ${isInstalled ? 'badge-green' : 'badge-red'}">${isInstalled ? 'Installé' : 'Manquant'}</span>
+      </div>
+    `;
+  }).join('');
+
+  optDiv.innerHTML = Object.entries(opt).map(([id, a]) => {
+    const isInstalled = installed[id];
+    const size = a.size_mb > 1000 ? `${(a.size_mb/1000).toFixed(1)} GB` : `${a.size_mb} MB`;
+    return `
+      <div class="addon-card ${isInstalled ? 'installed' : ''}">
+        <div class="addon-icon" style="background:var(--purple)"><i class="fas fa-puzzle-piece"></i></div>
+        <div class="addon-info">
+          <strong>${a.name}</strong>
+          <span>${a.desc}</span>
+          <span class="addon-size">~${size}</span>
+        </div>
+        <span class="badge ${isInstalled ? 'badge-green' : 'badge-orange'}">${isInstalled ? 'Installé' : 'Optionnel'}</span>
+      </div>
+    `;
+  }).join('');
 }
 
-function formatSize(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+// ─── Settings ───
+function renderSettings() {
+  const urlEl = document.getElementById('settingUrl');
+  if (urlEl) urlEl.textContent = appUrl || API;
+
+  const statusEl = document.getElementById('settingStatus');
+  if (statusEl) {
+    statusEl.textContent = 'Connecté';
+    statusEl.className = 'badge badge-green';
+  }
+
+  const torchEl = document.getElementById('settingTorch');
+  if (torchEl) {
+    torchEl.textContent = installed.vision ? 'Installé' : 'Non installé';
+    torchEl.className = `badge ${installed.vision ? 'badge-green' : 'badge-red'}`;
+  }
+
+  const ocrEl = document.getElementById('settingOCR');
+  if (ocrEl) {
+    ocrEl.textContent = installed.ocr ? 'Installé' : 'Non installé';
+    ocrEl.className = `badge ${installed.ocr ? 'badge-green' : 'badge-red'}`;
+  }
+
+  const transformersEl = document.getElementById('settingTransformers');
+  if (transformersEl) {
+    transformersEl.textContent = installed.vision ? 'Installé' : 'Non installé';
+    transformersEl.className = `badge ${installed.vision ? 'badge-green' : 'badge-red'}`;
+  }
 }
 
-document.getElementById('removePlan')?.addEventListener('click', () => {
-  selectedPlan = null;
-  document.getElementById('planCard').style.display = 'none';
-  if (!selectedRef) document.getElementById('filesPreview').style.display = 'none';
-  document.getElementById('btnRun').disabled = true;
-});
+// ─── Repos ───
+function renderRepos() {
+  const grid = document.getElementById('reposGrid');
+  if (!grid) return;
 
-document.getElementById('btnSelectRef')?.addEventListener('click', async () => {
-  // Simulated file selection for reference
-  selectedRef = { name: 'reference.xlsx', size: 65407 };
-  document.getElementById('filesPreview').style.display = 'flex';
-  document.getElementById('refCard').style.display = 'flex';
-  document.getElementById('refFileName').textContent = 'metre_MZINDA.xlsx';
-});
+  const repos = [
+    { name: 'BAEL 91 Poutres', desc: 'Calcul de section et d\'acier pour poutres BAEL', color: '#58a6ff' },
+    { name: 'BAEL 91 Dalles', desc: 'Calcul de dalles en béton armé', color: '#3fb950' },
+    { name: 'BAEL 91 Murs', desc: 'Calcul porteurs et non porteurs', color: '#d29922' },
+    { name: 'BAEL 91 Colonnes', desc: 'Calcul de colonnes en compression', color: '#f85149' },
+    { name: 'RebarDSC', desc: 'Reconnaissance de ferraillage par IA', color: '#bc8cff' },
+    { name: 'GLM-OCR', desc: 'OCR open-source pour plans techniques', color: '#39d2c0' },
+    { name: 'OpenConstructionERP', desc: 'ERP de construction open-source', color: '#58a6ff' },
+    { name: 'pyBABA', desc: 'Reconnaissance de barres d\'acier', color: '#d29922' },
+  ];
 
-document.getElementById('removeRef')?.addEventListener('click', () => {
-  selectedRef = null;
-  document.getElementById('refCard').style.display = 'none';
-  if (!selectedPlan) document.getElementById('filesPreview').style.display = 'none';
-});
+  grid.innerHTML = repos.map(r => `
+    <div class="repo-card">
+      <h4><i class="fas fa-code-branch" style="color:${r.color}"></i> ${r.name}</h4>
+      <p>${r.desc}</p>
+    </div>
+  `).join('');
+}
 
-// === Options ===
-document.getElementById('optVision')?.addEventListener('change', (e) => {
-  document.getElementById('apiKeySection').style.display = e.target.checked ? 'block' : 'none';
-});
+// ─── Upload ───
+function setupUpload() {
+  const zone = document.getElementById('uploadZone');
+  const btn = document.getElementById('btnSelectPdf');
+  const genBtn = document.getElementById('btnGenerate');
 
-// === Run Pipeline ===
-document.getElementById('btnRun')?.addEventListener('click', async () => {
-  if (!selectedPlan) return;
+  if (!zone || !btn) return;
 
-  // Switch to results page
-  document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelector('[data-page="results"]').classList.add('active');
-  document.getElementById('page-results').classList.add('active');
+  // Drag & drop
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) handleFile(files[0]);
+  });
 
-  document.getElementById('progressContainer').style.display = 'block';
-  document.getElementById('resultsContainer').style.display = 'none';
+  // Click to select
+  btn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (window.api && window.api.selectPdf) {
+      const filePath = await window.api.selectPdf();
+      if (filePath) handleFile({ path: filePath, name: filePath.split(/[\\/]/).pop() });
+    } else {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf,.png,.jpg,.jpeg';
+      input.onchange = (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); };
+      input.click();
+    }
+  });
 
-  const formData = new FormData();
-  formData.append('pdf', selectedPlan);
+  zone.addEventListener('click', () => btn.click());
+
+  // Generate button click handler
+  if (genBtn) {
+    genBtn.addEventListener('click', () => startGeneration());
+  }
+}
+
+function handleFile(file) {
+  const zone = document.getElementById('uploadZone');
+  const genBtn = document.getElementById('btnGenerate');
+
+  // Show selected file
+  const existing = zone.querySelector('.selected-file');
+  if (existing) existing.remove();
+
+  const div = document.createElement('div');
+  div.className = 'selected-file';
+  div.innerHTML = `<i class="fas fa-check-circle"></i> <strong>${file.name}</strong>`;
+  zone.appendChild(div);
+
+  // Enable generate button
+  if (genBtn) genBtn.disabled = false;
+
+  // Store file path
+  zone.dataset.filePath = file.path || '';
+}
+
+// ─── Pipeline ───
+async function startGeneration() {
+  const zone = document.getElementById('uploadZone');
+  const genBtn = document.getElementById('btnGenerate');
+  const panel = document.getElementById('processingPanel');
+  const steps = document.getElementById('processingSteps');
+  const bar = document.getElementById('progressBar');
+  
+  if (!zone.dataset.filePath) {
+    alert('Veuillez sélectionner un fichier PDF');
+    return;
+  }
+
+  // Disable button, show processing
+  genBtn.disabled = true;
+  genBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+  panel.style.display = 'block';
+  steps.innerHTML = '';
+  bar.style.width = '0%';
+
+  const baseUrl = appUrl || API;
+  const useApi = window.api && window.api.uploadPdf;
 
   try {
-    const r = await fetch(`${API}/pipeline`, { method: 'POST', body: formData });
-    const data = await r.json();
-    currentJobId = data.job_id;
-    pollStatus();
-  } catch (err) {
-    document.getElementById('progressLabel').textContent = `Erreur: ${err.message}`;
-  }
-});
-
-function pollStatus() {
-  if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(async () => {
-    try {
-      const r = await fetch(`${API}/status/${currentJobId}`);
-      const data = await r.json();
-
-      document.getElementById('progressLabel').textContent = data.progress || '...';
-      const pct = data.status === 'done' ? 100 : data.status === 'running' ? 60 : 20;
-      document.getElementById('progressPercent').textContent = pct + '%';
-      document.getElementById('progressFill').style.width = pct + '%';
-
-      // Update progress steps
-      document.querySelectorAll('.progress-step').forEach(s => s.classList.remove('active', 'done'));
-
-      if (data.status === 'done') {
-        clearInterval(pollInterval);
-        showResults(data);
-      }
-    } catch { /* retry */ }
-  }, 1500);
-}
-
-function showResults(data) {
-  document.getElementById('progressContainer').style.display = 'none';
-  document.getElementById('resultsContainer').style.display = 'block';
-
-  if (data.summary) {
-    const grid = document.getElementById('summaryGrid');
-    grid.innerHTML = '';
-    const vols = data.summary.vols || {};
-    for (const [k, v] of Object.entries(vols)) {
-      grid.innerHTML += `<div class="summary-item"><span>${k}</span><strong>${typeof v === 'number' ? v.toFixed(1) : v}</strong></div>`;
-    }
-  }
-}
-
-// === Repos Page ===
-function renderRepos() {
-  const repos = {
-    ferraillage: [
-      { icon: 'fa-building', color: 'var(--accent-blue)', name: 'Armatures-Poteau-rectangulaire-BAEL', desc: 'Calcul ferraillage poteaux BAEL 91 — barres longues, cadres, épingles', status: 'active' },
-      { icon: 'fa-ruler-combined', color: 'var(--accent-green)', name: 'calcul-section-acier-poutre-automatique-eurocode2', desc: 'Calcul sections acier poutres EC2', status: 'active' },
-      { icon: 'fa-calculator', color: 'var(--accent-orange)', name: 'calcul-automatique-sections-acier-linteau-beton-arme', desc: 'Sections acier linteaux BA', status: 'active' },
-      { icon: 'fa-circle-notch', color: 'var(--accent-cyan)', name: 'concrete-beam-diameters-quantities-reinforcement-Eurocode2', desc: 'Diamètres et quantités poutres EC2', status: 'active' },
-      { icon: 'fa-shield-alt', color: 'var(--accent-purple)', name: 'Eurocode2-Concrete-Cover-Calc', desc: 'Calcul enrobage béton EC2', status: 'active' },
-      { icon: 'fa-layer-group', color: 'var(--accent-red)', name: 'eurocode2-concrete-structural-class-calculator', desc: 'Classe structurale béton EC2', status: 'active' },
-    ],
-    vision: [
-      { icon: 'fa-eye', color: 'var(--accent-purple)', name: 'GLM-OCR (zai-org)', desc: 'OCR open-source 0.9B — mode information extraction JSON strict', status: 'active' },
-      { icon: 'fa-camera', color: 'var(--accent-cyan)', name: 'ConRebSeg (DTU-PAS)', desc: 'Segmentation ferraillage — datasets et modèles', status: 'config' },
-      { icon: 'fa-database', color: 'var(--accent-orange)', name: 'synthetic-datasets-for-rebar', desc: 'Datasets synthétiques armatures', status: 'config' },
-      { icon: 'fa-search', color: 'var(--accent-green)', name: 'RebarDSC', desc: 'Détection/comptage armatures', status: 'config' },
-    ],
-    takeoff: [
-      { icon: 'fa-file-invoice', color: 'var(--accent-blue)', name: 'opentakeoff (Kentucky-ai)', desc: 'PDF takeoff engine piloté par agent MCP', status: 'active' },
-      { icon: 'fa-cubes', color: 'var(--accent-green)', name: 'OpenConstructionERP', desc: 'BOQ, PDF/CAD/BIM takeoff, AI cost matching', status: 'config' },
-      { icon: 'fa-lightbulb', color: 'var(--accent-orange)', name: 'DDC_Skills (221 skills)', desc: 'BIM, cost estimation, scheduling', status: 'config' },
-      { icon: 'fa-code', color: 'var(--accent-cyan)', name: 'layerwise.ai', desc: 'API pipeline documentaire', status: 'config' },
-    ],
-    erp: [
-      { icon: 'fa-tools', color: 'var(--accent-blue)', name: 'wall-load-bearing-calculation-tool', desc: 'Calcul murs porteurs', status: 'config' },
-      { icon: 'fa-cogs', color: 'var(--accent-purple)', name: 'pypyBABA', desc: 'Modules Python BA (poutres, dalles, bielletirant, RDM)', status: 'active' },
-    ],
-  };
-
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tab = btn.dataset.tab;
-      const list = repos[tab] || [];
-      document.getElementById('reposContent').innerHTML = list.map(r => `
-        <div class="repo-card">
-          <div class="repo-icon" style="background:${r.color}"><i class="fas ${r.icon}"></i></div>
-          <div class="repo-info">
-            <h4>${r.name}</h4>
-            <p>${r.desc}</p>
-          </div>
-          <span class="repo-badge ${r.status}">${r.status === 'active' ? 'Intégré' : 'Référence'}</span>
-        </div>
-      `).join('');
-    });
-  });
-
-  // Trigger first tab
-  document.querySelector('.tab-btn')?.click();
-}
-
-// === Settings ===
-document.getElementById('openOutput')?.addEventListener('click', () => {
-  const { shell } = require('electron');
-  shell.showItemInFolder('output');
-});
-
-// === INSTALLER WIZARD ===
-const COMPONENTS = [
-  { id: "core", name: "Core Python", desc: "pdfplumber, openpyxl, PyMuPDF, reportlab", size: "~50 MB", required: true },
-  { id: "api", name: "Backend API", desc: "FastAPI, uvicorn", size: "~30 MB", required: true },
-  { id: "electron", name: "App Desktop Electron", desc: "Interface professionnelle", size: "~150 MB", required: true },
-  { id: "vision", name: "Vision IA (torch)", desc: "transformers, torch, accelerate", size: "~2 GB", required: false },
-  { id: "ocr", name: "GLM-OCR modèle", desc: "OCR local open-source", size: "~2 GB", required: false },
-  { id: "latex", name: "LaTeX (TeX Live)", desc: "Rapports PDF avec formules", size: "~4 GB", required: false },
-];
-
-let installState = { step: 1, selected: ["core", "api", "electron"] };
-
-function showInstallStep(n) {
-  document.querySelectorAll('.installer-step-content').forEach(s => s.classList.remove('active'));
-  document.getElementById(`install-step-${n}`).classList.add('active');
-  document.querySelectorAll('.step-dot').forEach(d => {
-    const s = parseInt(d.dataset.step);
-    d.classList.remove('active', 'done');
-    if (s === n) d.classList.add('active');
-    if (s < n) d.classList.add('done');
-  });
-  installState.step = n;
-}
-
-function renderInstallComponents() {
-  const container = document.getElementById('installComponents');
-  if (!container) return;
-  container.innerHTML = COMPONENTS.map(c => `
-    <div class="component-item ${c.required ? 'required' : ''}">
-      <label class="toggle">
-        <input type="checkbox" id="comp_${c.id}" ${installState.selected.includes(c.id) ? 'checked' : ''} ${c.required ? 'disabled' : ''}>
-        <span class="toggle-slider"></span>
-      </label>
-      <div class="component-info">
-        <strong>${c.name} ${c.required ? '<span class="required">*</span>' : ''}</strong>
-        <span>${c.desc}</span>
-      </div>
-      <span class="component-size">${c.size}</span>
-    </div>
-  `).join('');
-  // Bind changes
-  COMPONENTS.forEach(c => {
-    const cb = document.getElementById(`comp_${c.id}`);
-    cb?.addEventListener('change', () => {
-      if (cb.checked && !installState.selected.includes(c.id)) installState.selected.push(c.id);
-      else if (!cb.checked) installState.selected = installState.selected.filter(x => x !== c.id);
-      updateInstallSummary();
-    });
-  });
-  updateInstallSummary();
-}
-
-function updateInstallSummary() {
-  let totalMB = 0;
-  COMPONENTS.forEach(c => {
-    if (installState.selected.includes(c.id)) {
-      const mb = parseInt(c.size.replace(/[^0-9]/g, '')) || 0;
-      totalMB += mb;
-    }
-  });
-  const totalStr = totalMB > 1000 ? `~${(totalMB/1000).toFixed(1)} GB` : `~${totalMB} MB`;
-  const el = document.getElementById('totalSize');
-  if (el) el.textContent = totalStr;
-}
-
-// Installer navigation
-document.querySelectorAll('.btn-next').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const next = parseInt(btn.dataset.next);
-    if (next === 3) {
-      // Start installation
-      showInstallStep(3);
-      runInstallation();
+    let jobId;
+    
+    if (useApi) {
+      // Use Electron IPC
+      jobId = await window.api.uploadPdf(zone.dataset.filePath);
     } else {
-      showInstallStep(next);
+      // Use fetch API
+      const formData = new FormData();
+      const response = await fetch(zone.dataset.filePath);
+      const blob = await response.blob();
+      formData.append('pdf', blob, 'plan.pdf');
+      
+      const r = await fetch(`${baseUrl}/pipeline`, { method: 'POST', body: formData });
+      const data = await r.json();
+      jobId = data.job_id;
     }
-  });
-});
 
-document.querySelectorAll('.btn-prev').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const prev = parseInt(btn.dataset.prev);
-    showInstallStep(prev);
-  });
-});
+    if (!jobId) throw new Error('Pas de job ID');
+    
+    addStep(steps, 'Job démarré: ' + jobId, 'success');
+    bar.style.width = '10%';
 
-// Render components when installer page is shown
-document.querySelector('[data-page="installer"]')?.addEventListener('click', () => {
-  renderInstallComponents();
-  showInstallStep(1);
-});
-
-async function runInstallation() {
-  const log = document.getElementById('installLog');
-  const status = document.getElementById('installStatus');
-  const bar = document.getElementById('installProgressBar');
-  
-  function logMsg(msg, type = 'info') {
-    const div = document.createElement('div');
-    div.className = `log-item log-${type}`;
-    div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-    log.appendChild(div);
-    log.scrollTop = log.scrollHeight;
+    // Poll status
+    await pollJobStatus(baseUrl, jobId, steps, bar);
+    
+  } catch (err) {
+    addStep(steps, 'Erreur: ' + err.message, 'error');
+    genBtn.disabled = false;
+    genBtn.innerHTML = '<i class="fas fa-cogs"></i> Générer le Métré';
   }
+}
+
+async function pollJobStatus(baseUrl, jobId, steps, bar) {
+  let done = false;
+  let lastProgress = '';
   
-  const total = installState.selected.length;
-  
-  for (let i = 0; i < installState.selected.length; i++) {
-    const compId = installState.selected[i];
-    const comp = COMPONENTS.find(c => c.id === compId);
-    const pct = Math.round((i / total) * 100);
-    bar.style.width = pct + '%';
-    status.textContent = `Installation de ${comp.name}...`;
-    logMsg(`Démarrage: ${comp.name}`);
+  while (!done) {
+    await new Promise(r => setTimeout(r, 1000));
     
     try {
-      const r = await fetch(`${API}/install/run`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([compId])
-      });
+      const r = await fetch(`${baseUrl}/status/${jobId}`);
       const data = await r.json();
-      if (data.success?.includes(compId)) {
-        logMsg(`${comp.name} installé avec succès`, 'success');
-      } else {
-        logMsg(`${comp.name}: ${data.failed?.[0]?.error || 'erreur'}`, 'error');
+      
+      if (data.progress && data.progress !== lastProgress) {
+        addStep(steps, data.progress, 'running');
+        lastProgress = data.progress;
       }
-    } catch (err) {
-      logMsg(`Erreur réseau: ${err.message}`, 'error');
+      
+      if (data.status === 'done') {
+        bar.style.width = '100%';
+        addStep(steps, 'Terminé ! Fichiers générés.', 'success');
+        
+        // Show download links
+        if (data.outputs) {
+          for (const [name, path] of Object.entries(data.outputs)) {
+            addDownload(steps, name, `${baseUrl}/download/${jobId}/${name}`);
+          }
+        }
+        
+        done = true;
+        const genBtn = document.getElementById('btnGenerate');
+        genBtn.disabled = false;
+        genBtn.innerHTML = '<i class="fas fa-cogs"></i> Générer le Métré';
+        
+      } else if (data.status === 'error') {
+        addStep(steps, 'Erreur: ' + (data.error || 'Inconnue'), 'error');
+        done = true;
+        const genBtn = document.getElementById('btnGenerate');
+        genBtn.disabled = false;
+        genBtn.innerHTML = '<i class="fas fa-cogs"></i> Générer le Métré';
+        
+      } else {
+        // Update progress bar
+        const progress = parseInt(bar.style.width) || 10;
+        if (progress < 90) bar.style.width = (progress + 5) + '%';
+      }
+    } catch (e) {
+      // Retry
     }
   }
-  
-  bar.style.width = '100%';
-  status.textContent = 'Installation terminée !';
-  logMsg('Tous les composants sont installés.', 'success');
-  
-  document.getElementById('btnAfterInstall').disabled = false;
-  document.querySelector('#install-step-3 .btn-prev').disabled = true;
 }
 
-document.getElementById('launchApp')?.addEventListener('click', () => {
-  showInstallStep(4);
-  // Switch to dashboard after delay
-  setTimeout(() => {
-    document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelector('[data-page="dashboard"]').classList.add('active');
-    document.getElementById('page-dashboard').classList.add('active');
-    renderDashboard();
-  }, 1500);
-});
+function addStep(container, text, type) {
+  const div = document.createElement('div');
+  div.className = 'step ' + type;
+  div.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'spinner fa-spin'}"></i> ${text}`;
+  container.appendChild(div);
+}
+
+function addDownload(container, name, url) {
+  const div = document.createElement('div');
+  div.className = 'step success';
+  div.innerHTML = `<a href="${url}" target="_blank" style="color:var(--green)"><i class="fas fa-download"></i> ${name}</a>`;
+  container.appendChild(div);
+}
+
+// ─── Backend status listeners ───
+if (window.api && window.api.onApiReady) {
+  window.api.onApiReady(() => {
+    document.getElementById('statusDot').className = 'status-dot online';
+    document.getElementById('statusText').textContent = 'Backend: connecté';
+  });
+}
+
+if (window.api && window.api.onBackendStopped) {
+  window.api.onBackendStopped(() => {
+    document.getElementById('statusDot').className = 'status-dot offline';
+    document.getElementById('statusText').textContent = 'Backend: déconnecté';
+  });
+}
+
+// ─── IPC listeners from main process ───
+if (window.api && window.api.onAppUrl) {
+  window.api.onAppUrl((url) => { appUrl = url; });
+}
+
+// ─── Start ───
+init();

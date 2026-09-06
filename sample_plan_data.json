@@ -1,0 +1,82 @@
+{
+  "projet": {
+    "nom": "Projet Générique",
+    "date": "2026-09-04"
+  },
+  "catalogue_types": {
+    "semelles": {
+      "S_TYPE_A": {
+        "a": 1.20,
+        "b": 1.20,
+        "h": 0.30,
+        "ferr_x": {"nb": 8, "phi": 12},
+        "ferr_y": {"nb": 8, "phi": 12}
+      },
+      "S_TYPE_B": {
+        "a": 1.50,
+        "b": 1.50,
+        "h": 0.40,
+        "ferr_x": {"nb": 11, "phi": 12},
+        "ferr_y": {"nb": 11, "phi": 12}
+      },
+      "S_TYPE_C": {
+        "a": 1.00,
+        "b": 1.00,
+        "h": 0.25,
+        "ferr_x": {"nb": 6, "phi": 12},
+        "ferr_y": {"nb": 6, "phi": 12}
+      }
+    },
+    "poteaux": {
+      "P_TYPE_1": {
+        "a": 0.25,
+        "b": 0.35,
+        "long_bars": [{"nb": 6, "phi": 14}],
+        "cadres": {"phi": 6, "esp": 0.15}
+      },
+      "P_TYPE_2": {
+        "a": 0.40,
+        "b": 0.40,
+        "long_bars": [{"nb": 8, "phi": 16}],
+        "cadres": {"phi": 8, "esp": 0.15}
+      }
+    },
+    "poutres": {
+      "POUTRE_A": {
+        "b": 0.20,
+        "h": 0.40,
+        "filants_inf": [{"nb": 3, "phi": 14}],
+        "filants_sup": [{"nb": 2, "phi": 12}],
+        "cadres": {"phi": 6, "esp": 0.18}
+      },
+      "POUTRE_B": {
+        "b": 0.30,
+        "h": 0.60,
+        "filants_inf": [{"nb": 4, "phi": 16}],
+        "filants_sup": [{"nb": 3, "phi": 14}],
+        "cadres": {"phi": 8, "esp": 0.15}
+      }
+    }
+  },
+  "implantations": {
+    "semelles": [
+      {"id": "S101", "type": "S_TYPE_A", "axe": "A", "file": "1"},
+      {"id": "S102", "type": "S_TYPE_A", "axe": "A", "file": "3"},
+      {"id": "S103", "type": "S_TYPE_B", "axe": "C", "file": "2"},
+      {"id": "S104", "type": "S_TYPE_B", "axe": "C", "file": "5"},
+      {"id": "S105", "type": "S_TYPE_C", "axe": "E", "file": "1"},
+      {"id": "S106", "type": "S_TYPE_C", "axe": "E", "file": "4"}
+    ],
+    "poteaux": [
+      {"id": "P101", "type": "P_TYPE_1", "axe": "A", "file": "1", "hauteur": 3.00},
+      {"id": "P102", "type": "P_TYPE_1", "axe": "A", "file": "3", "hauteur": 3.00},
+      {"id": "P103", "type": "P_TYPE_2", "axe": "C", "file": "2", "hauteur": 3.50},
+      {"id": "P104", "type": "P_TYPE_2", "axe": "C", "file": "5", "hauteur": 3.50}
+    ],
+    "poutres": [
+      {"id": "PO1", "type": "POUTRE_A", "axe": "A", "portee": 4.50},
+      {"id": "PO2", "type": "POUTRE_A", "axe": "C", "portee": 6.00},
+      {"id": "PO3", "type": "POUTRE_B", "axe": "E", "portee": 5.20}
+    ]
+  }
+}

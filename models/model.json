@@ -1,0 +1,148 @@
+{
+  "version": "2.0",
+  "nb_samples": 78,
+  "type_distribution": {
+    "colonne": 14,
+    "semelle": 17,
+    "fondation_complete": 11,
+    "declared_poutre": 17,
+    "unknown": 6,
+    "poutre": 10,
+    "declared_colonne": 13,
+    "declared_semelle": 10,
+    "declared_mur": 34,
+    "mur": 20
+  },
+  "element_patterns": {
+    "semelles": {
+      "total": 27,
+      "samples": 1
+    },
+    "poutres": {
+      "total": 6,
+      "samples": 1
+    },
+    "colonnes": {
+      "total": 4,
+      "samples": 1
+    },
+    "chainages": {
+      "total": 0,
+      "samples": 0
+    },
+    "longrines": {
+      "total": 0,
+      "samples": 0
+    },
+    "massifs": {
+      "total": 0,
+      "samples": 0
+    }
+  },
+  "rebar_patterns": {
+    "has_rebar": 1,
+    "diameters": {},
+    "classes": {}
+  },
+  "classification_rules": {
+    "semelle": {
+      "required_keywords": [
+        "fondation",
+        "beton",
+        "semelle",
+        "poutre",
+        "colonne",
+        "dalle",
+        "chainage",
+        "longrine",
+        "armature",
+        "massif"
+      ],
+      "optional_keywords": [],
+      "min_score": 3
+    },
+    "poutre": {
+      "required_keywords": [],
+      "optional_keywords": [],
+      "min_score": 3
+    },
+    "colonne": {
+      "required_keywords": [
+        "fondation",
+        "beton"
+      ],
+      "optional_keywords": [],
+      "min_score": 3
+    },
+    "dalle": {
+      "required_keywords": [],
+      "optional_keywords": [],
+      "min_score": 3
+    },
+    "fondation_complete": {
+      "required_keywords": [
+        "fondation",
+        "beton",
+        "chainage"
+      ],
+      "optional_keywords": [],
+      "min_score": 3
+    }
+  },
+  "keyword_weights": {
+    "fondation": {
+      "colonne": 2,
+      "semelle": 3,
+      "fondation_complete": 8
+    },
+    "beton": {
+      "colonne": 1,
+      "semelle": 7,
+      "fondation_complete": 5
+    },
+    "semelle": {
+      "semelle": 29
+    },
+    "poutre": {
+      "semelle": 12
+    },
+    "colonne": {
+      "semelle": 7
+    },
+    "dalle": {
+      "semelle": 1
+    },
+    "chainage": {
+      "semelle": 10,
+      "fondation_complete": 33,
+      "unknown": 6
+    },
+    "longrine": {
+      "semelle": 3,
+      "unknown": 3
+    },
+    "armature": {
+      "semelle": 67
+    },
+    "massif": {
+      "semelle": 3
+    }
+  },
+  "dimension_ranges": {
+    "min": [
+      50.0,
+      50.0,
+      25.0
+    ],
+    "max": [
+      150.0,
+      150.0,
+      50.0
+    ],
+    "avg": [
+      125.5,
+      125.5,
+      38.25
+    ]
+  }
+}

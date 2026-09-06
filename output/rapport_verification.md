@@ -1,6 +1,6 @@
 # Rapport de vérification — métré généré
 
-Plan : reference/PLAN_BA_final.pdf
+Plan : C:\Users\youss\OneDrive\Desktop\Yoyo\metre-ba-agent\output\4055d884\plan.pdf
 Écarts vs référence : 91 | éléments à contrôler : 48
 
 ## Éléments signalés (aucun estimé silencieusement)
@@ -55,8 +55,3 @@ Plan : reference/PLAN_BA_final.pdf
 - [7] rem_forme — référence (déduction forme, non cotée)
 
 ## Vérifications automatiques (extract_plan.py)
-
-- {"type": "comptage_semelles", "etiquettes_texte": 23, "boites_vectorielles": 23, "lectures_vision": 23, "ok": true}
-- {"type": "semelles_mapping", "assignees_auto": 19, "non_assignees": ["S3", "S3", "S3", "S3"], "divergences_texte_vs_lecture": []}
-- {"type": "poteaux", "carres_rouges": 23, "lectures": 23, "ok": true}
-- {"type": "massifs_vectoriels", "boxes_19_23pt": 18, "lectures": 3}

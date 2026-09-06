@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openconstructionerp-bael91-ma"
+version = "1.0.0"
+description = "BAEL 91 Morocco pack — béton armé marocain, génie civil, métré automatique"
+readme = "README.md"
+license = {text = "AGPL-3.0"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Youssef AMARZOU", email = "youssef.amarzou@gmail.com"}
+]
+keywords = ["openconstructionerp", "partner-pack", "bael91", "morocco", "concrete", "rebar"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Construction",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Civil Engineering",
+]
+
+[project.entry-points."openconstructionerp.partner_pack"]
+bael91_ma = "openconstructionerp_bael91_ma:MANIFEST"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+openconstructionerp_bael91_ma = [
+    "manifest.json",
+    "costs.json",
+    "logo.svg",
+    "locales/*.json",
+]

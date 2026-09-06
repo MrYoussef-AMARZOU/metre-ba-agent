@@ -1,1357 +1,609 @@
 {
- "meta": {
-  "pdf": "reference/PLAN_BA_final.pdf",
-  "echelle_pt_par_cm": 41.6918,
-  "grille": {
-   "1": {
-    "x": {
-     "1": 125.44000000000005,
-     "2": 228.64,
-     "3": 384.0400000000001,
-     "4": 531.16,
-     "5": 630.16,
-     "6": 829.12,
-     "7": 940.0,
-     "8": 1131.88
+  "projet": {
+    "nom": "Projet extrait",
+    "date": null
+  },
+  "catalogue_types": {
+    "semelles": {
+      "S1": {
+        "a": 0.9,
+        "b": 0.9,
+        "h": 0.25,
+        "ferr_x": {
+          "nb": 0,
+          "phi": 0
+        },
+        "ferr_y": {
+          "nb": 0,
+          "phi": 0
+        }
+      },
+      "S2": {
+        "a": 0.9,
+        "b": 1.9,
+        "h": 0.25,
+        "ferr_x": {
+          "nb": 0,
+          "phi": 0
+        },
+        "ferr_y": {
+          "nb": 0,
+          "phi": 0
+        }
+      },
+      "S3": {
+        "a": 1.0,
+        "b": 1.0,
+        "h": 0.25,
+        "ferr_x": {
+          "nb": 0,
+          "phi": 0
+        },
+        "ferr_y": {
+          "nb": 0,
+          "phi": 0
+        }
+      }
     },
-    "y": {
-     "A": 229.29803748000006,
-     "B": 388.77803748,
-     "C": 405.45803748000003,
-     "D": 439.89803748,
-     "E": 484.77803748,
-     "F": 491.01803748,
-     "G": 650.49803748
-    }
-   },
-   "2": {
-    "x": {
-     "1": 127.24000000000001,
-     "2": 230.44000000000005,
-     "3": 385.84000000000003,
-     "4": 532.84,
-     "5": 631.96,
-     "6": 830.8,
-     "7": 941.6800000000001,
-     "8": 1133.56
+    "poteaux": {},
+    "poutres": {
+      "CH": {
+        "dimensions_manquantes": true,
+        "b": 0.15,
+        "h": 0.4
+      },
+      "PC": {
+        "dimensions_manquantes": true,
+        "b": 0.25,
+        "h": 0.4
+      }
     },
-    "y": {
-     "A": 203.97803748,
-     "B": 363.45803748000003,
-     "C": 380.13803748,
-     "D": 414.57803748,
-     "E": 459.45803748,
-     "F": 465.69803748,
-     "G": 625.1780374800001
-    }
-   },
-   "3": {
-    "x": {
-     "1": 123.40000000000009,
-     "2": 226.72000000000003,
-     "3": 382.12,
-     "4": 529.12,
-     "5": 628.24,
-     "6": 827.08,
-     "7": 937.96,
-     "8": 1129.84
+    "semelles_filantes": [
+      {
+        "largeur": 0.45,
+        "hauteur": 0.2,
+        "pages": [
+          14,
+          28
+        ]
+      },
+      {
+        "largeur": 0.5,
+        "hauteur": 0.2,
+        "pages": [
+          40,
+          52
+        ]
+      },
+      {
+        "largeur": 0.3,
+        "hauteur": 5.0,
+        "pages": [
+          67
+        ]
+      }
+    ]
+  },
+  "implantations": {
+    "semelles": [
+      {
+        "id": "S1_1",
+        "type": "S1",
+        "axe": "C",
+        "file": "7"
+      },
+      {
+        "id": "S1_2",
+        "type": "S1",
+        "axe": "S",
+        "file": "7"
+      },
+      {
+        "id": "S1_3",
+        "type": "S1",
+        "axe": "F",
+        "file": "7"
+      },
+      {
+        "id": "S1_4",
+        "type": "S1",
+        "axe": "H",
+        "file": "7"
+      },
+      {
+        "id": "S1_5",
+        "type": "S1",
+        "axe": "H",
+        "file": "6"
+      },
+      {
+        "id": "S1_6",
+        "type": "S1",
+        "axe": "F",
+        "file": "6"
+      },
+      {
+        "id": "S1_7",
+        "type": "S1",
+        "axe": "D",
+        "file": "6"
+      },
+      {
+        "id": "S1_8",
+        "type": "S1",
+        "axe": "C",
+        "file": "6"
+      },
+      {
+        "id": "S2_1",
+        "type": "S2",
+        "axe": "D",
+        "file": "4"
+      },
+      {
+        "id": "S1_9",
+        "type": "S1",
+        "axe": "C",
+        "file": "5"
+      },
+      {
+        "id": "S1_10",
+        "type": "S1",
+        "axe": "B",
+        "file": "5"
+      },
+      {
+        "id": "S1_11",
+        "type": "S1",
+        "axe": "F",
+        "file": "4"
+      },
+      {
+        "id": "S1_12",
+        "type": "S1",
+        "axe": "L",
+        "file": "8"
+      },
+      {
+        "id": "S1_13",
+        "type": "S1",
+        "axe": "S",
+        "file": "8"
+      },
+      {
+        "id": "S1_14",
+        "type": "S1",
+        "axe": "F",
+        "file": "17"
+      },
+      {
+        "id": "S1_15",
+        "type": "S1",
+        "axe": "S",
+        "file": "14"
+      },
+      {
+        "id": "S1_16",
+        "type": "S1",
+        "axe": "F",
+        "file": "8"
+      },
+      {
+        "id": "S2_2",
+        "type": "S2",
+        "axe": "F",
+        "file": "14"
+      },
+      {
+        "id": "S1_17",
+        "type": "S1",
+        "axe": "F",
+        "file": "14"
+      },
+      {
+        "id": "S1_18",
+        "type": "S1",
+        "axe": "F",
+        "file": "11"
+      },
+      {
+        "id": "S1_19",
+        "type": "S1",
+        "axe": "F",
+        "file": "10"
+      },
+      {
+        "id": "S1_20",
+        "type": "S1",
+        "axe": "F",
+        "file": "9"
+      },
+      {
+        "id": "S1_21",
+        "type": "S1",
+        "axe": "L",
+        "file": "7"
+      },
+      {
+        "id": "S1_22",
+        "type": "S1",
+        "axe": "T",
+        "file": "7"
+      },
+      {
+        "id": "S1_23",
+        "type": "S1",
+        "axe": "P",
+        "file": "8"
+      },
+      {
+        "id": "S1_24",
+        "type": "S1",
+        "axe": "B",
+        "file": "16"
+      },
+      {
+        "id": "S1_25",
+        "type": "S1",
+        "axe": "B",
+        "file": "18"
+      },
+      {
+        "id": "S1_26",
+        "type": "S1",
+        "axe": "S",
+        "file": "4"
+      },
+      {
+        "id": "S3_1",
+        "type": "S3",
+        "axe": "D",
+        "file": "4"
+      },
+      {
+        "id": "S1_27",
+        "type": "S1",
+        "axe": "D",
+        "file": "3"
+      },
+      {
+        "id": "S1_28",
+        "type": "S1",
+        "axe": "G",
+        "file": "3"
+      },
+      {
+        "id": "S2_3",
+        "type": "S2",
+        "axe": "G",
+        "file": "2"
+      },
+      {
+        "id": "S3_2",
+        "type": "S3",
+        "axe": "G",
+        "file": "4"
+      },
+      {
+        "id": "S1_29",
+        "type": "S1",
+        "axe": "C",
+        "file": "4"
+      },
+      {
+        "id": "S1_30",
+        "type": "S1",
+        "axe": "E",
+        "file": "4"
+      },
+      {
+        "id": "S1_31",
+        "type": "S1",
+        "axe": "F",
+        "file": "4"
+      },
+      {
+        "id": "S1_32",
+        "type": "S1",
+        "axe": "H",
+        "file": "4"
+      },
+      {
+        "id": "S1_33",
+        "type": "S1",
+        "axe": "I",
+        "file": "4"
+      },
+      {
+        "id": "S2_4",
+        "type": "S2",
+        "axe": "D",
+        "file": "2"
+      },
+      {
+        "id": "S1_34",
+        "type": "S1",
+        "axe": "E",
+        "file": "6"
+      },
+      {
+        "id": "S3_3",
+        "type": "S3",
+        "axe": "F",
+        "file": "7"
+      },
+      {
+        "id": "S1_35",
+        "type": "S1",
+        "axe": "E",
+        "file": "4"
+      },
+      {
+        "id": "S1_36",
+        "type": "S1",
+        "axe": "F",
+        "file": "4"
+      },
+      {
+        "id": "S1_37",
+        "type": "S1",
+        "axe": "I",
+        "file": "6"
+      },
+      {
+        "id": "S2_5",
+        "type": "S2",
+        "axe": "H",
+        "file": "3"
+      },
+      {
+        "id": "S1_38",
+        "type": "S1",
+        "axe": "E",
+        "file": "3"
+      },
+      {
+        "id": "S1_39",
+        "type": "S1",
+        "axe": "I",
+        "file": "3"
+      },
+      {
+        "id": "S2_6",
+        "type": "S2",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_40",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_41",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_42",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_43",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_44",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_45",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_46",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_47",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S3_4",
+        "type": "S3",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S2_7",
+        "type": "S2",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_48",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_49",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_50",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_51",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_52",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_53",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_54",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S1_55",
+        "type": "S1",
+        "axe": "A",
+        "file": "17"
+      },
+      {
+        "id": "S3_5",
+        "type": "S3",
+        "axe": "A",
+        "file": "17"
+      }
+    ],
+    "poteaux": [],
+    "poutres": [
+      {
+        "id": "CH",
+        "type": "CH",
+        "axe": "",
+        "portee": null
+      },
+      {
+        "id": "PC",
+        "type": "PC",
+        "axe": "",
+        "portee": null
+      }
+    ]
+  },
+  "_meta": {
+    "moteur": "extraction vectorielle locale (PyMuPDF find_tables + spatial)",
+    "total_pages_scanned": 70,
+    "pages_tableau": [
+      10,
+      11,
+      12,
+      14,
+      17,
+      18,
+      24,
+      25,
+      26,
+      28,
+      29,
+      31,
+      32,
+      33,
+      39,
+      40,
+      43,
+      44,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      57,
+      59,
+      60,
+      61,
+      63,
+      64,
+      65,
+      67,
+      68,
+      69
+    ],
+    "pages_plan": [
+      7,
+      15,
+      21,
+      29,
+      36,
+      46
+    ],
+    "pages_ocr": [],
+    "pages_ignorees": 0,
+    "nb_mots_lus": 12629,
+    "massifs_detectes": 0,
+    "semelles_pages": {
+      "S1": [
+        14,
+        17,
+        28,
+        31,
+        40,
+        43,
+        52,
+        53,
+        63,
+        65,
+        67,
+        68
+      ],
+      "S2": [
+        14,
+        17,
+        28,
+        31,
+        40,
+        43,
+        52,
+        53,
+        67,
+        68
+      ],
+      "S3": [
+        40,
+        43,
+        52,
+        53,
+        67,
+        68
+      ]
     },
-    "y": {
-     "A": 198.69803748000004,
-     "B": 358.29803748,
-     "C": 374.97803748,
-     "D": 409.29803748,
-     "E": 454.17803748,
-     "F": 460.41803748,
-     "G": 620.01803748
-    }
-   }
-  },
-  "vision_api": null,
-  "ocr_glm": null
- },
- "tableau_semelles": [
-  {
-   "repere": "S1",
-   "A": 1.0,
-   "B": 0.25,
-   "H": 0.2,
-   "fx": "6HA12",
-   "fy": "6HA12"
-  },
-  {
-   "repere": "S2",
-   "A": 1.1,
-   "B": 0.25,
-   "H": 0.2,
-   "fx": "7HA12",
-   "fy": "7HA12"
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 0.3,
-   "H": 0.2,
-   "fx": "8HA12",
-   "fy": "8HA12"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 0.4,
-   "H": 0.2,
-   "fx": "11HA12",
-   "fy": "11HA12"
+    "ferra_annotations": [],
+    "liens_semelle_poteau": [],
+    "avertissements": [
+      "S1: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 0.90x0.90x0.25 m conservées pour les volumes.",
+      "S2: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 0.90x1.90x0.25 m conservées pour les volumes.",
+      "S3: Armatures non cotées dans la table (à vérifier sur coupes) — dimensions 1.00x1.00x0.25 m conservées pour les volumes.",
+      "Semelle filante SF 0.45x0.20 (pages [14, 28]) — longueur non cotée, à métrer manuellement.",
+      "Semelle filante SF 0.50x0.20 (pages [40, 52]) — longueur non cotée, à métrer manuellement.",
+      "Semelle filante SF 0.30x5.00 (pages [67]) — longueur non cotée, à métrer manuellement."
+    ],
+    "hypotheses": [
+      "Portees des poutres non cotees sur le plan — a renseigner manuellement dans le metre."
+    ]
   }
- ],
- "catalogue_poutres_pdf": {
-  "N2": "20x40",
-  "N6": "30x90"
- },
- "semelles_auto": [
-  {
-   "repere": "S1",
-   "A": 1.0,
-   "B": 0.25,
-   "H": 0.2,
-   "label_xy": [
-    141,
-    242
-   ],
-   "dist_pt": 20.2,
-   "cotes_source": "tableau p.4 (étiquette sans cotes sur le plan)",
-   "axe": "A",
-   "fill": "1"
-  },
-  {
-   "repere": "S2",
-   "A": 1.1,
-   "B": 1.1,
-   "H": 0.25,
-   "label_xy": [
-    596,
-    281
-   ],
-   "dist_pt": 62.0,
-   "axe": "A",
-   "fill": "5"
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    795,
-    284
-   ],
-   "dist_pt": 64.6,
-   "axe": "A",
-   "fill": "6"
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    905,
-    284
-   ],
-   "dist_pt": 64.7,
-   "axe": "A",
-   "fill": "7"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    192,
-    296
-   ],
-   "dist_pt": 76.3,
-   "axe": "A",
-   "fill": "2"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    495,
-    296
-   ],
-   "dist_pt": 76.4,
-   "axe": "A",
-   "fill": "4"
-  },
-  {
-   "repere": "S5",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    593,
-    347
-   ],
-   "dist_pt": 56.0,
-   "axe": "B",
-   "fill": "5"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    144,
-    400
-   ],
-   "dist_pt": 19.6,
-   "axe": "C",
-   "fill": "1"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    793,
-    448
-   ],
-   "dist_pt": 36.9,
-   "axe": "D",
-   "fill": "6"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    904,
-    448
-   ],
-   "dist_pt": 37.3,
-   "axe": "D",
-   "fill": "7"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    793,
-    527
-   ],
-   "dist_pt": 50.9,
-   "axe": "F",
-   "fill": "6"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    904,
-    527
-   ],
-   "dist_pt": 51.1,
-   "axe": "F",
-   "fill": "7"
-  },
-  {
-   "repere": "S5",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    593,
-    533
-   ],
-   "dist_pt": 56.2,
-   "axe": "F",
-   "fill": "5"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    191,
-    588
-   ],
-   "dist_pt": 73.3,
-   "axe": "G",
-   "fill": "2"
-  },
-  {
-   "repere": "S4",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    342,
-    588
-   ],
-   "dist_pt": 75.4,
-   "axe": "G",
-   "fill": "3"
-  },
-  {
-   "repere": "S5",
-   "A": 1.5,
-   "B": 1.5,
-   "H": 0.4,
-   "label_xy": [
-    590,
-    588
-   ],
-   "dist_pt": 74.4,
-   "axe": "G",
-   "fill": "5"
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    793,
-    601
-   ],
-   "dist_pt": 61.2,
-   "axe": "G",
-   "fill": "6"
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    904,
-    601
-   ],
-   "dist_pt": 61.4,
-   "axe": "G",
-   "fill": "7"
-  },
-  {
-   "repere": "S1",
-   "A": 1.0,
-   "B": 0.25,
-   "H": 0.2,
-   "label_xy": [
-    135,
-    627
-   ],
-   "dist_pt": 25.5,
-   "cotes_source": "tableau p.4 (étiquette sans cotes sur le plan)",
-   "axe": "G",
-   "fill": "1"
-  }
- ],
- "semelles_ambigues": [
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1049,
-    284
-   ],
-   "dist_pt": 99.5,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    375
-   ],
-   "dist_pt": 94.7,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    454
-   ],
-   "dist_pt": 94.6,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    601
-   ],
-   "dist_pt": 105.9,
-   "a_verifier": true
-  }
- ],
- "massifs_auto": 18,
- "readings": {
-  "provenance": "Pages lues : 1 (FONDATION), 2 (Mezzanine), 3 (PH-RDC), 4 (tableau semelles, texte natif), 5 (types poutres, texte natif), 6 (détails).\n",
-  "poteaux": {
-   "A1": "P3",
-   "A2": "P2",
-   "A4": "P2",
-   "A5": "P3",
-   "A6": "P1",
-   "A7": "P1",
-   "A8": "P1",
-   "B5": "P4",
-   "C6": "P1",
-   "C7": "P1",
-   "C8": "P1",
-   "D1": "P2",
-   "E6": "P1",
-   "E7": "P1",
-   "E8": "P1",
-   "F5": "P4",
-   "G1": "P3",
-   "G2": "P2",
-   "G3": "P2",
-   "G5": "P3",
-   "G6": "P1",
-   "G7": "P1",
-   "G8": "P1"
-  },
-  "semelles": {
-   "A1": "S1",
-   "A2": "S4",
-   "A4": "S4",
-   "A5": "S2",
-   "A6": "S3",
-   "A7": "S3",
-   "A8": "S3",
-   "B5": "S5",
-   "C6": "S4",
-   "C7": "S4",
-   "C8": "S3",
-   "D1": "S4",
-   "E6": "S4",
-   "E7": "S4",
-   "E8": "S3",
-   "F5": "S5",
-   "G1": "S1",
-   "G2": "S4",
-   "G3": "S4",
-   "G5": "S5",
-   "G6": "S3",
-   "G7": "S3",
-   "G8": "S3"
-  },
-  "semelles_proprete": [
-   "A1",
-   "A2",
-   "A4",
-   "A5",
-   "A6",
-   "A7",
-   "D1"
-  ],
-  "semelles_gros_beton": [
-   "A8",
-   "B5",
-   "C6",
-   "C7",
-   "C8",
-   "E6",
-   "E7",
-   "E8",
-   "F5",
-   "G1",
-   "G2",
-   "G3",
-   "G5",
-   "G6",
-   "G7",
-   "G8"
-  ],
-  "chainages": [
-   {
-    "axe": "A",
-    "de": "1",
-    "a": "2"
-   },
-   {
-    "axe": "A",
-    "de": "2",
-    "a": "4"
-   },
-   {
-    "axe": "A",
-    "de": "4",
-    "a": "5"
-   },
-   {
-    "axe": "A",
-    "de": "5",
-    "a": "6"
-   },
-   {
-    "axe": "A",
-    "de": "6",
-    "a": "7"
-   },
-   {
-    "axe": "A",
-    "de": "7",
-    "a": "8"
-   },
-   {
-    "axe": "G",
-    "de": "1",
-    "a": "2"
-   },
-   {
-    "axe": "G",
-    "de": "2",
-    "a": "4"
-   },
-   {
-    "axe": "G",
-    "de": "4",
-    "a": "5"
-   },
-   {
-    "axe": "G",
-    "de": "5",
-    "a": "6"
-   },
-   {
-    "axe": "G",
-    "de": "6",
-    "a": "7"
-   },
-   {
-    "axe": "G",
-    "de": "7",
-    "a": "8"
-   },
-   {
-    "axe": "1",
-    "de": "A",
-    "a": "D"
-   },
-   {
-    "axe": "1",
-    "de": "D",
-    "a": "G"
-   },
-   {
-    "axe": "8",
-    "de": "A",
-    "a": "C"
-   },
-   {
-    "axe": "8",
-    "de": "C",
-    "a": "E"
-   },
-   {
-    "axe": "8",
-    "de": "E",
-    "a": "G"
-   }
-  ],
-  "longrines": [
-   {
-    "axe": "C",
-    "de": "5",
-    "a": "6",
-    "nom": "LG"
-   },
-   {
-    "axe": "C",
-    "de": "6",
-    "a": "7",
-    "nom": "LG"
-   },
-   {
-    "axe": "C",
-    "de": "7",
-    "a": "8",
-    "nom": "LG"
-   },
-   {
-    "axe": "D",
-    "de": "1",
-    "a": "2",
-    "nom": "LG2"
-   },
-   {
-    "axe": "D",
-    "de": "2",
-    "a": "3",
-    "nom": "LG2",
-    "long": "=3.7",
-    "note": "axe 3 non coté — longueur référence 3.70 retenue (géométrie: 3.74)"
-   },
-   {
-    "axe": "D",
-    "de": "3",
-    "a": "4",
-    "nom": "LG2",
-    "long": "=3.7",
-    "note": "axe 3 non coté — longueur référence 3.70 retenue (géométrie: 3.51)"
-   },
-   {
-    "axe": "D",
-    "de": "4",
-    "a": "5",
-    "nom": "LG2"
-   },
-   {
-    "axe": "E",
-    "de": "5",
-    "a": "6",
-    "nom": "LG"
-   },
-   {
-    "axe": "E",
-    "de": "6",
-    "a": "7",
-    "nom": "LG"
-   },
-   {
-    "axe": "2",
-    "de": "A",
-    "a": "D",
-    "nom": "LG2"
-   },
-   {
-    "axe": "2",
-    "de": "D",
-    "a": "G",
-    "nom": "LG2",
-    "note": "référence =1.8+0.15+3.82 (5.77) ; plan = 1.08+0.15+3.82 (5.05) — 1.08 coté sur plan"
-   },
-   {
-    "axe": "3",
-    "de": "D",
-    "a": "G",
-    "nom": "LG2"
-   },
-   {
-    "axe": "4",
-    "de": "A",
-    "a": "D",
-    "nom": "LG2"
-   },
-   {
-    "axe": "5",
-    "de": "A",
-    "a": "E",
-    "nom": "LG"
-   },
-   {
-    "axe": "5",
-    "de": "E",
-    "a": "G",
-    "nom": "LG"
-   },
-   {
-    "axe": "6",
-    "de": "A",
-    "a": "E",
-    "nom": "LG"
-   },
-   {
-    "axe": "6",
-    "de": "E",
-    "a": "G",
-    "nom": "LG"
-   },
-   {
-    "axe": "7",
-    "de": "A",
-    "a": "E",
-    "nom": "LG"
-   },
-   {
-    "axe": "7",
-    "de": "E",
-    "a": "G",
-    "nom": "LG"
-   }
-  ],
-  "massifs": 3,
-  "semelles_perdues": 2,
-  "gb_assise_rangée_G": [
-   {
-    "de": "4",
-    "a": "5"
-   },
-   {
-    "de": "5",
-    "a": "6"
-   },
-   {
-    "de": "6",
-    "a": "7"
-   },
-   {
-    "de": "7",
-    "a": "8"
-   }
-  ],
-  "fouilles": [
-   {
-    "axe": "A",
-    "de": "1-6",
-    "long": 25.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "F",
-    "de": "1-6",
-    "long": 25.4,
-    "h_plus": 0.5
-   },
-   {
-    "axe": "A-F",
-    "de": "1",
-    "long": 11.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "A-F",
-    "de": "6",
-    "long": 11.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "2",
-    "long": 2.75,
-    "h_plus": 0.5
-   },
-   {
-    "axe": "C-D",
-    "de": "3",
-    "long": 2.75,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "4",
-    "long": 2.75,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "5",
-    "long": 2.75,
-    "h_plus": 0.0
-   }
-  ],
-  "remblai_adduction": [
-   {
-    "axe": "A",
-    "de": "1-6",
-    "long": 25.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "F",
-    "de": "1-6",
-    "long": 25.4,
-    "h_plus": 0.3
-   },
-   {
-    "axe": "A-F",
-    "de": "1",
-    "long": 11.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "A-F",
-    "de": "6",
-    "long": 11.4,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "2",
-    "long": 2.75,
-    "h_plus": 0.4
-   },
-   {
-    "axe": "C-D",
-    "de": "3",
-    "long": 2.75,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "4",
-    "long": 2.75,
-    "h_plus": 0.0
-   },
-   {
-    "axe": "C-D",
-    "de": "5",
-    "long": 2.75,
-    "h_plus": 0.0
-   }
-  ],
-  "poutres_mezzanine": {
-   "horizontales": [
-    {
-     "axe": "A",
-     "de": "1",
-     "a": "2",
-     "nom": "CH1"
-    },
-    {
-     "axe": "A",
-     "de": "2",
-     "a": "4",
-     "nom": "CH1"
-    },
-    {
-     "axe": "A",
-     "de": "4",
-     "a": "5",
-     "nom": "CH1"
-    },
-    {
-     "axe": "A",
-     "de": "5",
-     "a": "6",
-     "nom": "N2"
-    },
-    {
-     "axe": "A",
-     "de": "6",
-     "a": "7",
-     "nom": "N1"
-    },
-    {
-     "axe": "A",
-     "de": "7",
-     "a": "8",
-     "nom": "N2"
-    },
-    {
-     "axe": "G",
-     "de": "1",
-     "a": "2",
-     "nom": "CH1"
-    },
-    {
-     "axe": "G",
-     "de": "2",
-     "a": "4",
-     "nom": "CH1",
-     "note": "le plan suggère un arrêt au poteau G3 (CH1 2-3 + 3-4) ; total identique — segmentation référence reprise"
-    },
-    {
-     "axe": "G",
-     "de": "5",
-     "a": "6",
-     "nom": "N2"
-    },
-    {
-     "axe": "G",
-     "de": "6",
-     "a": "7",
-     "nom": "N1"
-    },
-    {
-     "axe": "G",
-     "de": "7",
-     "a": "8",
-     "nom": "N2"
-    }
-   ],
-   "verticales": [
-    {
-     "axe": "1",
-     "de": "A",
-     "a": "D",
-     "nom": "CH1"
-    },
-    {
-     "axe": "1",
-     "de": "D",
-     "a": "G",
-     "nom": "CH1"
-    },
-    {
-     "axe": "5",
-     "de": "A",
-     "a": "B",
-     "nom": "N4"
-    },
-    {
-     "axe": "5",
-     "de": "B",
-     "a": "F",
-     "nom": "N3"
-    },
-    {
-     "axe": "5",
-     "de": "F",
-     "a": "G",
-     "nom": "N4",
-     "note": "présent sur le plan, absent du métré de référence"
-    },
-    {
-     "axe": "6",
-     "de": "A",
-     "a": "C",
-     "nom": "N3"
-    },
-    {
-     "axe": "6",
-     "de": "C",
-     "a": "E",
-     "nom": "N1"
-    },
-    {
-     "axe": "6",
-     "de": "E",
-     "a": "G",
-     "nom": "N3"
-    },
-    {
-     "axe": "7",
-     "de": "A",
-     "a": "C",
-     "nom": "N3"
-    },
-    {
-     "axe": "7",
-     "de": "C",
-     "a": "E",
-     "nom": "N1"
-    },
-    {
-     "axe": "7",
-     "de": "E",
-     "a": "G",
-     "nom": "N3"
-    },
-    {
-     "axe": "8",
-     "de": "A",
-     "a": "C",
-     "nom": "N3",
-     "note": "axe 8 absent du métré de référence"
-    },
-    {
-     "axe": "8",
-     "de": "C",
-     "a": "E",
-     "nom": "N1",
-     "note": "axe 8 absent du métré de référence"
-    },
-    {
-     "axe": "8",
-     "de": "E",
-     "a": "G",
-     "nom": "N3",
-     "note": "axe 8 absent du métré de référence"
-    }
-   ],
-   "bn": [
-    {
-     "axe": "C",
-     "de": "5",
-     "a": "6",
-     "nom": "BN2"
-    },
-    {
-     "axe": "C",
-     "de": "6",
-     "a": "7",
-     "nom": "BN2"
-    },
-    {
-     "axe": "C",
-     "de": "7",
-     "a": "8",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "5",
-     "a": "6",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "6",
-     "a": "7",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "7",
-     "a": "8",
-     "nom": "BN2"
-    }
-   ]
-  },
-  "poutres_ph_rdc": {
-   "horizontales": [
-    {
-     "axe": "A",
-     "de": "1",
-     "a": "2",
-     "nom": "N1",
-     "note": "référence : longueur erronée 5.05 au lieu de 2.48"
-    },
-    {
-     "axe": "A",
-     "de": "2",
-     "a": "4",
-     "nom": "N6"
-    },
-    {
-     "axe": "A",
-     "de": "4",
-     "a": "5",
-     "nom": "N1"
-    },
-    {
-     "axe": "A",
-     "de": "5",
-     "a": "6",
-     "nom": "N2"
-    },
-    {
-     "axe": "A",
-     "de": "6",
-     "a": "7",
-     "nom": "N1",
-     "note": "référence : longueur 0.65 au lieu de 2.65"
-    },
-    {
-     "axe": "A",
-     "de": "7",
-     "a": "8",
-     "nom": "N2"
-    },
-    {
-     "axe": "G",
-     "de": "1",
-     "a": "2",
-     "nom": "N1"
-    },
-    {
-     "axe": "G",
-     "de": "2",
-     "a": "3",
-     "nom": "N1",
-     "long": "=7.25/2",
-     "note": "longueur référence 7.25/2 (axe 3 non coté) ; géométrie: 3.74"
-    },
-    {
-     "axe": "G",
-     "de": "3",
-     "a": "5",
-     "nom": "N4",
-     "long": "=7.25/2+2.38",
-     "note": "longueur référence (axe 3 non coté) ; géométrie: 5.89"
-    },
-    {
-     "axe": "G",
-     "de": "5",
-     "a": "6",
-     "nom": "N2"
-    },
-    {
-     "axe": "G",
-     "de": "6",
-     "a": "7",
-     "nom": "N1",
-     "note": "référence : longueur 0.65 au lieu de 2.65"
-    },
-    {
-     "axe": "G",
-     "de": "7",
-     "a": "8",
-     "nom": "N2"
-    }
-   ],
-   "verticales": [
-    {
-     "axe": "1",
-     "de": "A",
-     "a": "D",
-     "nom": "N5",
-     "jumelée": true,
-     "note": "callout '25+5 jumelée' sur le plan ; métré référence compte N=1"
-    },
-    {
-     "axe": "1",
-     "de": "D",
-     "a": "G",
-     "nom": "N5",
-     "jumelée": true,
-     "note": "callout '25+5 jumelée' sur le plan ; métré référence compte N=1"
-    },
-    {
-     "axe": "3",
-     "de": "A",
-     "a": "G",
-     "nom": "N7",
-     "note": "N7 en T 40x90 — décomposition référence : 0.30x0.90 + 0.30x0.80"
-    },
-    {
-     "axe": "5",
-     "de": "A",
-     "a": "B",
-     "nom": "N4"
-    },
-    {
-     "axe": "5",
-     "de": "B",
-     "a": "F",
-     "nom": "N3"
-    },
-    {
-     "axe": "5",
-     "de": "F",
-     "a": "G",
-     "nom": "N4"
-    },
-    {
-     "axe": "6",
-     "de": "A",
-     "a": "C",
-     "nom": "N3",
-     "note": "référence : N4 A-B / N3 B-E / N4 E-G (différent du plan)"
-    },
-    {
-     "axe": "6",
-     "de": "C",
-     "a": "E",
-     "nom": "N1",
-     "note": "référence : N3 B-E"
-    },
-    {
-     "axe": "6",
-     "de": "E",
-     "a": "G",
-     "nom": "N3",
-     "note": "référence : N4 E-G"
-    },
-    {
-     "axe": "7",
-     "de": "A",
-     "a": "C",
-     "nom": "N3",
-     "note": "référence : N4 A-B / N3 B-E / N4 E-G (différent du plan)"
-    },
-    {
-     "axe": "7",
-     "de": "C",
-     "a": "E",
-     "nom": "N1",
-     "note": "référence : N3 B-E"
-    },
-    {
-     "axe": "7",
-     "de": "E",
-     "a": "G",
-     "nom": "N3",
-     "note": "référence : N4 E-G"
-    },
-    {
-     "axe": "8",
-     "de": "A",
-     "a": "C",
-     "nom": "N3",
-     "note": "référence : N4 A-B / N3 B-E / N4 E-G (différent du plan)"
-    },
-    {
-     "axe": "8",
-     "de": "C",
-     "a": "E",
-     "nom": "N1",
-     "note": "référence : N3 B-E"
-    },
-    {
-     "axe": "8",
-     "de": "E",
-     "a": "G",
-     "nom": "N3",
-     "note": "référence : N4 E-G"
-    }
-   ],
-   "bn": [
-    {
-     "axe": "D",
-     "de": "1",
-     "a": "3",
-     "nom": "BN1",
-     "long": "=2.48+7.25/2",
-     "note": "BN1 30x30 sur le plan ; référence comptée en 0.20x0.20"
-    },
-    {
-     "axe": "D",
-     "de": "3",
-     "a": "5",
-     "nom": "BN1",
-     "long": "=7.25/2+2.38",
-     "note": "BN1 30x30 sur le plan ; référence comptée en 0.20x0.20"
-    },
-    {
-     "axe": "C",
-     "de": "5",
-     "a": "6",
-     "nom": "BN2"
-    },
-    {
-     "axe": "C",
-     "de": "6",
-     "a": "7",
-     "nom": "BN2"
-    },
-    {
-     "axe": "C",
-     "de": "7",
-     "a": "8",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "5",
-     "a": "6",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "6",
-     "a": "7",
-     "nom": "BN2"
-    },
-    {
-     "axe": "E",
-     "de": "7",
-     "a": "8",
-     "nom": "BN2"
-    }
-   ]
-  },
-  "forme_beton": {
-   "type13": {
-    "de": "5",
-    "a": "8",
-    "ep": 0.13
-   },
-   "type20": {
-    "de": "1",
-    "a": "5",
-    "ep": 0.2,
-    "extra": 0.07
-   }
-  }
- },
- "checks": [
-  {
-   "type": "comptage_semelles",
-   "etiquettes_texte": 23,
-   "boites_vectorielles": 23,
-   "lectures_vision": 23,
-   "ok": true
-  },
-  {
-   "type": "semelles_mapping",
-   "assignees_auto": 19,
-   "non_assignees": [
-    "S3",
-    "S3",
-    "S3",
-    "S3"
-   ],
-   "divergences_texte_vs_lecture": []
-  },
-  {
-   "type": "poteaux",
-   "carres_rouges": 23,
-   "lectures": 23,
-   "ok": true
-  },
-  {
-   "type": "massifs_vectoriels",
-   "boxes_19_23pt": 18,
-   "lectures": 3
-  }
- ],
- "a_verifier": [
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1049,
-    284
-   ],
-   "dist_pt": 99.5,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    375
-   ],
-   "dist_pt": 94.7,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    454
-   ],
-   "dist_pt": 94.6,
-   "a_verifier": true
-  },
-  {
-   "repere": "S3",
-   "A": 1.2,
-   "B": 1.2,
-   "H": 0.3,
-   "label_xy": [
-    1038,
-    601
-   ],
-   "dist_pt": 105.9,
-   "a_verifier": true
-  }
- ]
 }

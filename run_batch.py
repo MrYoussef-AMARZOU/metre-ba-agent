@@ -43,7 +43,7 @@ def run_example(example_dir, ref_override=None):
     os.makedirs("reference", exist_ok=True)
     shutil.copy2(plan, "reference/PLAN_BA_final.pdf")
     if ref_metre:
-        shutil.copy2(ref_metre, "reference/metre_MZINDA.xlsx")
+        shutil.copy2(ref_metre, "reference/metre_reference.xlsx")
 
     print(f"\n{'='*60}")
     print(f"  EXEMPLE : {os.path.basename(example_dir)}")
@@ -91,7 +91,7 @@ def main():
         os.makedirs("reference", exist_ok=True)
         shutil.copy2(args.pdf, "reference/PLAN_BA_final.pdf")
         if args.ref:
-            shutil.copy2(args.ref, "reference/metre_MZINDA.xlsx")
+            shutil.copy2(args.ref, "reference/metre_reference.xlsx")
         for script in PIPELINE:
             cmd = [sys.executable, script]
             if script == "extract_plan.py":

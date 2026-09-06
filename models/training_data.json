@@ -1,0 +1,3181 @@
+[
+  {
+    "id": "RC_Foundation_V1-F001-2451",
+    "source": "kaggle",
+    "element_type": "colonne",
+    "declared_type": "unknown",
+    "description": "",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 2,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C30",
+        "F001",
+        "V1"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 6994,
+      "nb_rectangles": 32,
+      "nb_points": 59,
+      "nb_lignes": 26
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F010-2409",
+    "source": "kaggle",
+    "element_type": "semelle",
+    "declared_type": "unknown",
+    "description": "",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 2,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C25",
+        "F010",
+        "V1"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 4152,
+      "nb_rectangles": 16,
+      "nb_points": 0,
+      "nb_lignes": 67
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F020-2510",
+    "source": "kaggle",
+    "element_type": "fondation_complete",
+    "declared_type": "unknown",
+    "description": "",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 2,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C25",
+        "V1",
+        "F020"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 1268,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 10
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "001_MZINDA_Youssoufia",
+    "source": "local",
+    "element_type": "semelle",
+    "has_reference": true,
+    "text_features": {
+      "mots_cles": {
+        "semelle": 29,
+        "poutre": 12,
+        "colonne": 7,
+        "dalle": 1,
+        "chainage": 10,
+        "longrine": 3,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 67,
+        "coffrage": 0,
+        "massif": 3
+      },
+      "nb_pages": 6,
+      "nb_dimensions": 59,
+      "nb_labels": 75,
+      "labels_uniques": [
+        "S1",
+        "N7",
+        "N2",
+        "P4",
+        "N5",
+        "HA10",
+        "T6",
+        "S2",
+        "S3",
+        "DP13",
+        "HA12",
+        "N3",
+        "N4",
+        "P3",
+        "S4",
+        "T8",
+        "P2",
+        "S5",
+        "N1",
+        "P1",
+        "HA6",
+        "DP20"
+      ],
+      "has_sections": true,
+      "has_rebar_notation": true
+    },
+    "vector_features": {
+      "nb_drawings": 1837,
+      "nb_rectangles": 41,
+      "nb_points": 23,
+      "nb_lignes": 29
+    },
+    "elements": {
+      "semelles": [
+        "S1",
+        "S2",
+        "S3",
+        "S3",
+        "S3",
+        "S4",
+        "S4",
+        "S5",
+        "S3",
+        "S4",
+        "S4",
+        "S4",
+        "S3",
+        "S4",
+        "S4",
+        "S5",
+        "S4",
+        "S4",
+        "S5",
+        "S3",
+        "S3",
+        "S3",
+        "S1",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "poutres": [
+        "N3",
+        "N4",
+        "N5",
+        "N1",
+        "N2",
+        "N7"
+      ],
+      "colonnes": [
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": true,
+      "diameters": [],
+      "classes": [],
+      "notations": [
+        "6HA12",
+        "4HA16",
+        "3HA14",
+        "8HA12",
+        "4HA10",
+        "4HA12",
+        "2HA10",
+        "11HA12",
+        "4HA14",
+        "7HA12",
+        "6HA10",
+        "2HA12",
+        "2HA16",
+        "12HA12",
+        "6HA14"
+      ]
+    },
+    "dimensions_sample": [
+      [
+        110.0,
+        110.0,
+        25.0
+      ],
+      [
+        120.0,
+        120.0,
+        30.0
+      ],
+      [
+        120.0,
+        120.0,
+        30.0
+      ],
+      [
+        120.0,
+        120.0,
+        30.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        120.0,
+        120.0,
+        30.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        50.0,
+        50.0,
+        50.0
+      ],
+      [
+        120.0,
+        120.0,
+        30.0
+      ],
+      [
+        50.0,
+        50.0,
+        50.0
+      ],
+      [
+        50.0,
+        50.0,
+        50.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ],
+      [
+        150.0,
+        150.0,
+        40.0
+      ]
+    ]
+  },
+  {
+    "id": "RC_Beams_V1-B012-2414",
+    "source": "raw_beams",
+    "element_type": "fondation_complete",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C35",
+        "V1",
+        "B012"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 1277,
+      "nb_rectangles": 86,
+      "nb_points": 0,
+      "nb_lignes": 31
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B020-2414",
+    "source": "raw_beams",
+    "element_type": "fondation_complete",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "B020",
+        "V1",
+        "C35"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 412,
+      "nb_rectangles": 16,
+      "nb_points": 0,
+      "nb_lignes": 2
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B025-2414",
+    "source": "raw_beams",
+    "element_type": "fondation_complete",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "B025",
+        "V1",
+        "C35"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 814,
+      "nb_rectangles": 42,
+      "nb_points": 0,
+      "nb_lignes": 5
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATASET_STRUCTURE_BLUEPRINT",
+    "source": "raw_beams",
+    "element_type": "unknown",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATA_DICTIONARY",
+    "source": "raw_beams",
+    "element_type": "fondation_complete",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 4,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 1,
+      "labels_uniques": [
+        "V1"
+      ],
+      "has_sections": true,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "LICENSE",
+    "source": "raw_beams",
+    "element_type": "unknown",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 2,
+        "longrine": 1,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "README",
+    "source": "raw_beams",
+    "element_type": "fondation_complete",
+    "declared_type": "poutre",
+    "category": "beams",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 7,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "Banner",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 1463,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B001-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 2928,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B005-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 4577,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B009-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 2505,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B012-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 2530,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B020-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 7208,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B025-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 897,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B012-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 2530,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B020-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 7208,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Beams_V1-B025-2414_1",
+    "source": "raw_beams",
+    "element_type": "poutre",
+    "declared_type": "poutre",
+    "category": "beams",
+    "is_image": true,
+    "file_size_kb": 897,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C001-2451_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 4122,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C045-2328_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 484,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C050-2328_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 479,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "Banner",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 1463,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C001-2451_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 4122,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C005-2451_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 445,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C020-2414_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 641,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C030-2304_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 2820,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C045-2328_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 484,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Column_V1-C050-2328_1",
+    "source": "raw_columns",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "columns",
+    "is_image": true,
+    "file_size_kb": 479,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F001-2451_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 2171,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F010-2409_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 4386,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F020-2510_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 1371,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "Banner",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 1463,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F001-2451_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 2171,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F005-2409_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 4092,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F010-2409_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 4386,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F015-2451_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 2840,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F020-2510_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 1371,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Foundation_V1-F025-2510_1",
+    "source": "raw_foundations",
+    "element_type": "semelle",
+    "declared_type": "semelle",
+    "category": "foundations",
+    "is_image": true,
+    "file_size_kb": 1356,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W005-2414",
+    "source": "raw_walls",
+    "element_type": "fondation_complete",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "W005",
+        "V1",
+        "C35"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 5780,
+      "nb_rectangles": 52,
+      "nb_points": 0,
+      "nb_lignes": 19
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W019-2414",
+    "source": "raw_walls",
+    "element_type": "semelle",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C35",
+        "V1",
+        "W019"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 4863,
+      "nb_rectangles": 392,
+      "nb_points": 0,
+      "nb_lignes": 74
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W020-2414",
+    "source": "raw_walls",
+    "element_type": "semelle",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "C35",
+        "V1",
+        "W020"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 2983,
+      "nb_rectangles": 278,
+      "nb_points": 0,
+      "nb_lignes": 48
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATASET_STRUCTURE_BLUEPRINT",
+    "source": "raw_walls",
+    "element_type": "unknown",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATA_DICTIONARY",
+    "source": "raw_walls",
+    "element_type": "fondation_complete",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 4,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 1,
+      "labels_uniques": [
+        "V1"
+      ],
+      "has_sections": true,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "LICENSE",
+    "source": "raw_walls",
+    "element_type": "unknown",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 2,
+        "longrine": 1,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "README",
+    "source": "raw_walls",
+    "element_type": "fondation_complete",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 7,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W001-2414",
+    "source": "raw_walls",
+    "element_type": "semelle",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "W001",
+        "C35",
+        "V2"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 6057,
+      "nb_rectangles": 362,
+      "nb_points": 0,
+      "nb_lignes": 57
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W005-2414",
+    "source": "raw_walls",
+    "element_type": "semelle",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "W005",
+        "C35",
+        "V2"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 5238,
+      "nb_rectangles": 481,
+      "nb_points": 0,
+      "nb_lignes": 151
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W020-2414",
+    "source": "raw_walls",
+    "element_type": "semelle",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 1,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 4,
+      "labels_uniques": [
+        "W020",
+        "C35",
+        "V2"
+      ],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 3247,
+      "nb_rectangles": 329,
+      "nb_points": 0,
+      "nb_lignes": 62
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATASET_STRUCTURE_BLUEPRINT",
+    "source": "raw_walls",
+    "element_type": "unknown",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 0,
+        "longrine": 0,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "DATA_DICTIONARY",
+    "source": "raw_walls",
+    "element_type": "fondation_complete",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 4,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 1,
+      "labels_uniques": [
+        "V2"
+      ],
+      "has_sections": true,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "LICENSE",
+    "source": "raw_walls",
+    "element_type": "unknown",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 2,
+        "longrine": 1,
+        "fondation": 0,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 2,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "README",
+    "source": "raw_walls",
+    "element_type": "fondation_complete",
+    "declared_type": "mur",
+    "category": "walls",
+    "text_features": {
+      "mots_cles": {
+        "semelle": 0,
+        "poutre": 0,
+        "colonne": 0,
+        "dalle": 0,
+        "chainage": 7,
+        "longrine": 0,
+        "fondation": 1,
+        "terrassement": 0,
+        "beton": 0,
+        "armature": 0,
+        "coffrage": 0,
+        "massif": 0
+      },
+      "nb_pages": 3,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {
+      "semelles": [],
+      "poutres": [],
+      "colonnes": [],
+      "chainages": [],
+      "longrines": [],
+      "massifs": []
+    },
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W005-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 7602,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W019-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 2303,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W020-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1930,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W005-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 7602,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W010-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 369,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W019-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 2303,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W020-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1930,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W025-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1812,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "Banner",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1463,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W001-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 7571,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W005-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 4397,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W010-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1870,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W015-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 2174,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W020-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1315,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W005-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 7602,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W019-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 2303,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V1-W020-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1930,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W001-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 7571,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W005-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 4397,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_Wall_V2-W020-2414_1",
+    "source": "raw_walls",
+    "element_type": "mur",
+    "declared_type": "mur",
+    "category": "walls",
+    "is_image": true,
+    "file_size_kb": 1315,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_PrecastColumns_V1-PC005-2317_1",
+    "source": "raw_precast",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "precast",
+    "is_image": true,
+    "file_size_kb": 2053,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_PrecastColumns_V1-PC015-2317_1",
+    "source": "raw_precast",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "precast",
+    "is_image": true,
+    "file_size_kb": 1862,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  },
+  {
+    "id": "RC_PrecastColumns_V1-PC024-2317_2",
+    "source": "raw_precast",
+    "element_type": "colonne",
+    "declared_type": "colonne",
+    "category": "precast",
+    "is_image": true,
+    "file_size_kb": 16510,
+    "text_features": {
+      "mots_cles": {},
+      "nb_pages": 1,
+      "nb_dimensions": 0,
+      "nb_labels": 0,
+      "labels_uniques": [],
+      "has_sections": false,
+      "has_rebar_notation": false
+    },
+    "vector_features": {
+      "nb_drawings": 0,
+      "nb_rectangles": 0,
+      "nb_points": 0,
+      "nb_lignes": 0
+    },
+    "elements": {},
+    "rebar": {
+      "has_rebar": false,
+      "diameters": [],
+      "classes": [],
+      "notations": []
+    },
+    "dimensions_sample": []
+  }
+]

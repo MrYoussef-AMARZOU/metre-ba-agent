@@ -1,0 +1,299 @@
+{
+  "pack": "bael91-ma",
+  "version": "1.0.0",
+  "currency": "MAD",
+  "last_updated": "2026-01-01",
+  "source": "BAEL 91 / Marchés publics Marocains",
+  "categories": [
+    {
+      "id": "beton",
+      "name": "Béton",
+      "items": [
+        {
+          "id": "beton_c25_fondation",
+          "name": "Béton C25/30 pour fondations",
+          "unit": "m3",
+          "price": 1450.00,
+          "details": {
+            "materiaux": 980.00,
+            "main_oeuvre": 320.00,
+            "equipement": 150.00
+          }
+        },
+        {
+          "id": "beton_c25_structure",
+          "name": "Béton C25/30 pour structures porteuses",
+          "unit": "m3",
+          "price": 1650.00,
+          "details": {
+            "materiaux": 1050.00,
+            "main_oeuvre": 400.00,
+            "equipement": 200.00
+          }
+        },
+        {
+          "id": "beton_c30_structure",
+          "name": "Béton C30/37 pour structures porteuses",
+          "unit": "m3",
+          "price": 1850.00,
+          "details": {
+            "materiaux": 1180.00,
+            "main_oeuvre": 420.00,
+            "equipement": 250.00
+          }
+        },
+        {
+          "id": "beton_c35_structure",
+          "name": "Béton C35/45 pour structures porteuses",
+          "unit": "m3",
+          "price": 2100.00,
+          "details": {
+            "materiaux": 1350.00,
+            "main_oeuvre": 450.00,
+            "equipement": 300.00
+          }
+        },
+        {
+          "id": "beton_dalle",
+          "name": "Béton C25/30 pour dalles",
+          "unit": "m3",
+          "price": 1550.00,
+          "details": {
+            "materiaux": 1000.00,
+            "main_oeuvre": 380.00,
+            "equipement": 170.00
+          }
+        },
+        {
+          "id": "beton_remplissage",
+          "name": "Béton de remblayage",
+          "unit": "m3",
+          "price": 850.00,
+          "details": {
+            "materiaux": 550.00,
+            "main_oeuvre": 200.00,
+            "equipement": 100.00
+          }
+        }
+      ]
+    },
+    {
+      "id": "armatures",
+      "name": "Armatures",
+      "items": [
+        {
+          "id": "acier_fe400",
+          "name": "Acier FeE 400 (fléau, κ=1.15)",
+          "unit": "kg",
+          "price": 18.50,
+          "details": {
+            "materiaux": 14.20,
+            "main_oeuvre": 2.80,
+            "equipement": 1.50
+          }
+        },
+        {
+          "id": "acier_fe500",
+          "name": "Acier FeE 500 (fléau, κ=1.15)",
+          "unit": "kg",
+          "price": 21.00,
+          "details": {
+            "materiaux": 16.00,
+            "main_oeuvre": 3.00,
+            "equipement": 2.00
+          }
+        },
+        {
+          "id": "ferraillage_colonne",
+          "name": "Ferraillage colonnes (pose + ligatures)",
+          "unit": "kg",
+          "price": 5.50,
+          "details": {
+            "materiaux": 0.00,
+            "main_oeuvre": 4.50,
+            "equipement": 1.00
+          }
+        },
+        {
+          "id": "ferraillage_poutre",
+          "name": "Ferraillage poutres (pose + attache)",
+          "unit": "kg",
+          "price": 4.80,
+          "details": {
+            "materiaux": 0.00,
+            "main_oeuvre": 3.80,
+            "equipement": 1.00
+          }
+        },
+        {
+          "id": "ferraillage_dalle",
+          "name": "Ferraillage dalles (pose + attache)",
+          "unit": "kg",
+          "price": 4.20,
+          "details": {
+            "materiaux": 0.00,
+            "main_oeuvre": 3.50,
+            "equipement": 0.70
+          }
+        }
+      ]
+    },
+    {
+      "id": "coffrage",
+      "name": "Coffrage",
+      "items": [
+        {
+          "id": "coffrage_poutre",
+          "name": "Coffrage de poutres (bois)",
+          "unit": "m2",
+          "price": 280.00,
+          "details": {
+            "materiaux": 120.00,
+            "main_oeuvre": 130.00,
+            "equipement": 30.00
+          }
+        },
+        {
+          "id": "coffrage_colonne",
+          "name": "Coffrage de colonnes (bois)",
+          "unit": "m2",
+          "price": 320.00,
+          "details": {
+            "materiaux": 130.00,
+            "main_oeuvre": 150.00,
+            "equipement": 40.00
+          }
+        },
+        {
+          "id": "coffrage_dalle",
+          "name": "Coffrage de dalles (bois)",
+          "unit": "m2",
+          "price": 220.00,
+          "details": {
+            "materiaux": 90.00,
+            "main_oeuvre": 100.00,
+            "equipement": 30.00
+          }
+        },
+        {
+          "id": "coffrage_pied",
+          "name": "Pied de coffrage (échafaudage)",
+          "unit": "m2",
+          "price": 85.00,
+          "details": {
+            "materiaux": 45.00,
+            "main_oeuvre": 30.00,
+            "equipement": 10.00
+          }
+        },
+        {
+          "id": "coffrage_metal",
+          "name": "Coffrage métallique réutilisable",
+          "unit": "m2",
+          "price": 380.00,
+          "details": {
+            "materiaux": 180.00,
+            "main_oeuvre": 150.00,
+            "equipement": 50.00
+          }
+        }
+      ]
+    },
+    {
+      "id": "terrassement",
+      "name": "Terrassement",
+      "items": [
+        {
+          "id": "deblai_manuel",
+          "name": "Déblai manuel",
+          "unit": "m3",
+          "price": 95.00,
+          "details": {
+            "materiaux": 0.00,
+            "main_oeuvre": 85.00,
+            "equipement": 10.00
+          }
+        },
+        {
+          "id": "deblai_mecanique",
+          "name": "Déblai mécanique",
+          "unit": "m3",
+          "price": 65.00,
+          "details": {
+            "materiaux": 0.00,
+            "main_oeuvre": 25.00,
+            "equipement": 40.00
+          }
+        },
+        {
+          "id": "remblai_compacte",
+          "name": "Remblai compacté",
+          "unit": "m3",
+          "price": 110.00,
+          "details": {
+            "materiaux": 50.00,
+            "main_oeuvre": 35.00,
+            "equipement": 25.00
+          }
+        },
+        {
+          "id": "bedrock_gravier",
+          "name": "Bédeckage en gravier",
+          "unit": "m3",
+          "price": 180.00,
+          "details": {
+            "materiaux": 120.00,
+            "main_oeuvre": 35.00,
+            "equipement": 25.00
+          }
+        }
+      ]
+    },
+    {
+      "id": "isolation",
+      "name": "Isolation et étanchéité",
+      "items": [
+        {
+          "id": "isolant_polystyrene",
+          "name": "Isolant polystyrène extrudé 50mm",
+          "unit": "m2",
+          "price": 120.00,
+          "details": {
+            "materiaux": 85.00,
+            "main_oeuvre": 25.00,
+            "equipement": 10.00
+          }
+        },
+        {
+          "id": "membrane_eau",
+          "name": "Membrane d'étanchéité",
+          "unit": "m2",
+          "price": 95.00,
+          "details": {
+            "materiaux": 65.00,
+            "main_oeuvre": 25.00,
+            "equipement": 5.00
+          }
+        }
+      ]
+    }
+  ],
+  "rebar_weights": {
+    "6": 0.222,
+    "8": 0.395,
+    "10": 0.617,
+    "12": 0.888,
+    "14": 1.208,
+    "16": 1.578,
+    "20": 2.466,
+    "25": 3.854,
+    "32": 6.313
+  },
+  "concrete_density": 2500,
+  "bael91_references": [
+    "BAEL 91 révisé 99 — Règles parasismiques",
+    "RPA 2000 — Règles de parasismage",
+    "Norme CP 2001 — Béton armé",
+    "DCG (2004) — Devis Généraux et Fournitures"
+  ]
+}

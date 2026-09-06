@@ -1,6 +1,6 @@
 @echo off
-REM === Métré BA Agent — Démarrage complet (Windows) ===
-REM Lance le backend Python + l'app Electron
+title Métré BA Agent
+cd /d "%~dp0"
 
 echo.
 echo ========================================
@@ -27,22 +27,44 @@ if errorlevel 1 (
 REM Installer les dépendances Python si nécessaire
 if not exist ".deps_installed" (
     echo Installation des dépendances Python...
-    pip install -r requirements.txt fastapi uvicorn python-multipart 2>nul
+    pip install pdfplumber PyMuPDF openpyxl PyYAML reportlab fastapi uvicorn python-multipart >nul 2>&1
     echo. > .deps_installed
+    echo OK.
 )
 
 REM Installer les dépendances Electron si nécessaire
 if not exist "electron\node_modules" (
     echo Installation des dépendances Electron...
-    cd electron
-    npm install
-    cd ..
+    cd electron && npm install && cd ..
+    echo OK.
 )
 
 echo.
-echo Démarrage du backend Python (port 8765)...
-start /b python -m uvicorn backend.api:app --host 127.0.0.1 --port 8765
+echo Démarrage du backend...
 
+REM Tuer ancien processus
+taskkill /f /im python.exe >nul 2>&1
+timeout /t 1 /nobreak >nul
+
+REM Lancer le backend en arrière-plan (fenêtre cachée)
+start "" /min cmd /c "cd /d "%~dp0backend" && python -m uvicorn api:app --host 127.0.0.1 --port 8765"
+
+REM Attendre que le backend soit prêt
+echo Attente du backend...
+set /a count=0
+:waitloop
+timeout /t 1 /nobreak >nul
+set /a count+=1
+curl -s http://127.0.0.1:8765/health >nul 2>&1
+if errorlevel 1 (
+    if %count% lss 15 goto waitloop
+    echo ERREUR: Backend non démarré après 15 secondes
+    pause
+    exit /b 1
+)
+echo Backend prêt.
+
+echo.
 echo Démarrage de l'app Electron...
 cd electron
 npm start
@@ -52,3 +74,4 @@ echo.
 echo Arrêt du backend...
 taskkill /f /im python.exe >nul 2>&1
 echo Terminé.
+pause

@@ -1,0 +1,49 @@
+{
+  "locale": "ar",
+  "country": "MA",
+  "currency": "MAD",
+  "currency_name": "درهم مغربي",
+  "currency_symbol": "د.م.",
+
+  "module.boq": "جدول الكميات",
+  "module.boq.short": "جدول الأسعار",
+  "module.takeoff": "حساب الكميات",
+  "module.costs": "قاعدة الأسعار",
+  "module.costs.short": "أسعار الوحدة",
+  "module.projects": "المشاريع",
+  "module.validation": "المراقبة",
+
+  "boq.title": "جدول الأسعار العامة واللوازم",
+  "boq.position": "بند",
+  "boq.section": "قسم",
+  "boq.quantity": "الكمية",
+  "boq.unit": "وحدة",
+  "boq.unit_price": "سعر الوحدة",
+  "boq.total_price": "السعر الإجمالي",
+  "boq.subtotal": "المجموع الفرعي",
+  "boq.grand_total": "المبلغ الإجمالي",
+
+  "element.poutre": "خلى",
+  "element.colonne": "عمود",
+  "element.dalle": "بلاطة",
+  "element.mur": "جدار حامل",
+  "element.escalier": "درج",
+  "element.fondation": "基础",
+
+  "rebar.barre": "قضيب حديد",
+  "rebar.diametre": "القطر",
+  "rebar.longueur": "الطول",
+  "rebar.poids": "الوزن الخطي",
+  "rebar.quantite": "الكمية",
+
+  "concrete.classe": "نوع الخرسانة",
+  "concrete.volume": "الحجم",
+
+  "formwork.coffrage": "القوالب",
+  "formwork.surface": "المساحة",
+
+  "cost.prix_unitaire": "سعر الوحدة",
+  "cost.main_oeuvre": "الأجور",
+  "cost.materiaux": "المواد",
+  "cost.equipement": "المعدات"
+}

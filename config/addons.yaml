@@ -1,0 +1,80 @@
+# ============================================================================
+# Configuration des Addons — Métré BA Agent
+# Éditable par l'utilisateur pour ajouter/supprimer des composants.
+# L'application lit ce fichier au lancement pour proposer l'installation.
+# ============================================================================
+
+# Composants obligatoires (installés par défaut, non désactivables)
+required:
+  core:
+    name: "Core Python"
+    description: "Extraction PDF, Excel, YAML, PDF reports"
+    packages:
+      - "pdfplumber>=0.11"
+      - "PyMuPDF>=1.24"
+      - "openpyxl>=3.1"
+      - "PyYAML>=6.0"
+      - "reportlab>=4.0"
+    size_mb: 50
+    status: active
+
+  api:
+    name: "Backend API"
+    description: "Serveur FastAPI pour le pipeline"
+    packages:
+      - "fastapi>=0.115"
+      - "uvicorn>=0.34"
+      - "python-multipart>=0.0.18"
+    size_mb: 30
+    status: active
+
+  electron:
+    name: "Application Desktop"
+    description: "Interface Electron professionnelle"
+    npm: true
+    size_mb: 150
+    status: active
+
+# Composants optionnels (l'utilisateur choisit)
+optional:
+  vision:
+    name: "Vision IA (PyTorch)"
+    description: "transformers, torch, accelerate — modèles de vision"
+    packages:
+      - "transformers>=4.45"
+      - "torch>=2.2"
+      - "torchvision>=0.17"
+      - "accelerate>=0.34"
+    size_mb: 2000
+    status: active
+    note: "Nécessite ~2GB. Utilisé pour GLM-OCR et modèles vision."
+
+  ocr:
+    name: "GLM-OCR Modèle"
+    description: "Modèle OCR open-source 0.9B (zai-org/GLM-OCR)"
+    model_id: "zai-org/GLM-OCR"
+    size_mb: 2000
+    status: active
+    note: "OCR local sans clé API. Télécharge ~2GB au premier usage."
+
+  latex:
+    name: "LaTeX (TeX Live)"
+    description: "Génération rapports PDF avec formules mathématiques"
+    external: "https://tug.org/texlive/"
+    size_mb: 4000
+    status: config
+    note: "Installation externe requise. Voir https://tug.org/texlive/"
+
+  claude_vision:
+    name: "Claude Vision API"
+    description: "Vision via Anthropic Claude (clé API requise)"
+    env_key: "ANTHROPIC_API_KEY"
+    size_mb: 0
+    status: config
+    note: "Clé API dans Paramètres. Extraction automatique des plans."
+
+# Métadonnées
+metadata:
+  version: "1.0.0"
+  last_updated: "2025-01-15"
+  documentation: "https://github.com/Youssef-AMARZOU/metre-ba-agent"

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Métré BA Agent</title>
+  <style>
+    :root {
+      --bg: #0a0c10; --bg2: #161b22; --bg3: #21262d;
+      --border: #30363d; --text: #f0f6fc; --text2: #8b949e;
+      --blue: #58a6ff; --green: #3fb950; --orange: #d29922; --red: #f85149;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg); color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      height: 100vh; overflow: hidden; -webkit-app-region: drag;
+    }
+    .splash {
+      width: 520px; text-align: center; padding: 48px 40px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: 0 16px 70px rgba(0,0,0,0.5);
+    }
+    .logo {
+      width: 72px; height: 72px; background: linear-gradient(135deg, #58a6ff, #1f6feb);
+      border-radius: 18px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 32px; color: white;
+      box-shadow: 0 8px 24px rgba(31,111,235,0.3);
+    }
+    .splash h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .splash .subtitle { color: var(--text2); font-size: 14px; margin-bottom: 32px; }
+    .boot-list { text-align: left; margin-bottom: 28px; }
+    .boot-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; color: var(--text2);
+    }
+    .boot-item:last-child { border-bottom: none; }
+    .boot-icon {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; flex-shrink: 0;
+    }
+    .boot-icon.pending { background: var(--bg3); color: var(--text2); }
+    .boot-icon.active { background: rgba(88,166,255,0.15); color: var(--blue); animation: pulse 1.2s infinite; }
+    .boot-icon.done { background: rgba(63,185,80,0.15); color: var(--green); }
+    .boot-icon.failed { background: rgba(248,81,73,0.15); color: var(--red); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .boot-text { flex:1; }
+    .boot-detail { font-size: 12px; color: var(--text2); }
+    .version { font-size: 12px; color: var(--text2); margin-top: 16px; }
+    .error-box {
+      display: none; margin-top: 20px; padding: 16px;
+      background: rgba(248,81,73,0.08); border: 1px solid rgba(248,81,73,0.3);
+      border-radius: 10px; text-align: left; font-size: 13px;
+    }
+    .error-box h3 { color: var(--red); font-size: 14px; margin-bottom: 8px; }
+    .error-box p { color: var(--text2); line-height: 1.5; }
+    .error-box .log-path { font-family: monospace; font-size: 12px; color: var(--text2); margin-top: 8px; word-break: break-all; }
+    .error-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; -webkit-app-region: no-drag; }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-ghost { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="splash" id="splash">
+    <div class="logo">&#127959;</div>
+    <h1>Métré BA Agent</h1>
+    <p class="subtitle">Béton Armé &mdash; Métré Automatique</p>
+
+    <div class="boot-list" id="bootList">
+      <div class="boot-item" id="boot-sidecar">
+        <div class="boot-icon pending" id="icon-sidecar">&#8226;</div>
+        <div class="boot-text">Backend server</div>
+        <div class="boot-detail" id="detail-sidecar">En attente...</div>
+      </div>
+      <div class="boot-item" id="boot-health">
+        <div class="boot-icon pending" id="icon-health">&#8226;</div>
+        <div class="boot-text">Health check</div>
+        <div class="boot-detail" id="detail-health">En attente...</div>
+      </div>
+      <div class="boot-item" id="boot-addons">
+        <div class="boot-icon pending" id="icon-addons">&#8226;</div>
+        <div class="boot-text">Addons & modules</div>
+        <div class="boot-detail" id="detail-addons">En attente...</div>
+      </div>
+    </div>
+
+    <div class="version" id="appVersion"></div>
+
+    <div class="error-box" id="errorBox">
+      <h3>&#9888; Erreur de démarrage</h3>
+      <p id="errorMessage"></p>
+      <div class="log-path" id="logPath"></div>
+      <div class="error-actions">
+        <button class="btn btn-ghost" onclick="window.api.openLogFile()">Ouvrir le log</button>
+        <button class="btn btn-primary" onclick="window.api.useLocalServer()">Réessayer</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function bootStage(id, status, detail) {
+      const icon = document.getElementById('icon-' + id);
+      const det = document.getElementById('detail-' + id);
+      if (!icon) return;
+      icon.className = 'boot-icon ' + status;
+      if (status === 'active') icon.innerHTML = '&#8987;';
+      else if (status === 'done') icon.innerHTML = '&#10003;';
+      else if (status === 'failed') icon.innerHTML = '&#10007;';
+      else icon.innerHTML = '&#8226;';
+      if (det && detail) det.textContent = detail;
+    }
+
+    function failStage(id, message) {
+      bootStage(id, 'failed', '');
+      document.getElementById('errorBox').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message;
+    }
+
+    function setError(message) {
+      document.getElementById('errorBox').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message;
+    }
+
+    function setLogPath(path) {
+      document.getElementById('logPath').textContent = path;
+    }
+
+    function setAppVersion(version) {
+      document.getElementById('appVersion').textContent = 'v' + version;
+    }
+  </script>
+</body>
+</html>

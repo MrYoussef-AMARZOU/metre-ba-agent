@@ -1,0 +1,6 @@
+[submodule "submodules/opentakeoff"]
+	path = submodules/opentakeoff
+	url = https://github.com/Kentucky-ai/opentakeoff.git
+[submodule "submodules/layerwise"]
+	path = submodules/layerwise
+	url = https://github.com/LordHarsh/layerwise.ai.git

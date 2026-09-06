@@ -1,120 +1,20 @@
 # ============================================================================
-# Configuration des postes et règles de calcul — métré fondation
-# Éditable sans toucher au code. Les valeurs géométriques proviennent du plan
-# (cotes natives ou lecture des rendus image) — chaque bloc cite sa source.
+# RÈGLES NORMATIVES UNIVERSELLES — Pas de valeurs de projet
 # ============================================================================
 
-projet:
-  nom: "Construction de locaux et travaux de réaménagement à la mine Youssoufia"
-  reference_metre: "reference/metre_MZINDA.xlsx"
+rules:
+  # Enrobage (BAEL 91)
+  enrobage_fondation: 0.05
+  enrobage_elevation: 0.025
 
-# ---------------------------------------------------------------------------
-# Paramètres de site (non cotés sur le plan — à confirmer par le métreur)
-# ---------------------------------------------------------------------------
-parametres:
-  H_bon_sol: 1.48          # N13 : hauteur fouille / bon sol + terre végétale ($$$)
-  ep_proprete: 0.10        # épaisseur béton de propreté (poste 15)
-  ep_gros_beton: 0.50      # épaisseur assise gros béton (poste 16)
-  h_poteau_elevation: 6.8  # hauteur fût élévation (poste 20, poteaux)
-  largeur_fouille: 1.6     # largeur moyenne fouilles (poste 3 / 7)
-  T20: 1.4                 # H terrassement utilisée par les formules armatures (attachement)
-  T76: 1.8                 # longueur développpée fût pour armatures (détail)
+  # Coefficients de calcul
+  coef_ancrage: 34
+  coef_cadre: 20.5
+  coef_epingle: 22
+  coef_recouvrement: 36
 
-# ---------------------------------------------------------------------------
-# Géométrie de la grille — source : cotes du plan (248/725/238/478/265/460 en
-# horizontal ; 382/40/82.4/108/15/382 en vertical) + positions des axes
-# (texte natif PDF). L'axe 3 n'est pas coté entre 2 et 4 : sa position issue
-# des coordonnées du plan est 3.74 de l'axe 2 / 3.51 de l'axe 4 (à vérifier).
-# ---------------------------------------------------------------------------
-geometrie:
-  horizontal:              # travées nommées entre axes numérotés (m)
-    "1-2": 2.48
-    "2-4": 7.25            # l'axe 3 n'a pas de poteau sur les rangées A et F
-    "2-3": 3.74            # déduit des positions d'axes (non coté) — a_verifier
-    "3-4": 3.51            # déduit des positions d'axes (non coté) — a_verifier
-    "4-5": 2.38
-    "5-6": 4.78
-    "6-7": 2.65
-    "7-8": 4.60
-  vertical:                # travées entre axes lettrés (m)
-    "A-B": 3.82
-    "B-C": 0.40
-    "C-D": 0.82
-    "D-E": 1.08
-    "E-F": 0.15
-    "F-G": 3.82
+  # Formule masse linéique
+  poids_lineique: "d*d/162"
 
-# ---------------------------------------------------------------------------
-# Catalogues — source : TABLEAU DES SEMELLES (page 4, texte natif), tableau
-# poteaux (page 4), types de poutres (page 5). S5 est absente du tableau des
-# semelles : dimensions reprises de ses étiquettes sur le plan (150x150x40),
-# ferraillage assimilé à S4 (hypothèse du métré de référence, à confirmer).
-# ---------------------------------------------------------------------------
-catalogues:
-  semelles:                # A, B, H en m ; ferraillage : [barres selon x, selon y, diam]
-    S1: { A: 1.00, B: 1.00, H: 0.25, fx: [6, 12], fy: [6, 12] }
-    S2: { A: 1.10, B: 1.10, H: 0.25, fx: [7, 12], fy: [7, 12] }
-    S3: { A: 1.20, B: 1.20, H: 0.30, fx: [8, 12], fy: [8, 12] }
-    S4: { A: 1.50, B: 1.50, H: 0.40, fx: [11, 12], fy: [11, 12] }
-    S5: { A: 1.50, B: 1.50, H: 0.40, fx: [11, 12], fy: [11, 12], note: "absente du tableau p.4 — cotes lues sur le plan" }
-  poteaux:                 # largeur x hauteur (m) — source tableau p.4
-    P1: { b: 0.25, h: 0.35 }
-    P2: { b: 0.40, h: 0.40 }
-    P3: { b: 0.30, h: 0.30 }
-    P4: { b: 0.35, h: 0.35 }
-  poutres:                 # largeur x hauteur (m) — source détails p.5
-    CH1: { b: 0.20, h: 0.20 }
-    N1:  { b: 0.20, h: 0.30 }
-    N2:  { b: 0.20, h: 0.35 }
-    N3:  { b: 0.20, h: 0.40 }
-    N4:  { b: 0.20, h: 0.45 }
-    N5:  { b: 0.20, h: 0.50 }
-    N6:  { b: 0.40, h: 0.90 }
-    N7:  { b: 0.30, h: 0.90, note: "N7 en T 40x90 : décomposition métreur 0.30x0.90 + 0.30x0.80 (règle à confirmer)" }
-    N7p: { b: 0.30, h: 0.80, note: "second élément du N7 en T" }
-    BN1: { b: 0.30, h: 0.30 }
-    BN2: { b: 0.20, h: 0.20 }
-
-# ---------------------------------------------------------------------------
-# Ferraillage — règles issues du plan (p.4) et des formules du métré référence
-# ---------------------------------------------------------------------------
-ferraillage:
-  semelle:                 # longueurs : (A ou B) - 0.05 + 34*d/1000
-    enrobage: 0.05
-    coef_ancrage: 34
-  fut_poteau:              # barres longues : T + 18*d/1000 (détail) ; cadre e=0.15
-    long_bars_P123: [4, 2] # HA14 : 4+2 par fût P1/P2/P3
-    long_bars_P4: [6]      # HA14 : 6 par fût P4
-    diam_long: 14
-    diam_cadre: 6
-    esp_cadre: 0.15
-    coef_cadre: 20.5
-    coef_epingle: 22
-  chainage:                # nappes 3HA10 sup/inf, épingle HA6 e=0.20
-    nappe: [3, 10]
-    epingle: { diam: 6, esp: 0.20, coef: 22, enrobage: 0.025 }
-    coef_recouvrement: 36
-  longrine:                # nappe sup 3HA12, inf 3HA10 (attachement) ; cadre e=0.20
-    nappe_sup: [3, 12]
-    nappe_inf: [3, 10]
-    coef_recouvrement: 36
-    cadre: { diam: 6, esp: 0.20, coef: 20.5 }
-    epingle: { diam: 6, coef: 22, enrobage: 0.05 }
-  dallage:
-    type13: { Lx: 10.40, Ly: 11.64, esp: 0.15, diam: 8 }
-    type20: { Lx: 10.40, Ly: 12.11, esp: 0.15, diam: 8, n: 2 }
-  poids_lineaire: "d*d/162"   # kg/m (formule Excel)
-
-# ---------------------------------------------------------------------------
-# Descriptions des postes (texte repris du métré de référence)
-# ---------------------------------------------------------------------------
-postes:
-  "1":  "Etude suivant descriptif (géotechnique, technique, formulations bétons, essais, réceptions, récolement)"
-  "3":  "Terrassement en fouilles, en tranchées ou en plein masse y compris décapage de la terre végétale"
-  "7":  "Remblaiement en tout-venant"
-  "15": "Béton de propreté"
-  "16": "Gros béton"
-  "17": "Maçonnerie de moellons en fondation exécutée selon descriptif"
-  "19": "Forme en béton"
-  "20": "Béton pour béton armé en fondation et en élévation"
-  "21": "Armature pour béton armé en fondation et en élévation"
+# Diamètres standards disponibles
+diametres_standard: [6, 8, 10, 12, 14, 16, 20, 25, 32]

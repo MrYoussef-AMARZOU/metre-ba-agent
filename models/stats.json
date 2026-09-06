@@ -1,0 +1,25 @@
+{
+  "nb_exemples": 1,
+  "types_plans": {
+    "ferraillage": 1
+  },
+  "elements_tous": {
+    "semelles": 27,
+    "poutres": 6,
+    "colonnes": 4,
+    "chainages": 0,
+    "longrines": 0,
+    "dalles": 0
+  },
+  "postes_tous": {
+    "1": 2,
+    "3": 2,
+    "15": 2,
+    "16": 2,
+    "17": 2,
+    "20": 2,
+    "7": 2,
+    "19": 2,
+    "21": 2
+  }
+}
