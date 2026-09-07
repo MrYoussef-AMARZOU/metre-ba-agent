@@ -14,6 +14,8 @@ class NormalizedElement(TypedDict):
     bbox: tuple | None
     confidence: str
     warnings: list[str]
+    axis: str
+    grid: str
 
 
 def _as_dict(value: Any) -> dict:

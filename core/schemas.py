@@ -39,6 +39,7 @@ class FamilleElement(str, Enum):
     SEMELLE = "SEMELLE"
     POTEAU = "POTEAU"
     POUTRE = "POUTRE"
+    VOILE = "VOILE"
     LONGRINE = "LONGRINE"
     CHAINAGE = "CHAINAGE"
     DALLE = "DALLE"

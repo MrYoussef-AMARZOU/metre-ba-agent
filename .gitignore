@@ -15,6 +15,7 @@ functional-output/
 # --- Données lourdes locales (jamais versionnées) ---
 dataset/raw/
 dataset/kaggle/
+dataset/external/
 *.onnx
 *.bin
 
