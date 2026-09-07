@@ -93,29 +93,8 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
         print("  Format JSON -- chargement direct")
         with open(input_path, encoding="utf-8") as f:
             plan_data = json.load(f)
-    elif input_ext == ".pdf" and is_raster_pdf(input_path):
-        print("  PDF scanne detecte -- OCR local (RapidOCR ONNX)...")
-        from core.local_extractor import RasterPlanExtractor
-        raster = RasterPlanExtractor()
-        raw_words = raster.pdf_raster_to_words(input_path)
-        print(f"  {len(raw_words)} mots OCR avec coordonnees reelles.")
-        dump_raw_blocks(raw_words)
-        plan_data = VectorPlanExtractor().extract_from_words(raw_words)
     elif input_ext == ".pdf":
-        print("  Parsage vectoriel multi-pages via PyMuPDF (find_tables + spatial)")
-        import pymupdf
-        if os.environ.get("PLANBA_DUMP_RAW"):
-            doc = pymupdf.open(input_path)
-            raw_words = []
-            for pi in range(len(doc)):
-                for w in doc[pi].get_text("words"):
-                    raw_words.append({"text": w[4], "x": round(w[0], 2),
-                                      "y": round(w[1], 2), "page": pi + 1})
-            doc.close()
-            print(f"  {len(raw_words)} mots lus avec coordonnees reelles.")
-            dump_raw_blocks(raw_words)
-
-        extractor = VectorPlanExtractor()
+        print("  Parsage hybride texte + OCR cible via PyMuPDF")
         n_total_ref = {"n": 0}
 
         def cb(page_num, total, role):
@@ -123,7 +102,7 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
             if total <= 30 or page_num % 20 == 0 or page_num == total:
                 print(f"  Page {page_num}/{total} : {role}")
 
-        plan_data = extractor.process_all_pages(input_path, progress_callback=cb)
+        plan_data = extract_plan_auto(input_path, progress_callback=cb)
     else:
         print(f"  Routeur automatique pour {input_ext}...")
         plan_data = extract_plan_auto(input_path)
