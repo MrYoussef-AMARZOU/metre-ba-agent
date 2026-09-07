@@ -9,7 +9,7 @@ templates/
 *.spec
 # Packages de diffusion (trop lourds pour GitHub, distribués à part)
 PlanBA_Metre_Extractor*.zip
-deployment/PlanBA_Metre_Extractor/
+deployment/
 functional-output/
 
 # --- Données lourdes locales (jamais versionnées) ---
