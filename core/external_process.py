@@ -50,6 +50,10 @@ def run_pdflatex(
         raise ExternalProcessError("pdflatex introuvable dans le PATH.") from exc
 
     pdf_path = working_dir / f"{tex_path.stem}.pdf"
+    if completed.returncode != 0:
+        raise ExternalProcessError(
+            f"Échec pdflatex (code {completed.returncode}):\n"
+            f"{completed.stdout[-2000:]}")
     if not pdf_path.is_file():
         raise ExternalProcessError(f"Échec pdflatex (code {completed.returncode}):\n{completed.stdout[-2000:]}")
     return pdf_path

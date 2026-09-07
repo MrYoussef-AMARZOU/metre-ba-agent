@@ -659,6 +659,7 @@ class PlanBAMetreApp(*_DND_BASES):
 
         self.btn_action.configure(state="disabled", text="⏳ Analyse en cours...")
         self.btn_open_excel.configure(state="disabled")
+        self.btn_open_folder.configure(state="disabled")
 
         thread = threading.Thread(target=self._analysis_worker,
                                   args=(path,), daemon=True)
@@ -672,6 +673,7 @@ class PlanBAMetreApp(*_DND_BASES):
         find_tables + spatial). Aucun catalogue fictif n'est jamais injecté :
         si rien n'est détecté, l'échec est explicite.
         """
+        success = False
         try:
             # Étape 1 : Extraction spatiale réelle, page par page
             self.after(0, lambda: self.progress_panel.set_step(
@@ -787,6 +789,7 @@ class PlanBAMetreApp(*_DND_BASES):
             # Mettre à jour le tableau récap
             self.after(0, lambda: self.summary_table.update_values(self.plan_data))
             self.after(0, lambda: self.btn_open_excel.configure(state="normal"))
+            self.after(0, lambda: self.btn_open_folder.configure(state="normal"))
             self.after(0, lambda: self._log(
                 f"✅ Fichiers générés :\n"
                 f"   → {json_path}\n"
@@ -794,16 +797,26 @@ class PlanBAMetreApp(*_DND_BASES):
                 f"   → {optim_xlsx}\n"
                 f"   → {rapport_pdf}\n"
                 f"   → {note_pdf}"))
+            success = True
 
         except Exception as e:
             tb = traceback.format_exc()
             self.after(0, lambda: self._log(
                 f"❌ Erreur ({type(e).__name__}) :\n{tb}"))
-            self.after(0, lambda: self.progress_panel.set_step(
-                f"❌ Erreur : {e}", 0))
+            self.after(0, lambda message=str(e):
+                       self.progress_panel.set_step(
+                           f"❌ Erreur : {message}", 0))
+            self.after(0, lambda message=str(e), details=tb:
+                       self._show_error(
+                           f"{message}\n\nDétails techniques :\n{details}"))
         finally:
             self.after(0, lambda: self.btn_action.configure(
                 state="normal", text="🚀  Lancer l'Analyse & Générer le Métré"))
+            if not success:
+                self.after(0, lambda: self.btn_open_excel.configure(
+                    state="disabled"))
+                self.after(0, lambda: self.btn_open_folder.configure(
+                    state="disabled"))
 
     def _show_error(self, msg: str):
         """Affiche une boîte de dialogue d'erreur."""

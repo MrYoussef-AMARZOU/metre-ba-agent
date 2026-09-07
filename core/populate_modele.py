@@ -46,6 +46,60 @@ ENROBAGE = 0.05
 COEF_ANCRAGE = 34
 
 
+def _safe_float(value, default=0.0):
+    if value is None or isinstance(value, bool):
+        return default
+    try:
+        return float(str(value).strip().replace(",", "."))
+    except (TypeError, ValueError):
+        return default
+
+
+def _safe_int(value, default=0):
+    try:
+        return int(_safe_float(value, default))
+    except (TypeError, ValueError, OverflowError):
+        return default
+
+
+def _safe_dict(value):
+    return value if isinstance(value, dict) else {}
+
+
+def _safe_list(value):
+    return value if isinstance(value, list) else []
+
+
+def _normalise_payload(plan_data):
+    source = _safe_dict(plan_data)
+    result = {"projet": source.get("projet", "Projet BTP")}
+    for family in ("semelles", "poteaux", "poutres"):
+        result[family] = []
+        for raw in _safe_list(source.get(family)):
+            item = _safe_dict(raw).copy()
+            for name in ("a", "b", "h", "hauteur", "portee"):
+                if name in item and item[name] is not None:
+                    item[name] = _safe_float(item[name])
+            for name in ("phi", "nb_x", "nb_y"):
+                if name in item:
+                    item[name] = _safe_int(item[name])
+            for name in ("long_bars", "filants_inf", "filants_sup"):
+                if name in item:
+                    item[name] = [
+                        {"nb": _safe_int(_safe_dict(bar).get("nb")),
+                         "phi": _safe_int(_safe_dict(bar).get("phi"))}
+                        for bar in _safe_list(item[name])
+                    ]
+            cadres = item.get("cadres")
+            if isinstance(cadres, dict):
+                cadres = cadres.copy()
+                cadres["phi"] = _safe_int(cadres.get("phi"))
+                cadres["esp"] = _safe_float(cadres.get("esp"), 0.15)
+                item["cadres"] = cadres
+            result[family].append(item)
+    return result
+
+
 # ============================================================================
 # Utilitaires
 # ============================================================================
@@ -464,9 +518,10 @@ def injecter_metre_dans_modele(plan_data: dict, template_path: str,
             f"Gabarit incomplet ({template_path}) : feuilles manquantes "
             f"{manquantes}")
 
-    semelles = plan_data.get("semelles", [])
-    poteaux = plan_data.get("poteaux", [])
-    poutres = plan_data.get("poutres", [])
+    plan_data = _normalise_payload(plan_data)
+    semelles = plan_data["semelles"]
+    poteaux = plan_data["poteaux"]
+    poutres = plan_data["poutres"]
     nom_projet = plan_data.get("projet", "Projet BTP")
 
     ws1 = wb["01_Detail_Quantitatif"]
