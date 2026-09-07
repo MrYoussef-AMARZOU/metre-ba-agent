@@ -971,7 +971,9 @@ class MetreGenerator:
     """
 
     def __init__(self, plan_data: dict, moteur: str = "gabarit"):
+        from core.normalization import normalize_plan_data
         self.plan = _normalise_plan_data(plan_data)
+        self.normalized = normalize_plan_data(self.plan)
         self.moteur = moteur
         self.diameters = _detect_diameters(self.plan)
         self.wb = openpyxl.Workbook()
