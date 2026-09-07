@@ -681,7 +681,7 @@ class PlanBAMetreApp(*_DND_BASES):
 
             from core.local_extractor import (
                 VectorPlanExtractor, RasterPlanExtractor, is_raster_pdf,
-                ExtractionError)
+                ExtractionError, extract_plan_auto)
 
             extractor = VectorPlanExtractor()
             ext = Path(file_path).suffix.lower()
@@ -695,14 +695,10 @@ class PlanBAMetreApp(*_DND_BASES):
                     self.after(0, lambda p=page_num, t=total, r=role:
                                self._log(f"Page {p}/{t} : {r}"))
 
-            if ext == ".pdf" and is_raster_pdf(file_path):
+            if ext == ".pdf":
                 self.after(0, lambda: self._log(
-                    "PDF scanné détecté — OCR local RapidOCR (ONNX)"))
-                raster = RasterPlanExtractor()
-                words = raster.pdf_raster_to_words(file_path, cb)
-                self.plan_data = extractor.extract_from_words(words)
-            elif ext == ".pdf":
-                self.plan_data = extractor.process_all_pages(
+                    "PDF hybride détecté — texte vectoriel + OCR ciblé"))
+                self.plan_data = extract_plan_auto(
                     file_path, progress_callback=cb)
             else:
                 from core.ingestion import UniversalPlanIngestor

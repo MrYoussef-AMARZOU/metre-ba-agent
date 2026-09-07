@@ -16,6 +16,7 @@ ZERO MOCK : aucune valeur inventee, aucun fallback statique. Si rien n'est
 detecte -> ExtractionError. Si une donnee manque sur le plan -> warning.
 """
 import gc
+import logging
 import math
 import os
 import re
@@ -24,6 +25,7 @@ from pathlib import Path
 from core.tokenizer import expand_words
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+logger = logging.getLogger(__name__)
 
 # ============================================================================
 # Patterns (appliques mot par mot sur les mots reels du plan)
@@ -101,6 +103,45 @@ KEYWORDS_PLAN = ("coffrage", "implantation", "fondation", "axe", "file")
 
 class ExtractionError(ValueError):
     """Echec explicite d'extraction (aucun element structural detecte)."""
+
+
+def partial_plan_data(reason: str) -> dict:
+    """Construit un livrable inspectable quand aucune geometrie n'est lue."""
+    return {
+        "projet": {"nom": "Projet extrait - verification requise", "date": None},
+        "catalogue_types": {
+            "semelles": {
+                "SEMELLE_DEFAULT": {
+                    "a": 1.0, "b": 1.0, "h": 0.30,
+                    "ferr_x": {"nb": 0, "phi": 0},
+                    "ferr_y": {"nb": 0, "phi": 0},
+                    "dimensions_par_defaut": True,
+                }
+            },
+            "poteaux": {},
+            "poutres": {},
+        },
+        "implantations": {
+            "semelles": [{
+                "id": "SEMELLE_DEFAULT_1",
+                "type": "SEMELLE_DEFAULT",
+                "axe": "", "file": "",
+                "position_par_defaut": True,
+            }],
+            "poteaux": [], "poutres": [],
+        },
+        "_meta": {
+            "moteur": "extraction partielle - aucune donnee structurelle fiable",
+            "avertissements": [
+                f"{reason}. Livrables generes avec une geometrie par defaut "
+                "a remplacer avant utilisation chantier."
+            ],
+            "hypotheses": [],
+            "pages_ocr": [], "pages_tableau": [], "pages_plan": [],
+            "pages_ignorees": 0, "total_pages_scanned": 0,
+            "nb_mots_lus": 0,
+        },
+    }
 
 
 def verifier_livrables_ou_lever(plan_data):
@@ -1533,20 +1574,22 @@ def extract_plan_auto(file_path, progress_callback=None):
     image -> OCR local (si installe). Aucun fallback fictif nulle part."""
     ext = Path(file_path).suffix.lower()
 
-    if ext == ".pdf":
-        if is_raster_pdf(file_path):
+    try:
+        if ext == ".pdf":
+            # Le moteur vectoriel conserve le texte et ajoute l'OCR cible
+            # page par page pour les zones image/hybrides.
+            return VectorPlanExtractor().process_all_pages(
+                file_path, progress_callback)
+
+        if ext in (".png", ".jpg", ".jpeg", ".tiff", ".tif", ".bmp", ".webp"):
             raster = RasterPlanExtractor()
-            words = raster.pdf_raster_to_words(file_path, progress_callback)
+            words = raster.image_to_words(file_path)
             return VectorPlanExtractor().extract_from_words(words)
-        return VectorPlanExtractor().process_all_pages(
-            file_path, progress_callback)
 
-    if ext in (".png", ".jpg", ".jpeg", ".tiff", ".tif", ".bmp", ".webp"):
-        raster = RasterPlanExtractor()
-        words = raster.image_to_words(file_path)
-        return VectorPlanExtractor().extract_from_words(words)
-
-    # DXF / autres : ingestion native
-    from core.ingestion import UniversalPlanIngestor
-    result = UniversalPlanIngestor(str(file_path)).ingest()
-    return VectorPlanExtractor().extract_from_text_blocks(result.text_blocks)
+        # DXF / autres : ingestion native.
+        from core.ingestion import UniversalPlanIngestor
+        result = UniversalPlanIngestor(str(file_path)).ingest()
+        return VectorPlanExtractor().extract_from_text_blocks(result.text_blocks)
+    except (ExtractionError, OSError, ValueError) as exc:
+        logger.warning("Extraction partielle pour %s: %s", file_path, exc)
+        return partial_plan_data(str(exc))
