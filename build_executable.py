@@ -157,7 +157,6 @@ def build():
         # numpy : dependance d'ezdxf (moteur AutoCAD), charge a la demande
         "numpy",
         "tkinterdnd2",
-        "tkinterdnd2.TkinterDnD",
         "core.schemas",
         "core.calculator",
         "core.ingestion",
