@@ -8,8 +8,10 @@ Aucune valeur hardcodée d'un projet spécifique.
 
 Usage standalone : python backend/latex_report.py [--plan sample_plan_data.json] [--metre output/test_metre_genere.xlsx]
 """
-import argparse, json, os, subprocess, sys
+import argparse, json, os, sys
 from pathlib import Path
+
+from core.external_process import ExternalProcessError, run_pdflatex
 
 sys.stdout.reconfigure(encoding="utf-8")
 
@@ -230,19 +232,14 @@ def generate_latex_report(plan_path="sample_plan_data.json", out_dir="output"):
 
     # Compile to PDF
     try:
-        for _ in range(2):
-            subprocess.run(
-                ["pdflatex", "-interaction=nonstopmode", str(tex_path)],
-                cwd=str(out_path), capture_output=True, timeout=60)
-        pdf_path = out_path / "rapport_metre_latex.pdf"
-        if pdf_path.exists():
-            print(f"Rapport LaTeX généré : {pdf_path}")
-            return str(pdf_path)
-        else:
-            print(f"Compilation LaTeX échouée, .tex sauvegardé : {tex_path}")
-            return str(tex_path)
-    except FileNotFoundError:
-        print(f"pdflatex introuvable, .tex sauvegardé : {tex_path}")
+        pdf_path = run_pdflatex(tex_path, timeout=60, output_dir=out_path)
+        target = out_path / "rapport_metre_latex.pdf"
+        if pdf_path != target:
+            pdf_path.replace(target)
+        print(f"Rapport LaTeX généré : {target}")
+        return str(target)
+    except ExternalProcessError as exc:
+        print(f"Compilation LaTeX échouée : {exc}. .tex sauvegardé : {tex_path}")
         return str(tex_path)
 
 

@@ -11,6 +11,9 @@ Aucune valeur inventee : l'OCR produit des mots + coordonnees reellement
 lus, injettes ensuite dans le parseur spatial standard.
 """
 import logging
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
+from core.pdf_render import render_page_adaptive
+from core.sanitizer import clean_cad_text
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +21,7 @@ logger = logging.getLogger(__name__)
 # candidate a l'OCR (directive : 15).
 OCR_MIN_WORDS = 15
 OCR_DPI = 200
+OCR_TIMEOUT_SECONDS = 30
 
 
 class PlanOCREngine:
@@ -28,8 +32,10 @@ class PlanOCREngine:
         words = engine.ocr_page_if_scanned(page)   # charge RapidOCR si besoin
     """
 
-    def __init__(self, min_words: int = OCR_MIN_WORDS):
+    def __init__(self, min_words: int = OCR_MIN_WORDS,
+                 timeout_seconds: float = OCR_TIMEOUT_SECONDS):
         self.min_words = min_words
+        self.timeout_seconds = timeout_seconds
         self._engine = None
         self._unavailable = False
 
@@ -95,12 +101,27 @@ class PlanOCREngine:
         page_num = getattr(page, "number", 0) + 1
         try:
             import numpy as np
-            pix = page.get_pixmap(dpi=OCR_DPI)
+            pix = render_page_adaptive(page, normal_dpi=OCR_DPI)
             img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(
                 pix.height, pix.width, pix.n)
             if pix.n == 4:
                 img = img[:, :, :3]
-            result, _ = engine(img)
+            pool = ThreadPoolExecutor(max_workers=1)
+            future = pool.submit(engine, img)
+            try:
+                result, _ = future.result(timeout=self.timeout_seconds)
+            except FutureTimeoutError:
+                future.cancel()
+                logger.warning(
+                    "OCR expiré sur la page %s après %.1fs",
+                    page_num, self.timeout_seconds)
+                pool.shutdown(wait=False)
+                return []
+            finally:
+                if not future.done():
+                    pool.shutdown(wait=False)
+                else:
+                    pool.shutdown(wait=True)
         except Exception as e:
             logger.warning("OCR en echec sur la page %s : %s", page_num, e)
             return []
@@ -108,8 +129,12 @@ class PlanOCREngine:
         words = []
         if result:
             for line in result:
-                box, text = line[0], str(line[1]).strip()
+                if not line or len(line) < 2:
+                    continue
+                box, text = line[0], clean_cad_text(line[1])
                 if not text:
+                    continue
+                if not box or any(len(point) < 2 for point in box):
                     continue
                 xs = [p[0] for p in box]
                 ys = [p[1] for p in box]

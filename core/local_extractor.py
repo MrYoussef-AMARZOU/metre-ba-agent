@@ -1458,7 +1458,8 @@ class RasterPlanExtractor:
         with pymupdf.open(pdf_path) as doc:
             total = len(doc)
             for idx in range(total):
-                pix = doc[idx].get_pixmap(dpi=200)
+                from core.pdf_render import render_page_adaptive
+                pix = render_page_adaptive(doc[idx], normal_dpi=200)
                 img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(
                     pix.height, pix.width, pix.n)
                 if pix.n == 4:

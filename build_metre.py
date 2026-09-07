@@ -21,6 +21,76 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
+
+def _safe_float(value, default=0.0):
+    if value is None or isinstance(value, bool):
+        return default
+    try:
+        return float(str(value).strip().replace(",", "."))
+    except (TypeError, ValueError):
+        return default
+
+
+def _safe_int(value, default=0):
+    try:
+        return int(_safe_float(value, default))
+    except (TypeError, ValueError, OverflowError):
+        return default
+
+
+def _safe_dict(value):
+    return value if isinstance(value, dict) else {}
+
+
+def _safe_list(value):
+    return value if isinstance(value, list) else []
+
+
+def _normalise_plan_data(plan_data):
+    """Normalise les donnees OCR avant tout calcul Excel."""
+    source = _safe_dict(plan_data)
+    catalogue_source = _safe_dict(source.get("catalogue_types"))
+    catalogue = {"semelles": {}, "poteaux": {}, "poutres": {}}
+    for family in catalogue:
+        for key, raw in _safe_dict(catalogue_source.get(family)).items():
+            dims = _safe_dict(raw).copy()
+            for name in ("a", "b", "h", "esp"):
+                if name in dims:
+                    dims[name] = _safe_float(dims[name])
+            for name in ("ferr_x", "ferr_y", "cadres"):
+                if name in dims:
+                    dims[name] = _safe_dict(dims[name]).copy()
+            for name in ("ferr_x", "ferr_y"):
+                bar = dims.setdefault(name, {})
+                bar["nb"] = _safe_int(bar.get("nb"))
+                bar["phi"] = _safe_int(bar.get("phi"))
+            for name in ("long_bars", "filants_inf", "filants_sup"):
+                if name in dims:
+                    dims[name] = [
+                        {"nb": _safe_int(_safe_dict(bar).get("nb")),
+                         "phi": _safe_int(_safe_dict(bar).get("phi"))}
+                        for bar in _safe_list(dims[name])
+                    ]
+            cadres = dims.get("cadres")
+            if isinstance(cadres, dict):
+                cadres["phi"] = _safe_int(cadres.get("phi"))
+                cadres["esp"] = _safe_float(cadres.get("esp"), 0.15)
+            catalogue[family][key] = dims
+
+    implantations = {}
+    for family in ("semelles", "poteaux", "poutres"):
+        implantations[family] = []
+        for raw in _safe_list(_safe_dict(source.get("implantations")).get(family)):
+            inst = _safe_dict(raw).copy()
+            for name in ("hauteur", "portee"):
+                if name in inst and inst[name] is not None:
+                    inst[name] = _safe_float(inst[name])
+            implantations[family].append(inst)
+    projet = source.get("projet", {})
+    return {"projet": projet, "catalogue_types": catalogue,
+            "implantations": implantations}
+
+
 if sys.stdout is None:
     sys.stdout = open(os.devnull, "w", encoding="utf-8")
 else:
@@ -115,29 +185,41 @@ def _detect_diameters(plan_data: dict) -> list:
     """Detecte tous les diametres reels utilises dans le plan, tries.
     Les diametres nuls (element sans ferraillage lu) sont ignores."""
     diam_set = set()
-    catalogue = plan_data.get("catalogue_types", {})
+    catalogue = _safe_dict(plan_data.get("catalogue_types"))
 
-    for dims in catalogue.get("semelles", {}).values():
+    for dims in _safe_dict(catalogue.get("semelles")).values():
+        dims = _safe_dict(dims)
         for key in ("ferr_x", "ferr_y"):
-            ferr = dims.get(key, {})
-            if ferr.get("phi", 0) > 0 and ferr.get("nb", 0) > 0:
-                diam_set.add(ferr["phi"])
+            ferr = _safe_dict(dims.get(key))
+            phi, nb = _safe_int(ferr.get("phi")), _safe_int(ferr.get("nb"))
+            if phi > 0 and nb > 0:
+                diam_set.add(phi)
 
-    for dims in catalogue.get("poteaux", {}).values():
-        for lb in dims.get("long_bars", []):
-            if lb.get("phi", 0) > 0 and lb.get("nb", 0) > 0:
-                diam_set.add(lb["phi"])
-        cadres = dims.get("cadres", {})
-        if cadres.get("phi", 0) > 0:
-            diam_set.add(cadres["phi"])
+    for dims in _safe_dict(catalogue.get("poteaux")).values():
+        dims = _safe_dict(dims)
+        for lb in _safe_list(dims.get("long_bars")):
+            lb = _safe_dict(lb)
+            phi, nb = _safe_int(lb.get("phi")), _safe_int(lb.get("nb"))
+            if phi > 0 and nb > 0:
+                diam_set.add(phi)
+        cadres = _safe_dict(dims.get("cadres"))
+        phi = _safe_int(cadres.get("phi"))
+        if phi > 0:
+            diam_set.add(phi)
 
-    for dims in catalogue.get("poutres", {}).values():
-        for fi in (dims.get("filants_inf", []) + dims.get("filants_sup", [])):
-            if fi.get("phi", 0) > 0 and fi.get("nb", 0) > 0:
-                diam_set.add(fi["phi"])
-        cadres = dims.get("cadres", {})
-        if cadres.get("phi", 0) > 0:
-            diam_set.add(cadres["phi"])
+    for dims in _safe_dict(catalogue.get("poutres")).values():
+        dims = _safe_dict(dims)
+        bars = _safe_list(dims.get("filants_inf")) + _safe_list(
+            dims.get("filants_sup"))
+        for fi in bars:
+            fi = _safe_dict(fi)
+            phi, nb = _safe_int(fi.get("phi")), _safe_int(fi.get("nb"))
+            if phi > 0 and nb > 0:
+                diam_set.add(phi)
+        cadres = _safe_dict(dims.get("cadres"))
+        phi = _safe_int(cadres.get("phi"))
+        if phi > 0:
+            diam_set.add(phi)
 
     return sorted(diam_set) if diam_set else [6, 8, 10, 12, 14, 16, 20, 25, 32]
 
@@ -798,6 +880,7 @@ def resoudre_chemin_template(base_dir=None):
 def adapter_plan_vers_injecteur(plan_data: dict) -> dict:
     """Convertit plan_data (catalogue_types + implantations) vers le format
     plat de l'injecteur : semelles/poteaux/poutres positionnes + projet."""
+    plan_data = _normalise_plan_data(plan_data)
     projet = plan_data.get("projet", "Projet BTP")
     if isinstance(projet, dict):
         projet = projet.get("nom") or "Projet BTP"
@@ -888,9 +971,9 @@ class MetreGenerator:
     """
 
     def __init__(self, plan_data: dict, moteur: str = "gabarit"):
-        self.plan = plan_data
+        self.plan = _normalise_plan_data(plan_data)
         self.moteur = moteur
-        self.diameters = _detect_diameters(plan_data)
+        self.diameters = _detect_diameters(self.plan)
         self.wb = openpyxl.Workbook()
 
     def generer(self, output_path: str):

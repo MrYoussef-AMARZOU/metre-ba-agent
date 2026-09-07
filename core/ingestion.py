@@ -340,10 +340,15 @@ def _parse_pdf_scanned(file_path: str, dpi: int = DPI_RASTER) -> IngestionResult
 
         # Si le texte est minimal → scanné
         if len(text) <= 100:
-            pix = page.get_pixmap(dpi=dpi)
-            png_bytes = pix.tobytes("png")
-            result.images.append(png_bytes)
-            result.metadata.setdefault("raster_pages", []).append(pi + 1)
+            try:
+                from core.pdf_render import render_page_adaptive
+                pix = render_page_adaptive(page, normal_dpi=dpi)
+                result.images.append(pix.tobytes("png"))
+                result.metadata.setdefault("raster_pages", []).append(pi + 1)
+            except Exception as exc:
+                result.status = IngestionStatus.PARTIAL
+                result.errors.append(
+                    f"Rendu de la page {pi + 1} impossible : {exc}")
         else:
             # PDF vectoriel, extraire le texte normalement
             blocks = page.get_text("dict")["blocks"]
@@ -458,10 +463,14 @@ class UniversalPlanIngestor:
             dxf_path = self.file_path.rsplit(".", 1)[0] + "_converted.dxf"
             try:
                 subprocess.run([dwg2dxf, self.file_path, "-o", dxf_path],
-                               check=True, timeout=120)
+                               check=True, timeout=120,
+                               stdin=subprocess.DEVNULL,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               text=True)
                 return _parse_dxf(dxf_path)
-            except Exception as e:
-                pass
+            except (OSError, subprocess.SubprocessError) as exc:
+                logger.warning("Conversion DWG échouée : %s", exc)
 
         # Fallback : erreur explicite
         result = IngestionResult(
@@ -506,11 +515,17 @@ class UniversalPlanIngestor:
         for pi in range(len(doc)):
             page = doc[pi]
 
-            # TOUJOURS générer l'image 300 DPI pour la vision
-            pix = page.get_pixmap(dpi=DPI_RASTER)
-            png_bytes = pix.tobytes("png")
-            result.images.append(png_bytes)
-            result.metadata.setdefault("raster_pages", []).append(pi + 1)
+            # Rendu adaptatif : les plans A0/A1 restent lisibles sans
+            # produire des images démesurées en mémoire.
+            try:
+                from core.pdf_render import render_page_adaptive
+                pix = render_page_adaptive(page, normal_dpi=DPI_RASTER)
+                result.images.append(pix.tobytes("png"))
+                result.metadata.setdefault("raster_pages", []).append(pi + 1)
+            except Exception as exc:
+                result.status = IngestionStatus.PARTIAL
+                result.errors.append(
+                    f"Rendu de la page {pi + 1} impossible : {exc}")
 
             # Aussi extraire le texte vectoriel si présent (bonus)
             text = page.get_text("text").strip()
