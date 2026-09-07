@@ -75,7 +75,8 @@ class PlanOCREngine:
         except Exception:
             return False
 
-    def ocr_page_if_scanned(self, page, min_words: int = None) -> list:
+    def ocr_page_if_scanned(self, page, min_words: int = None,
+                            force: bool = False) -> list:
         """OCR paresseux d'une page PyMuPDF.
 
         Retourne une liste de mots normalises {text,x,y,x1,y1,page} :
@@ -89,7 +90,7 @@ class PlanOCREngine:
             vector_words = page.get_text("words")
         except Exception:
             vector_words = []
-        if len(vector_words) >= seuil:
+        if len(vector_words) >= seuil and not force:
             return []
         if not self._looks_scanned(page):
             return []
