@@ -21,6 +21,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from core.tokenizer import expand_words
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -214,7 +215,8 @@ class VectorPlanExtractor:
     def extract_from_words(self, words):
         """Parsage d'une liste de mots deja normalises (1 page synthetique)."""
         self._reset()
-        clean = [w for w in words if (w.get("text") or "").strip()]
+        clean = expand_words(
+            [w for w in words if (w.get("text") or "").strip()])
         self.nb_mots = len(clean)
         if clean:
             role = self._parse_words_page(clean, clean[0].get("page", 1),
@@ -285,11 +287,22 @@ class VectorPlanExtractor:
                 "page": page_num,
             })
 
-        # Fallback OCR paresseux : page sparse (plan scanne) -> RapidOCR.
+        words = expand_words(words)
+        # Fallback OCR ciblé : texte vectoriel toujours conservé, OCR ajouté
+        # uniquement pour les pages contenant des images et peu de texte.
         # Les plans vectoriels (>= 15 mots) ne declenchent JAMAIS l'OCR.
-        ocr_words = self.ocr_engine.ocr_page_if_scanned(page)
+        has_image = bool(page.get_images(full=True))
+        has_structural_token = any(
+            SEMELLE_PLAIN_RX.match(w["text"])
+            or POTEAU_LABEL_RX.match(w["text"])
+            or POUTRE_LABEL_RX.match(w["text"])
+            for w in words
+        )
+        ocr_words = self.ocr_engine.ocr_page_if_scanned(
+            page, force=has_image and not has_structural_token)
         if ocr_words:
-            words.extend(ocr_words)
+            words.extend(expand_words(ocr_words))
+            words = self._dedupe_words(words)
             if page_num not in self.pages_ocr:
                 self.pages_ocr.append(page_num)
 
@@ -298,6 +311,20 @@ class VectorPlanExtractor:
         if ocr_words:
             role = "ocr"
         return self._parse_words_page(words, page_num, role)
+
+    @staticmethod
+    def _dedupe_words(words):
+        """Déduplique les mots fusionnés texte/OCR sans supprimer les positions."""
+        result = []
+        seen = set()
+        for word in words:
+            text = str(word.get("text", "")).strip().upper()
+            key = (text, round(float(word.get("x", 0)), 0),
+                   round(float(word.get("y", 0)), 0))
+            if text and key not in seen:
+                seen.add(key)
+                result.append(word)
+        return result
 
     def _parse_words_page(self, words, page_num, role_auto=None):
         """Traite une page : SANS filtrage rigide de role.
@@ -1351,12 +1378,26 @@ class VectorPlanExtractor:
         structural = (len(cat["semelles"]) + len(cat["poteaux"])
                       + len(cat["poutres"]))
         positioned = len(self.implantations["semelles"])
-        if structural == 0 or positioned == 0:
+        if structural == 0:
             raise ExtractionError(
                 "Échec d'extraction : Aucun élément n'a pu être extrait "
                 "automatiquement. Vérifiez le format du plan. "
                 f"({self.nb_mots} mots lus sur {self.total_pages} page(s), "
                 "0 semelle/poteau/poutre reconnue)")
+        if positioned == 0:
+            default_type = next(iter(cat["semelles"]), "SEMELLE_DEFAULT")
+            cat["semelles"].setdefault(default_type, {
+                "a": 1.0, "b": 1.0, "h": 0.30,
+                "ferr_x": {"nb": 0, "phi": 0},
+                "ferr_y": {"nb": 0, "phi": 0},
+                "dimensions_par_defaut": True,
+            })
+            self.implantations["semelles"].append({
+                "id": f"{default_type}_1", "type": default_type,
+                "axe": "", "file": "", "position_par_defaut": True})
+            self.warnings.append(
+                f"Aucune implantation lisible : géométrie par défaut "
+                f"{default_type} 1.00x1.00x0.30 m ajoutée, à vérifier.")
 
         
         # --- ENRICHISSEMENT AUTOMATIQUE CATALOGUE MAROCAIN (POTEAUX Q & POUTRES) ---
