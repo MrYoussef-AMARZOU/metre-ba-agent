@@ -1,7 +1,18 @@
 """Normalisation commune des extractions BA avant génération des livrables."""
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TypedDict
+
+
+class NormalizedElement(TypedDict):
+    reference: str
+    family: str
+    dimensions_m: dict
+    reinforcement: list[dict]
+    quantity: dict
+    source: dict
+    confidence: str
+    warnings: list[str]
 
 
 def _as_dict(value: Any) -> dict:
@@ -93,11 +104,14 @@ def normalize_plan_data(plan_data: dict) -> dict:
             normalized.append({
                 "id": str(item.get("id") or repere),
                 "repere": repere,
+                "reference": repere,
                 "family": family,
                 "axis": item.get("axe") or "",
                 "grid": item.get("file") or "",
                 "section_m": dimensions,
+                "dimensions_m": dimensions,
                 "quantities": {"count": 1, "unit": "u"},
+                "quantity": {"count": 1, "unit": "u"},
                 "reinforcement": bars,
                 "source": {
                     "pages": meta.get("semelles_pages", {}).get(repere, []),
