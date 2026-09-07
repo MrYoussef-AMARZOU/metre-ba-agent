@@ -64,6 +64,12 @@ _DND_BASES = (ctk.CTk, TkinterDnD.DnDWrapper) if TKDND_AVAILABLE else (ctk.CTk,)
 # ============================================================================
 
 APP_TITLE = "PlanBA — Métré Extracteur"
+APP_SUBTITLE = (
+    "Plan PDF de fondations en béton armé → métré Excel, rapport PDF "
+    "d'audit et optimisation de découpe — 100 % en local, sans API. "
+    "Chaque quantité est sourcée (texte natif, vecteurs, vision) et "
+    "chaque écart est documenté : aucune valeur inventée."
+)
 
 
 def clean_dropped_path(raw) -> str:
@@ -497,14 +503,21 @@ class PlanBAMetreApp(*_DND_BASES):
         """Construit l'interface utilisateur."""
 
         # --- Header ---
-        header = ctk.CTkFrame(self, fg_color=COLORS["primary"], height=60)
+        header = ctk.CTkFrame(self, fg_color=COLORS["primary"], height=104)
         header.pack(fill="x")
         header.pack_propagate(False)
 
+        titre_zone = ctk.CTkFrame(header, fg_color="transparent")
+        titre_zone.pack(side="left", padx=20, pady=6)
         ctk.CTkLabel(
-            header, text="🏗️ PlanBA — Métré Extracteur",
+            titre_zone, text="PlanBA — Métré Extracteur",
             font=ctk.CTkFont(size=20, weight="bold"),
-            text_color="white").pack(side="left", padx=20, pady=10)
+            text_color="white").pack(anchor="w")
+        ctk.CTkLabel(
+            titre_zone, text=APP_SUBTITLE,
+            font=ctk.CTkFont(size=11),
+            text_color="#C8D9F0", wraplength=900,
+            justify="left").pack(anchor="w")
 
         # Thème toggle
         self.theme_switch = ctk.CTkSwitch(
@@ -758,6 +771,16 @@ class PlanBAMetreApp(*_DND_BASES):
             rapport_pdf = output / "rapport_metre.pdf"
             generer_rapport(self.plan_data, str(rapport_pdf))
 
+            # Générer la note de calculs chantier (mêmes données que l'Excel)
+            self.after(0, lambda: self.progress_panel.set_step(
+                "5/5 : Note de calculs chantier...", 0.95))
+            from build_metre import adapter_plan_vers_injecteur
+            from generators.generate_pdf_note import \
+                generer_note_calcul_chantier
+            donnees_note = adapter_plan_vers_injecteur(self.plan_data)
+            note_pdf = output / "note_calculs_chantier.pdf"
+            generer_note_calcul_chantier(donnees_note, str(note_pdf))
+
             self.after(0, lambda: self.progress_panel.set_step(
                 "✅ Terminé ! Métré généré avec succès.", 1.0))
 
@@ -769,7 +792,8 @@ class PlanBAMetreApp(*_DND_BASES):
                 f"   → {json_path}\n"
                 f"   → {xlsx_path}\n"
                 f"   → {optim_xlsx}\n"
-                f"   → {rapport_pdf}"))
+                f"   → {rapport_pdf}\n"
+                f"   → {note_pdf}"))
 
         except Exception as e:
             tb = traceback.format_exc()

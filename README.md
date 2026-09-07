@@ -1,5 +1,7 @@
 # PlanBA — Métré Extracteur (Béton Armé)
 
+Plan PDF de fondations en béton armé → métré Excel, rapport PDF d'audit et optimisation de découpe — 100 % en local, sans API. Chaque quantité est sourcée (texte natif, vecteurs, vision) et chaque écart est documenté : aucune valeur inventée.
+
 Ce logiciel lit un plan de fondations en béton armé et calcule automatiquement les quantités (métré) : volumes de béton, poids d'acier, terrassements. Il produit des fichiers Excel et un rapport PDF, sans envoyer vos plans sur internet : tout se passe sur votre ordinateur.
 
 Il est destiné aux métreurs, conducteurs de travaux, bureaux d'études, étudiants en génie civil, et à toute personne qui doit chiffrer des fondations à partir d'un plan.

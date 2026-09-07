@@ -7,6 +7,8 @@ dist/
 build/
 templates/
 *.spec
+# Packages de diffusion (trop lourds pour GitHub, distribués à part)
+PlanBA_Metre_Extractor*.zip
 
 # --- Données lourdes locales (jamais versionnées) ---
 dataset/raw/

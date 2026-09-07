@@ -75,6 +75,7 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
     metre_xlsx = os.path.join(output_dir, "metre_genere.xlsx")
     optim_xlsx = os.path.join(output_dir, "optimisation_chantiers.xlsx")
     rapport_pdf = os.path.join(output_dir, "rapport_metre.pdf")
+    note_pdf = os.path.join(output_dir, "note_calculs_chantier.pdf")
 
     print("=" * 60)
     print("  PlanBA -- Pipeline Metre Beton Arme")
@@ -83,7 +84,7 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
     input_ext = Path(input_path).suffix.lower()
 
     # --- Etape 1 : Extraction vectorielle multi-pages 100% locale ---
-    print(f"\n[1/4] Extraction du plan : {input_path}")
+    print(f"\n[1/5] Extraction du plan : {input_path}")
     from core.local_extractor import (
         VectorPlanExtractor, extract_plan_auto, is_raster_pdf, ExtractionError)
     from extract_plan import dump_raw_blocks
@@ -144,9 +145,9 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
     print(f"  Semelles : {n_sem_types} types, {n_sem_pos} positionnees sur axes")
     print(f"  Poteaux  : {n_pot} types detailles | Poutres : {n_pout} types detaillees")
     for a in meta.get("avertissements", []):
-        print(f"  ⚠ {a}")
+        print(f"  âš  {a}")
     for h in meta.get("hypotheses", []):
-        print(f"  • Hypothese : {h}")
+        print(f"  â€¢ Hypothese : {h}")
 
     # --- Garde-fou partage CLI/UI (source de verite unique) ---
     from core.local_extractor import verifier_livrables_ou_lever
@@ -162,20 +163,30 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
     print(f"  -> {plan_json}")
 
     # --- Etape 2 : Generation Excel metrique ---
-    print(f"\n[2/4] Generation du metre Excel...")
+    print(f"\n[2/5] Generation du metre Excel...")
     gen = MetreGenerator(plan_data)
     gen.generer(metre_xlsx)
     print(f"  -> {metre_xlsx}")
 
     # --- Etape 3 : Optimisation decoupe ---
-    print(f"\n[3/4] Optimisation de la decoupe des barres...")
+    print(f"\n[3/5] Optimisation de la decoupe des barres...")
     generer_optimisation(plan_data, optim_xlsx)
     print(f"  -> {optim_xlsx}")
 
     # --- Etape 4 : Rapport PDF ---
-    print(f"\n[4/4] Generation du rapport d'audit PDF...")
+    print(f"\n[4/5] Generation du rapport d'audit PDF...")
     generer_rapport(plan_data, rapport_pdf)
     print(f"  -> {rapport_pdf}")
+
+    # --- Etape 5 : Note de calculs chantier (meme donnees que l'Excel) ---
+    print(f"\n[5/5] Generation de la note de calculs chantier PDF...")
+    from build_metre import adapter_plan_vers_injecteur
+    from generators.generate_pdf_note import generer_note_calcul_chantier
+    donnees_note = adapter_plan_vers_injecteur(plan_data)
+    if projet_nom:
+        donnees_note["projet"] = projet_nom
+    generer_note_calcul_chantier(donnees_note, note_pdf)
+    print(f"  -> {note_pdf}")
 
     print("\n" + "=" * 60)
     print("  Pipeline termine avec succes !")
@@ -184,12 +195,14 @@ def run_cli(input_path, output_dir=None, projet_nom=None):
     print(f"  metre_genere.xlsx           : {metre_xlsx}")
     print(f"  optimisation_chantiers.xlsx : {optim_xlsx}")
     print(f"  rapport_metre.pdf           : {rapport_pdf}")
+    print(f"  note_calculs_chantier.pdf   : {note_pdf}")
 
     return {
         "plan_data": plan_json,
         "metre": metre_xlsx,
         "optimisation": optim_xlsx,
         "rapport": rapport_pdf,
+        "note": note_pdf,
     }
 
 
