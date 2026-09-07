@@ -23,7 +23,7 @@ BUILD_DIR = ROOT / "build"
 def check_dependencies():
     """Verifie et installe les dependances necessaires."""
     deps = ["pyinstaller", "customtkinter", "openpyxl", "pydantic",
-            "PyMuPDF", "ezdxf", "Pillow", "reportlab"]
+            "PyMuPDF", "Pillow", "reportlab"]
 
     print("[deps] Verification des dependances...")
     for dep in deps:
